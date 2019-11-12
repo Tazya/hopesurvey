@@ -1,5 +1,7 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-	// Custom JS
-
+	$(".question-var").click(function() {
+		$(this).parent().children(".question-var").removeClass("active");
+		$(this).addClass("active");
+	});
 });
