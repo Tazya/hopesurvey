@@ -1,6 +1,9 @@
 /node_modules/
 /vendor/
+/public/assets/node_modules/
 /.git/
+/cache/**
+/logs/**
 /**/Thumbs.db
 /**/*.DS_Store
 /**/img/
