@@ -1,0 +1,78 @@
+{% extends 'html.twig' %}
+
+{% block contents %}
+    <h1>{{ name }}!Исследование на тему: <br> «Взаимосвязь индивидуально - психологических особенностей и толерантности личности»</h1>
+    <p>Цель нашего исследования — <strong>выявление взаимосвязи между уровнем толерантности и ориентацией личности.</strong>
+    Исследование является анонимным. Интерпретация данных будет проводиться на основании
+    результатов статистической обработки. Индивидуальные данные не разглашаются и не
+    интерпретируются. Для заполнения бланка внимательно прочитайте инструкцию и дайте ответ соответствующий вашим
+    представлениям.</p>
+    <div class="blank">
+        <h2>Бланк методики №1</h2>
+        <div class="blank-instructions">
+            <p>
+            <strong>Инструкция:</strong> Оцените, насколько приведенные ниже суждения верны по отношению к Вам. <br>
+            При ответе используйте баллы от 0 до 3, где<br>
+            <strong>0</strong> – совсем неверно,<br>
+            <strong>1</strong> – верно в некоторой степени,<br>
+            <strong>2</strong> – верно в значительной степени,<br>
+            <strong>3</strong> – верно в высшей степени.
+            </p>
+            <div class="hr"></div>
+        </div>
+        {% for scale in questions %}
+        <div class="blank-section">
+            <h4>{{ scale.name }}.</h4>
+            {% for question in scale.questions %}
+            <div class="question question-type-one">
+                <div class="question-head">
+                    {{ question.title }}
+                </div>
+                <div class="question-body">
+                    <div class="question-left">Совсем неверно</div>
+                    <div class="question-var">0</div>
+                    <div class="question-var">1</div>
+                    <div class="question-var">2</div>
+                    <div class="question-var">3</div>
+                    <div class="question-right">Верно в высшей степени</div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+    <div>
+        <div class="button-wrap">
+            <p>Шаг 1 из 6</p>
+            <div class="button accent">Далее</div>
+        </div>
+    </div>
+<div class="button-wrap">
+    <form>
+        {% for scale in questions %}
+            <h5>{{ scale.name }}</h5>
+            {% for question in scale.questions %}
+                <div class="form-group">
+                    <label>{{ question.title }}: </label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="question-{{ question.id }}" id="question-id-{{ question.id }}" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">0 баллов</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="question-{{ question.id }}" id="question-id-{{ question.id }}" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">1 балл</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="question-{{ question.id }}" id="question-id-{{ question.id }}" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">2 балла</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="question-{{ question.id }}" id="question-id-{{ question.id }}" value="option1">
+                        <label class="form-check-label" for="inlineRadio1">3 балла</label>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+    </form>
+</div>
+{% endblock %}
