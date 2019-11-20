@@ -3,6 +3,9 @@
 namespace App\Surveys;
 
 use App\Surveys\SurveyAbstractClass;
+use App\Surveys\SurveyQuestionData;
+use App\Repository;
+use App\Validator;
 
 class SurveyOne extends SurveyAbstractClass
 {
@@ -25,69 +28,18 @@ class SurveyOne extends SurveyAbstractClass
     /**
      * @var questions
      */
-    public $questions =
-    [
-        [
-            "id" => "scale1",
-            "name" => "Шкала 1",
-            "questions" => [
-                [
-                    "id" => "question1",
-                    "title" => "1. Медлительные люди обычно действуют мне на нервы",
-                ],
-                [
-                    "id" => "question2",
-                    "title" => "2. Меня раздражают суетливые, непоседливые люди",
-                ],
-                [
-                    "id" => "question3",
-                    "title" => "3. Шумные детские игры я переношу с трудом",
-                ],
-                [
-                    "id" => "question4",
-                    "title" => "4. Оригинальные, нестандартные, яркие личности чаще всего действуют на меня отрицательно",
-                ],
-                [
-                    "id" => "question5",
-                    "title" => "5. Безупречный во всех отношениях человек насторожил бы меня",
-                ],
-            ]
-        ],
-        [
-            "id" => "scale1",
-            "name" => "Шкала 2",
-            "questions" => [
-                [
-                    "id" => "question1",
-                    "title" => "6. Медлительные люди обычно действуют мне на нервы",
-                ],
-                [
-                    "id" => "question2",
-                    "title" => "7. Меня раздражают суетливые, непоседливые люди",
-                ],
-                [
-                    "id" => "question3",
-                    "title" => "8. Шумные детские игры я переношу с трудом",
-                ],
-                [
-                    "id" => "question4",
-                    "title" => "9. Оригинальные, нестандартные, яркие личности чаще всего действуют на меня отрицательно",
-                ],
-                [
-                    "id" => "question5",
-                    "title" => "10. Безупречный во всех отношениях человек насторожил бы меня",
-                ],
-            ]
-        ],
-    ];
+    public $questions = [];
+ 
 
     /**
-     * SurveyAbstarctClass constructor.
+     * SurveyOneClass constructor.
      *
      * @param questions $questions
      */
     public function __construct()
     {
+        $surveyQuestionData = new SurveyQuestionData();
+        $this->questions = $surveyQuestionData->questions;
     }
 
     /**
@@ -96,5 +48,26 @@ class SurveyOne extends SurveyAbstractClass
     public function getQuestions()
     {
         return $this->questions;
+    }
+
+
+    public function saveForm($request, $response, $repo)
+    {
+        $validator = new App\Validator();
+        $date = $request->getParsedBodyParam('date');
+        $errors = $validator->validate($date);
+
+        if (count($errors) === 0) {
+            $repo->save($date);
+            return $response->withHeader('Location', '/dates')
+            ->withStatus(302);
+        }
+
+        $params = [
+            'date' => $date,
+            'errors' => $errors,
+        ];
+        $response = $response->withStatus(422);
+        return $this->get('renderer')->render($response, "users/new.phtml", $params);
     }
 }

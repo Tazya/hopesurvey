@@ -28,7 +28,7 @@
                 <div class="question-head">
                     {{ question.title }}
                 </div>
-                <div class="question-body">
+                <div id="question-id-{{ question.id }}" class="question-body">
                     <div class="question-left">Совсем неверно</div>
                     <div class="question-var">0</div>
                     <div class="question-var">1</div>
@@ -48,31 +48,39 @@
         </div>
     </div>
 <div class="button-wrap">
-    <form>
+    <form action="/result" method="post">
+        <input type="hidden" name="data[name]" value="Methodic 1">
+
+
+        {% if errors is defined %}
+            <div style="color: red">Ошибка</div>
+        {% endif %}
+
         {% for scale in questions %}
             <h5>{{ scale.name }}</h5>
             {% for question in scale.questions %}
                 <div class="form-group">
                     <label>{{ question.title }}: </label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="question-{{ question.id }}" id="question-id-{{ question.id }}" value="option1">
+                        <input class="form-check-input" type="radio" name="data[question-{{ question.id }}]" id="question-id-{{ question.id }}--option-0" value="option-0">
                         <label class="form-check-label" for="inlineRadio1">0 баллов</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="question-{{ question.id }}" id="question-id-{{ question.id }}" value="option1">
+                        <input class="form-check-input" type="radio" name="data[question-{{ question.id }}]" id="question-id-{{ question.id }}--option-1" value="option-1">
                         <label class="form-check-label" for="inlineRadio1">1 балл</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="question-{{ question.id }}" id="question-id-{{ question.id }}" value="option1">
+                        <input class="form-check-input" type="radio" name="data[question-{{ question.id }}]" id="question-id-{{ question.id }}--option-2" value="option-2">
                         <label class="form-check-label" for="inlineRadio1">2 балла</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="question-{{ question.id }}" id="question-id-{{ question.id }}" value="option1">
+                        <input class="form-check-input" type="radio" name="data[question-{{ question.id }}]" id="question-id-{{ question.id }}--option-3" value="option-3">
                         <label class="form-check-label" for="inlineRadio1">3 балла</label>
                     </div>
                 </div>
             {% endfor %}
         {% endfor %}
+        <input type="submit" value="Отправить">
     </form>
 </div>
 {% endblock %}

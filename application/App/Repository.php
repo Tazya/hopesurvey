@@ -9,7 +9,7 @@ namespace App;
  */
 class Repository
 {
-    public function __construct()
+    public function initialize()
     {
         session_start();
     }
@@ -18,27 +18,32 @@ class Repository
     {
         return array_values($_SESSION);
     }
-
-    public function findSurvey(string $name)
+    
+    public function allAnswers()
     {
-        return $_SESSION['surveys'][$name];
+        return $_SESSION['answers'];
     }
 
-    public function destroySurvey(string $name)
+    public function findAnswers(string $name)
     {
-        unset($_SESSION['surveys'][$name]);
+        return $_SESSION['answers'][$name];
     }
 
-    public function saveSurvey(array $survey)
+    public function destroyAnswers(string $name)
+    {
+        unset($_SESSION['answers'][$name]);
+    }
+
+    public function saveAnswers(array $answers)
     {
         // if (empty($survey['title']) || $survey['paid'] == '') {
         //     $json = json_encode($survey);
         //     throw new \Exception("Wrong data: {$survey}");
         // }
-        if (!isset($item['name'])) {
+        if (!isset($answers['name'])) {
             return false;
         }
-        $_SESSION['surveys'][$survey['name']] = $survey;
-        return $survey['surveys']['name'];
+        $_SESSION['answers'][$answers['name']] = $answers;
+        return $answers['answers']['name'];
     }
 }

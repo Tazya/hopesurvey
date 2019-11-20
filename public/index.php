@@ -13,6 +13,8 @@ use Slim\Views\Twig;
 use Slim\Views\TwigMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use App\Repository;
+use App\Validator;
 
 // Set the default timezone.
 date_default_timezone_set('Europe/Zurich');
@@ -39,6 +41,9 @@ $app = AppFactory::create();
 // $app->getRouteCollector()->setCacheFile(
 //     $rootPath . '/cache/routes.cache'
 // );
+
+$repo = new App\Repository();
+$repo->initialize();
 
 // Add the routing middleware.
 $app->addRoutingMiddleware();
@@ -73,6 +78,8 @@ $app->group('/', function (RouteCollectorProxy $group) {
     $group->get('hello/{name}', HelloController::class)->setName('hello');
     $group->get('exception-demo', ExceptionDemoController::class)->setName('exception-demo');
     $group->get('survey', SurveyController::class)->setName('survey');
+    $group->post('result', SurveyController::class . ':check');
+    $group->get('result', SurveyController::class . ':result');
 });
 
 // Run the app.

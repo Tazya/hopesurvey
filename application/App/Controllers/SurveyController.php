@@ -9,6 +9,8 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 use App\Surveys\SurveyOne;
+use App\Repository;
+use App\Validator;
 
 class SurveyController extends AbstractTwigController
 {
@@ -18,7 +20,22 @@ class SurveyController extends AbstractTwigController
     private $preferences;
 
     /**
-     * HomeController constructor.
+     * @var Survey
+     */
+    public $survey;
+
+    /**
+     * @var Validator
+     */
+    public $validator;
+
+    /**
+     * @var Repository
+     */
+    public $repository;
+
+    /**
+     * SurveyController constructor.
      *
      * @param Twig        $twig
      * @param Preferences $preferences
@@ -28,6 +45,9 @@ class SurveyController extends AbstractTwigController
         parent::__construct($twig);
 
         $this->preferences = $preferences;
+        $this->survey = new SurveyOne();
+        $this->validator = new Validator();
+        $this->repository = new Repository();
     }
 
     /**
@@ -39,12 +59,51 @@ class SurveyController extends AbstractTwigController
      */
     public function __invoke(Request $request, Response $response, array $args = []): Response
     {
-        $survey = new SurveyOne();
-        $questions = $survey->getQuestions();
+        $questions = $this->survey->getQuestions();
         return $this->render($response, 'survey.twig', [
             'pageTitle' => 'Survey',
             'questions' => $questions,
             'rootPath' => $this->preferences->getRootPath(),
         ]);
     }
+
+    public function check($request, $response, $args)
+    {
+        $bodyData = $request->getParsedBody();
+        $data = $bodyData["data"];
+
+        $errors = $this->validator->validate($data);
+        if (count($errors) === 0) {
+            $this->repository->saveAnswers($data);
+            return $response->withHeader('Location', '/result')
+            ->withStatus(302);
+        }
+
+        $questions = $this->survey->getQuestions();
+
+        $params = [
+            'pageTitle' => 'Survey',
+            'questions' => $questions,
+            'rootPath' => $this->preferences->getRootPath(),
+            'data' => $data,
+            'errors' => $errors,
+        ];
+        $response = $response->withStatus(422);
+        return $this->render($response, "survey.twig", $params);
+    }
+
+    public function result($request, $response, $args)
+    {
+        $questions = $this->survey->getQuestions();
+        $results = $this->repository->allAnswers();
+        var_dump($results);
+        $params = [
+            'pageTitle' => 'Survey Result',
+            'questions' => $questions,
+            'rootPath' => $this->preferences->getRootPath(),
+            'results' => $results,
+        ];
+        return $this->render($response, "result.twig", $params);
+    }
+
 }
