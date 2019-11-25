@@ -13,7 +13,7 @@
     <h5>{{ scale.name }}</h5>
     {% for question in scale.questions %}
         <div class="form-group">
-            <strong>{{ question.title }}</strong>: {{results['Methodic 1']['question-' ~ question.id]}}
+            <strong>{{ question.title }}</strong>: {{results['Methodic 1'][question.id]}}
         </div>
     {% endfor %}
 {% endfor %}

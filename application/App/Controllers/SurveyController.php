@@ -60,7 +60,15 @@ class SurveyController extends AbstractTwigController
     public function __invoke(Request $request, Response $response, array $args = []): Response
     {
         $questions = $this->survey->getQuestions();
-        return $this->render($response, 'survey.twig', [
+        $results = $this->repository->allAnswers();
+        $currentSurvey = 'survey.twig';
+
+        if (isset($results['Methodic 1'])) {
+            return $this->result($request, $response, $args);
+            $currentSurvey = 'result.twig';
+        }
+
+        return $this->render($response, $currentSurvey, [
             'pageTitle' => 'Survey',
             'questions' => $questions,
             'rootPath' => $this->preferences->getRootPath(),
@@ -80,7 +88,8 @@ class SurveyController extends AbstractTwigController
         }
 
         $questions = $this->survey->getQuestions();
-
+        // var_dump($errors);
+        print_r(json_encode($data));
         $params = [
             'pageTitle' => 'Survey',
             'questions' => $questions,
@@ -96,7 +105,7 @@ class SurveyController extends AbstractTwigController
     {
         $questions = $this->survey->getQuestions();
         $results = $this->repository->allAnswers();
-        var_dump($results);
+        print_r(json_encode($results));
         $params = [
             'pageTitle' => 'Survey Result',
             'questions' => $questions,
@@ -105,5 +114,4 @@ class SurveyController extends AbstractTwigController
         ];
         return $this->render($response, "result.twig", $params);
     }
-
 }

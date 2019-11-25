@@ -18,13 +18,8 @@ class Validator
     {
         $errors = [];
         foreach ($data as $key => $value) {
-            if (empty($value) && $this->options[$key] === 'required') {
-                $errors[$key] = "{$key} Не может быть пустым";
-            }
-        }
-        foreach ($data as $key => $value) {
-            if (empty($value)) {
-                $errors[$key] = "{$key} Не может быть пустым";
+            if ($value === "") {
+                $errors[$key] = "Не может быть пустым .";
             }
         }
         return $errors;

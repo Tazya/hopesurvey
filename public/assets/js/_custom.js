@@ -5,6 +5,6 @@ document.addEventListener("DOMContentLoaded", function() {
 		$(this).addClass("active");
 		var parentId = $(this).parent().attr("id");
 		var text = $(this).text();
-		$('#' + parentId + '--option-' + text).trigger('click');
+		$('#form-' + parentId).val(text);
 	});
 });

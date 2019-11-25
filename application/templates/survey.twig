@@ -20,6 +20,9 @@
             </p>
             <div class="hr"></div>
         </div>
+        {% if errors is defined %}
+            <div style="color: red">Заполните все поля перед отправкой</div>
+        {% endif %}
         {% for scale in questions %}
         <div class="blank-section">
             <h4>{{ scale.name }}.</h4>
@@ -28,14 +31,19 @@
                 <div class="question-head">
                     {{ question.title }}
                 </div>
-                <div id="question-id-{{ question.id }}" class="question-body">
+                <div id="{{ question.id }}" class="question-body">
                     <div class="question-left">Совсем неверно</div>
-                    <div class="question-var">0</div>
-                    <div class="question-var">1</div>
-                    <div class="question-var">2</div>
-                    <div class="question-var">3</div>
+                    <div class="question-var {% if data[question.id] is same as('0') %}active{% endif %}">0</div>
+                    <div class="question-var {% if data[question.id] is same as('1') %}active{% endif %}">1</div>
+                    <div class="question-var {% if data[question.id] is same as('2') %}active{% endif %}">2</div>
+                    <div class="question-var {% if data[question.id] is same as('3') %}active{% endif %}">3</div>
                     <div class="question-right">Верно в высшей степени</div>
                 </div>
+                {% if errors is defined %}
+                    {% if errors[question.id] is defined %}
+                        <p style="color: red; text-align: center; margin-top: 0"><small>{{ errors[question.id] }}</small></p>
+                    {% endif %}
+                {% endif %}
             </div>
             {% endfor %}
         </div>
@@ -62,20 +70,9 @@
                 <div class="form-group">
                     <label>{{ question.title }}: </label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="data[question-{{ question.id }}]" id="question-id-{{ question.id }}--option-0" value="option-0">
-                        <label class="form-check-label" for="inlineRadio1">0 баллов</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="data[question-{{ question.id }}]" id="question-id-{{ question.id }}--option-1" value="option-1">
-                        <label class="form-check-label" for="inlineRadio1">1 балл</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="data[question-{{ question.id }}]" id="question-id-{{ question.id }}--option-2" value="option-2">
-                        <label class="form-check-label" for="inlineRadio1">2 балла</label>
-                    </div>
-                    <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="radio" name="data[question-{{ question.id }}]" id="question-id-{{ question.id }}--option-3" value="option-3">
-                        <label class="form-check-label" for="inlineRadio1">3 балла</label>
+                        <input class="form-check-input"
+                            type="text" name="data[{{ question.id }}]" id="form-{{ question.id }}"
+                            {% if data[question.id] is defined %}value="{{ data[question.id] }}"{% endif %} >
                     </div>
                 </div>
             {% endfor %}
