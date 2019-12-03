@@ -8,18 +8,32 @@
     интерпретируются. Для заполнения бланка внимательно прочитайте инструкцию и дайте ответ соответствующий вашим
     представлениям.</p>
 <h1>Пройденные опросы: </h1>
-
-{% for scale in questions %}
-    <h5>{{ scale.name }}</h5>
-    {% for question in scale.questions %}
-        <div class="form-group">
-            <strong>{{ question.title }}</strong>: {{results['Methodic 1'][question.id]}}
-        </div>
+<div class="results d-none">
+    {% for key, methodic in questions %}
+        <br />
+        <h2>{{ key }}</h2>
+        {% for scale in methodic %}
+            <h5>{{ scale.name }}</h5>
+            {% for question in scale.questions %}
+                <div class="form-group">
+                    <strong>{{ question.title }}</strong>: {{results[key][question.id]}}
+                </div>
+            {% endfor %}
+        {% endfor %}
     {% endfor %}
+</div>
+
+<ul>
+{% for key, score in scores %}
+    <li><strong>{{ key }}</strong>: {{ score.all }} баллов ({{ score.conclusion }})
+        {% for subkey, scale in score.scales %}
+            {% if scale.scaleConclusion %}
+                <br><small>{{ scale.scaleConclusion }}</small>
+            {% endif %}
+        {% endfor %}
+    </li>
 {% endfor %}
-
-<p></p>
-
+</ul>
   <style type="text/css">
    td { 
     border: 1px solid #ccccee;

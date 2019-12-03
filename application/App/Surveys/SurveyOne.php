@@ -39,7 +39,7 @@ class SurveyOne extends SurveyAbstractClass
     public function __construct()
     {
         $surveyQuestionData = new SurveyQuestionData();
-        $this->questions = $surveyQuestionData->questions;
+        $this->questions = $surveyQuestionData->getQuestions();
     }
 
     /**
@@ -69,5 +69,102 @@ class SurveyOne extends SurveyAbstractClass
         ];
         $response = $response->withStatus(422);
         return $this->get('renderer')->render($response, "users/new.phtml", $params);
+    }
+
+    /**
+     * Calculate methodic
+     */
+    public function calculate(array $answers, string $methodicKey)
+    {
+        $result = [];
+        $result['all'] = 0;
+        $result['scales'] = [];
+        $questions = $this->questions[$methodicKey];
+
+        if ($methodicKey === "Methodic 3") {
+            $result['all'] = $answers['question-1'];
+            return $result;
+        }
+        foreach ($answers as $answer) {
+            $result['all'] += (int) $answer;
+        }
+
+        foreach ($questions as $scale) {
+            $scaleScore = 0;
+            foreach ($scale['questions'] as $question) {
+                $scaleScore += (int) $answers[$question['id']];
+            }
+            $result['scales'][$scale['id']]['score'] = $scaleScore;
+        }
+
+        return $result;
+    }
+
+    /**
+     * Calculate methodics
+     */
+    public function calculateAll(array $methodics)
+    {
+        $result = [];
+        foreach ($methodics as $key => $methodic) {
+            $result[$key] = $this->calculate($methodic, $key);
+        }
+        return $result;
+    }
+
+    /**
+     * Interpret results
+     */
+    public function interpret(array $calculatedMethodics)
+    {
+        $result = $calculatedMethodics;
+        foreach ($calculatedMethodics as $key => $calculatedMethodic) {
+            switch ($key) {
+                case 'Methodic 2':
+                    if ($calculatedMethodic['all'] <= 60) {
+                        $calculatedMethodic['conclusion'] = "Низкий уровень толерантности";
+                    } elseif ($calculatedMethodic['all'] >= 100) {
+                        $calculatedMethodic['conclusion'] = "Высокий уровень толерантности";
+                    } else {
+                        $calculatedMethodic['conclusion'] = "Cредний уровень толерантности";
+                    }
+
+                    foreach ($calculatedMethodic['scales'] as $scaleKey => $scale) {
+                        switch ($scaleKey) {
+                            case 'scale-1':
+                                if ($scale['score'] <= 19) {
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Этническая толерантность: {$scale['score']} баллов (низкий уровень)";
+                                } elseif ($scale['score'] >= 32) {
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Этническая толерантность: {$scale['score']} баллов (высокий уровень)";
+                                } else {
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Этническая толерантность: {$scale['score']} баллов (средний уровень)";
+                                }
+                                break;
+                            case 'scale-2':
+                                if ($scale['score'] <= 22) {
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Социальная толерантность: {$scale['score']} баллов (низкий уровень)";
+                                } elseif ($scale['score'] >= 37) {
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Социальная толерантность: {$scale['score']} баллов (высокий уровень)";
+                                } else {
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Социальная толерантность: {$scale['score']} баллов (средний уровень)";
+                                }
+                                break;
+                            case 'scale-3':
+                                if ($scale['score'] <= 19) {
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Толерантность как черта личности: {$scale['score']} баллов (низкий уровень)";
+                                } elseif ($scale['score'] >= 32) {
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Толерантность как черта личности: {$scale['score']} баллов (высокий уровень)";
+                                } else {
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Толерантность как черта личности: {$scale['score']} баллов (средний уровень)";
+                                }
+                                break;
+                        }
+                    }
+
+                    break;
+            }
+            $result[$key] = $calculatedMethodic;
+        }
+        return $result;
     }
 }

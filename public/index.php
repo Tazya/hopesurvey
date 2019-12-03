@@ -78,7 +78,7 @@ $app->group('/', function (RouteCollectorProxy $group) {
     $group->get('hello/{name}', HelloController::class)->setName('hello');
     $group->get('exception-demo', ExceptionDemoController::class)->setName('exception-demo');
     $group->get('survey', SurveyController::class)->setName('survey');
-    $group->post('result', SurveyController::class . ':check');
+    $group->post('survey', SurveyController::class . ':check');
     $group->get('result', SurveyController::class . ':result');
 });
 

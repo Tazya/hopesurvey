@@ -1,0 +1,97 @@
+{% extends 'html.twig' %}
+
+{% block contents %}
+    <div class="blank">
+        <h2>Бланк методики №3</h2>
+        <div class="blank-instructions">
+			<p>
+				<strong>Инструкция:</strong> <br>
+				Заполните предложенную ниже решетку используя пояснения и инструкции перед непосредственным заполнением. <br>
+				<strong>Прошлое</strong> – события, произошедшие за последние три года, не считая последний прожитый год. <br>
+				<strong>Настоящее</strong> – события, произошедшие за последний год жизни. <br>
+				<strong>Желаемое</strong> – то, как человек представляет свою идеальную жизнь. <br>
+            </p>
+            <div class="hr"></div>
+        </div>
+        <div class="blank-section">
+            {% if errors is defined %}
+                <div style="color: red">Заполните все поля перед отправкой</div>
+            {% endif %}
+            <form action="/survey" method="post">
+                <input type="hidden" name="data[name]" value="Methodic 4">
+                {% for scale in questions %}
+                    {% for question in scale.questions %}
+                        <div class="question question-type-four">
+                            <div class="row">
+                                <div class="col-md-3"><strong>{{ question.title }}</strong>
+                                    <p><small>{{ question.description }}</small></p>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label for="select-{{ question.id }}-past">Прошлое:</label>
+                                        <select name="data[{{ question.id }}-past]" class="selectize" id="select-{{ question.id }}-past" placeholder="Выберите отношение...">
+                                            {% if data[question.id ~ "-past"] %}
+                                                <option value="{{ data[question.id ~ '-past'] }}"> {{ question.options[data[question.id ~ '-past'] - 1] }}</option>
+                                            {% else %}
+                                                <option value="">Выберите отношение...</option>
+                                            {% endif %}
+                                            {% for option in question.options %}
+                                                <option value="{{ loop.index }}">{{ option }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    {% if errors is defined %}
+                                        {% if errors[question.id ~ '-past'] is defined %}
+                                            <p style="color: red; text-align: center; margin-top: 0"><small>{{ errors[question.id  ~ '-past'] }}</small></p>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label for="select-{{ question.id }}-present">Настоящее:</label>
+                                        <select name="data[{{ question.id }}-present]" class="selectize" id="select-{{ question.id }}-present" placeholder="Выберите отношение...">
+                                            <option value="">Выберите отношение...</option>
+                                            {% for option in question.options %}
+                                                <option value="{{ loop.index }}">{{ option }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    {% if errors is defined %}
+                                        {% if errors[question.id ~ '-present'] is defined %}
+                                            <p style="color: red; text-align: center; margin-top: 0"><small>{{ errors[question.id  ~ '-present'] }}</small></p>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="control-group">
+                                        <label for="select-{{ question.id }}-future">Будущее:</label>
+                                        <select name="data[{{ question.id }}-future]" class="selectize" id="select-{{ question.id }}-future" placeholder="Выберите отношение...">
+                                            <option value="">Выберите отношение...</option>
+                                            {% for option in question.options %}
+                                                <option value="{{ loop.index }}">{{ option }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    {% if errors is defined %}
+                                        {% if errors[question.id ~ '-future'] is defined %}
+                                            <p style="color: red; text-align: center; margin-top: 0"><small>{{ errors[question.id  ~ '-future'] }}</small></p>
+                                        {% endif %}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+                <div class="button-wrap">
+                    <input class="button accent" type="submit" value="Отправить">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <div class="button-wrap">
+            <p>Шаг 4 из 6</p>
+            <div class="button accent">Далее</div>
+        </div>
+    </div>
+{% endblock %}

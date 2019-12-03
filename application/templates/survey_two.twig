@@ -1,0 +1,118 @@
+{% extends 'html.twig' %}
+
+{% block contents %}
+		<div class="blank">
+			<h2>Бланк методики №2</h2>
+			<div class="blank-instructions">
+				<p>
+				<strong>Инструкция:</strong>Оцените, пожалуйста, насколько Вы согласны или не согласны с
+				приведенными утверждениями, и в соответствии с этим поставьте галочку напротив каждого утверждения
+				</p>
+				<div class="hr"></div>
+			</div>
+            {% if errors is defined %}
+                <div style="color: red">Заполните все поля перед отправкой</div>
+            {% endif %}
+            {% for scale in questions %}
+            <div class="blank-section">
+                <h4>{{ scale.name }}.</h4>
+                {% for question in scale.questions %}
+                <div class="question question-type-two">
+                    <div class="question-head">
+                        {{ question.title }}
+                    </div>
+                    <div id="{{ question.id }}" class="question-body--type-two">
+                        {% if question.reversed == false %}
+                            <div class="wrapper--type-two">
+                                <p>Абсолютно<br> не согласен</p>
+                                <div class="question-var question-var--type-two {% if data[question.id] is same as('1') %}active{% endif %}"><span class="question-corn-num">1</span><i class="far fa-check-circle"></i></div>
+                            </div>
+                            <div class="wrapper--type-two">
+                                <p><br>Не согласен</p>
+                                <div class="question-var question-var--type-two {% if data[question.id] is same as('2') %}active{% endif %}"><span class="question-corn-num">2</span><i class="far fa-check-circle"></i></div>
+                            </div>
+                            <div class="wrapper--type-two">
+                                <p>Скорее<br> не согласен</p>
+                                <div class="question-var question-var--type-two {% if data[question.id] is same as('3') %}active{% endif %}"><span class="question-corn-num">3</span><i class="far fa-check-circle"></i></div>
+                            </div>
+                            <div class="wrapper--type-two">
+                                <p>Скорее <br>согласен</p>
+                                <div class="question-var question-var--type-two {% if data[question.id] is same as('4') %}active{% endif %}"><span class="question-corn-num">4</span><i class="far fa-check-circle"></i></div>
+                            </div>
+                            <div class="wrapper--type-two">
+                                <p><br>Согласен</p>
+                                <div class="question-var question-var--type-two {% if data[question.id] is same as('5') %}active{% endif %}"><span class="question-corn-num">5</span><i class="far fa-check-circle"></i></div>
+                            </div>
+                            <div class="wrapper--type-two">
+                                <p>Полностью <br> согласен</p>
+                                <div class="question-var question-var--type-two {% if data[question.id] is same as('6') %}active{% endif %}"><span class="question-corn-num">6</span><i class="far fa-check-circle"></i></div>
+                            </div>
+                        {% else %}
+                            <div class="wrapper--type-two">
+                                <p>Абсолютно<br> не согласен</p>
+                                <div class="question-var question-var--type-two {% if data[question.id] is same as('6') %}active{% endif %}"><span class="question-corn-num">6</span><i class="far fa-check-circle"></i></div>
+                            </div>
+                            <div class="wrapper--type-two">
+                                <p><br>Не согласен</p>
+                                <div class="question-var question-var--type-two {% if data[question.id] is same as('5') %}active{% endif %}"><span class="question-corn-num">5</span><i class="far fa-check-circle"></i></div>
+                            </div>
+                            <div class="wrapper--type-two">
+                                <p>Скорее<br> не согласен</p>
+                                <div class="question-var question-var--type-two {% if data[question.id] is same as('4') %}active{% endif %}"><span class="question-corn-num">4</span><i class="far fa-check-circle"></i></div>
+                            </div>
+                            <div class="wrapper--type-two">
+                                <p>Скорее <br>согласен</p>
+                                <div class="question-var question-var--type-two {% if data[question.id] is same as('3') %}active{% endif %}"><span class="question-corn-num">3</span><i class="far fa-check-circle"></i></div>
+                            </div>
+                            <div class="wrapper--type-two">
+                                <p><br>Согласен</p>
+                                <div class="question-var question-var--type-two {% if data[question.id] is same as('2') %}active{% endif %}"><span class="question-corn-num">2</span><i class="far fa-check-circle"></i></div>
+                            </div>
+                            <div class="wrapper--type-two">
+                                <p>Полностью <br> согласен</p>
+                                <div class="question-var question-var--type-two {% if data[question.id] is same as('1') %}active{% endif %}"><span class="question-corn-num">1</span><i class="far fa-check-circle"></i></div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    {% if errors is defined %}
+                        {% if errors[question.id] is defined %}
+                            <p style="color: red; text-align: center; margin-top: 0"><small>{{ errors[question.id] }}</small></p>
+                        {% endif %}
+                    {% endif %}
+				</div>
+                {% endfor %}
+			</div>
+            {% endfor %}
+		</div>
+    <div>
+        <div class="button-wrap">
+            <p>Шаг 2 из 6</p>
+            <div class="button accent">Далее</div>
+        </div>
+    </div>
+<div class="button-wrap">
+    <form action="/survey" method="post">
+        <input type="hidden" name="data[name]" value="Methodic 2">
+
+
+        {% if errors is defined %}
+            <div style="color: red">Ошибка</div>
+        {% endif %}
+
+        {% for scale in questions %}
+            <h5>{{ scale.name }}</h5>
+            {% for question in scale.questions %}
+                <div class="form-group">
+                    <label>{{ question.title }}: </label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input"
+                            type="text" name="data[{{ question.id }}]" id="form-{{ question.id }}"
+                            {% if data[question.id] is defined %}value="{{ data[question.id] }}"{% endif %} >
+                    </div>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        <input type="submit" value="Отправить">
+    </form>
+</div>
+{% endblock %}

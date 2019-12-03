@@ -61,16 +61,32 @@ class SurveyController extends AbstractTwigController
     {
         $questions = $this->survey->getQuestions();
         $results = $this->repository->allAnswers();
-        $currentSurvey = 'survey.twig';
+        $currentSurvey = 'survey_four.twig';
+        $questionsKey = 'Methodic 4';
 
         if (isset($results['Methodic 1'])) {
-            return $this->result($request, $response, $args);
-            $currentSurvey = 'result.twig';
+            // return $this->result($request, $response, $args);
+            $currentSurvey = 'survey_two.twig';
+            $questionsKey = 'Methodic 2';
+        }
+        if (isset($results['Methodic 2'])) {
+            // return $this->result($request, $response, $args);
+            $currentSurvey = 'survey_three.twig';
+            $questionsKey = 'Methodic 3';
+        }
+        if (isset($results['Methodic 3'])) {
+            $currentSurvey = 'survey_four.twig';
+            $questionsKey = 'Methodic 4';
+        }
+        if (isset($results['Methodic 4'])) {
+            return $response->withHeader('Location', '/result')
+            ->withStatus(302);
         }
 
+        // print_r(json_encode($questions[$questionsKey]));
         return $this->render($response, $currentSurvey, [
             'pageTitle' => 'Survey',
-            'questions' => $questions,
+            'questions' => $questions[$questionsKey],
             'rootPath' => $this->preferences->getRootPath(),
         ]);
     }
@@ -83,34 +99,62 @@ class SurveyController extends AbstractTwigController
         $errors = $this->validator->validate($data);
         if (count($errors) === 0) {
             $this->repository->saveAnswers($data);
-            return $response->withHeader('Location', '/result')
+            return $response->withHeader('Location', '/survey')
             ->withStatus(302);
         }
 
         $questions = $this->survey->getQuestions();
-        // var_dump($errors);
+        $results = $this->repository->allAnswers();
+        $currentSurvey = 'survey_four.twig';
+        $questionsKey = 'Methodic 4';
+
+        if (isset($results['Methodic 1'])) {
+            // return $this->result($request, $response, $args);
+            $currentSurvey = 'survey_two.twig';
+            $questionsKey = 'Methodic 2';
+        }
+        if (isset($results['Methodic 2'])) {
+            // return $this->result($request, $response, $args);
+            $currentSurvey = 'survey_three.twig';
+            $questionsKey = 'Methodic 3';
+        }
+        if (isset($results['Methodic 3'])) {
+            $currentSurvey = 'survey_four.twig';
+            $questionsKey = 'Methodic 4';
+        }
+        if (isset($results['Methodic 4'])) {
+            return $response->withHeader('Location', '/result')
+            ->withStatus(302);
+        }
+
         print_r(json_encode($data));
         $params = [
             'pageTitle' => 'Survey',
-            'questions' => $questions,
+            'questions' => $questions[$questionsKey],
             'rootPath' => $this->preferences->getRootPath(),
             'data' => $data,
             'errors' => $errors,
         ];
         $response = $response->withStatus(422);
-        return $this->render($response, "survey.twig", $params);
+        return $this->render($response, $currentSurvey, $params);
     }
 
     public function result($request, $response, $args)
     {
         $questions = $this->survey->getQuestions();
         $results = $this->repository->allAnswers();
+        // print_r(json_encode($questions));
         print_r(json_encode($results));
+        $scores = $this->survey->calculateAll($results);
+        $interpreted = $this->survey->interpret($scores);
+
+        // print_r(json_encode($interpreted));
         $params = [
             'pageTitle' => 'Survey Result',
             'questions' => $questions,
             'rootPath' => $this->preferences->getRootPath(),
             'results' => $results,
+            'scores' => $interpreted,
         ];
         return $this->render($response, "result.twig", $params);
     }

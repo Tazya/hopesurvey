@@ -1,0 +1,116 @@
+{% extends 'html.twig' %}
+
+{% block contents %}
+    <div class="blank">
+        <h2>Бланк методики №3</h2>
+        <div class="blank-instructions">
+            <p>
+            <strong>Инструкция:</strong> <br>«Шкала Кинси» — попытка измерить сексуальную ориентацию людей по шкале от: <br>
+                0 — исключительно гетеросексуальная ориентация до <br>
+                6 — (исключительно гомосексуальная ориентация). <br>
+                Вам необходимо, используя шкалу, измерить собственную ориентацию и выбрать.
+            </p>
+            <div class="hr"></div>
+        </div>
+        {% if errors is defined %}
+            <div style="color: red">Заполните все поля перед отправкой</div>
+        {% endif %}
+        <div class="blank-section">
+            <div class="question question-type-three">
+                <div class="question-type-three--left">X.</div>
+                <div class="question-type-three--center">Нет гетеро- и гомо- сексуальных реакций и психических разражителей</div>
+                <div class="question-type-three--right">
+                    <div class="question-type-three--button" data-result="X"><i class="far fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="question question-type-three">
+                <div class="question-type-three--left">0.</div>
+                <div class="question-type-three--center">Единичный или случайный гомосексуальный опыт</div>
+                <div class="question-type-three--right">
+                    <div class="question-type-three--button" data-result="0"><i class="far fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="question question-type-three">
+                <div class="question-type-three--left">1.</div>
+                <div class="question-type-three--center">1.</div>
+                <div class="question-type-three--right">
+                    <div class="question-type-three--button" data-result="1"><i class="far fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="question question-type-three">
+                <div class="question-type-three--left">2.</div>
+                <div class="question-type-three--center">2.</div>
+                <div class="question-type-three--right">
+                    <div class="question-type-three--button" data-result="2"><i class="far fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="question question-type-three">
+                <div class="question-type-three--left">3.</div>
+                <div class="question-type-three--center">3.</div>
+                <div class="question-type-three--right">
+                    <div class="question-type-three--button" data-result="3"><i class="far fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="question question-type-three">
+                <div class="question-type-three--left">4.</div>
+                <div class="question-type-three--center">4.</div>
+                <div class="question-type-three--right">
+                    <div class="question-type-three--button" data-result="4"><i class="far fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="question question-type-three">
+                <div class="question-type-three--left">5.</div>
+                <div class="question-type-three--center">5.</div>
+                <div class="question-type-three--right">
+                    <div class="question-type-three--button" data-result="5"><i class="far fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="question question-type-three">
+                <div class="question-type-three--left">6.</div>
+                <div class="question-type-three--center">6.</div>
+                <div class="question-type-three--right">
+                    <div class="question-type-three--button" data-result="6"><i class="far fa-check-circle"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="button-wrap">
+            <p>Шаг 3 из 6</p>
+            <div class="button accent">Далее</div>
+        </div>
+    </div>
+    <div class="button-wrap">
+        <form action="/survey" method="post">
+            <input type="hidden" name="data[name]" value="Methodic 3">
+
+
+            {% if errors is defined %}
+                <div style="color: red">Ошибка</div>
+            {% endif %}
+
+            {% for scale in questions %}
+                <h5>{{ scale.name }}</h5>
+                {% for question in scale.questions %}
+                    <div class="form-group">
+                        <label>{{ question.title }}: </label>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input"
+                                type="text" name="data[{{ question.id }}]" id="form-{{ question.id }}"
+                                {% if data[question.id] is defined %}value="{{ data[question.id] }}"{% endif %} >
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            <input type="submit" value="Отправить">
+        </form>
+    </div>
+{% endblock %}

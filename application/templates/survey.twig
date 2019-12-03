@@ -33,10 +33,10 @@
                 </div>
                 <div id="{{ question.id }}" class="question-body">
                     <div class="question-left">Совсем неверно</div>
-                    <div class="question-var {% if data[question.id] is same as('0') %}active{% endif %}">0</div>
-                    <div class="question-var {% if data[question.id] is same as('1') %}active{% endif %}">1</div>
-                    <div class="question-var {% if data[question.id] is same as('2') %}active{% endif %}">2</div>
-                    <div class="question-var {% if data[question.id] is same as('3') %}active{% endif %}">3</div>
+                    <div class="question-var question-var--type-one {% if data[question.id] is same as('0') %}active{% endif %}">0</div>
+                    <div class="question-var question-var--type-one {% if data[question.id] is same as('1') %}active{% endif %}">1</div>
+                    <div class="question-var question-var--type-one {% if data[question.id] is same as('2') %}active{% endif %}">2</div>
+                    <div class="question-var question-var--type-one {% if data[question.id] is same as('3') %}active{% endif %}">3</div>
                     <div class="question-right">Верно в высшей степени</div>
                 </div>
                 {% if errors is defined %}
@@ -56,7 +56,7 @@
         </div>
     </div>
 <div class="button-wrap">
-    <form action="/result" method="post">
+    <form action="/survey" method="post">
         <input type="hidden" name="data[name]" value="Methodic 1">
 
 
