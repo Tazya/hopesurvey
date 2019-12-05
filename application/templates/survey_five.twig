@@ -1,0 +1,89 @@
+{% extends 'html.twig' %}
+
+{% block contents %}
+    <div class="blank">
+        <h2>Бланк методики №5</h2>
+        <div class="blank-instructions">
+            <p><strong>Инструкция:</strong> <br>
+                В течение 12 минут вам необходимо дать как можно больше ответов на один вопрос,
+                относящийся к вам самим: «Кто Я?». Постарайтесь дать как можно больше ответов. Каждый новый ответ
+                начинайте с новой строки (оставляя некоторое место от левого края листа). Вы можете отвечать так, как вам
+                хочется, фиксировать все ответы, которые приходят к вам в голову, поскольку в этом задании нет
+                правильных или неправильных ответов.
+            </p>
+            <p>
+            Также важно замечать, какие эмоциональные реакции возникают у вас в ходе выполнения данного задания,
+            насколько трудно или легко вам было отвечать на данный вопрос.
+            </p>
+            <p>
+            Пронумеруйте все сделанные вами отдельные ответы-характеристики. Слева от каждого ответа поставьте его
+            порядковый номер. Теперь каждую свою отдельную характеристику оцените по четырехзначной системе:
+            </p>
+            <ul>
+                <li>«+» – знак «плюс» ставится, если в целом вам лично данная характеристика нравится;</li>
+                <li>«-»- знак «минус»- если в целом вам лично данная характеристика не нравится;</li>
+                <li>«±» – знак «плюс-минус» – если данная характеристика вам и нравится, и не нравится одновременно;</li>
+                <li>«?» – знак «вопроса» – если вы не знаете на данный момент времени, как вы точно относитесь к
+                    характеристике, у вас нет пока определенной оценки рассматриваемого ответа.</li>
+            </ul>
+            <p>
+            Знак своей оценки необходимо ставить слева от номера характеристики. У вас могут быть оценки как всех
+            видов знаков, так и только одного знака или двух-трех.
+            </p>
+            После того как вами будут оценены все характеристики, подведите итог:
+                <ul>
+                <li>Cколько всего получилось ответов,</li>
+                <li>Cколько ответов каждого знака.</li>
+            </ul>
+            <div class="hr"></div>
+        </div>
+        <div class="blank-section">
+            {% if errors is defined %}
+                <div style="color: red">Ошибка! Заполните как минимум 12 полей, и поставьте ваш знак слева от ответа</div>
+            {% endif %}
+            <form action="/survey" method="post">
+                <input type="hidden" name="data[name]" value="Methodic 5">
+                {% for scale in questions %}
+                    {% for question in scale.questions %}
+                        <div class="question question-type-five">
+                            <div class="row no-gutters">
+                                <div class="col-md-1 col-6">
+                                    <label class="select-sign--label" for="select-{{ question.id }}">{{ question.title }}</label>
+                                    <select class="selectize select-sign" name="data[select-{{ question.id }}]" id="select-{{ question.id }}" placeholder="+/-/±/?">
+                                        {% if data["select-" ~ question.id] %}
+                                            <option value="{{ data["select-" ~ question.id] }}">{{ data["select-" ~ question.id] }}</option>
+                                        {% else %}
+                                        <option value="">+/-/±/?</option>
+                                        {% endif %}
+                                        <option value="+">+</option>
+                                        <option value="-">-</option>
+                                        <option value="±">±</option>
+                                        <option value="?">?</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-11 col-12"><textarea rows="1" name="data[{{ question.id }}]" class="wide-input" placeholder="Кто я?">{% if data[question.id] %}{{ data[question.id] }}{% endif %}</textarea></div>
+                            </div>
+                        </div>
+                        {% if errors[question.id] is defined %}
+                            <div style="color: red">{{ errors[question.id] }}</div>
+                            <br>
+                        {% endif %}
+                        {% if errors["select-" ~ question.id] is defined %}
+                            <div style="color: red">{{ errors["select-" ~ question.id] }}</div>
+                            <br>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                <div class="button-wrap">
+                    <input class="button accent" type="submit" value="Отправить">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div>
+        <div class="button-wrap">
+            <p>Шаг 5 из 6</p>
+            <div class="button accent">Далее</div>
+        </div>
+    </div>
+{% endblock %}

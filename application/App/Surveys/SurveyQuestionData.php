@@ -504,6 +504,95 @@ class SurveyQuestionData
         ]
     ];
 
+    public $questions5 =  [
+        [
+            "id" => "scale-1",
+            "name" => "Шкала 1",
+            "questions" => [
+                [
+                    "id" => "question-1",
+                    "title" => "1.",
+                ],
+                [
+                    "id" => "question-2",
+                    "title" => "2.",
+                ],
+                [
+                    "id" => "question-3",
+                    "title" => "3.",
+                ],
+                [
+                    "id" => "question-4",
+                    "title" => "4.",
+                ],
+                [
+                    "id" => "question-5",
+                    "title" => "5.",
+                ],
+                [
+                    "id" => "question-6",
+                    "title" => "6.",
+                ],
+                [
+                    "id" => "question-7",
+                    "title" => "7.",
+                ],
+                [
+                    "id" => "question-8",
+                    "title" => "8.",
+                ],
+                [
+                    "id" => "question-9",
+                    "title" => "9.",
+                ],
+                [
+                    "id" => "question-10",
+                    "title" => "10.",
+                ],
+                [
+                    "id" => "question-11",
+                    "title" => "11.",
+                ],
+                [
+                    "id" => "question-12",
+                    "title" => "12.",
+                ],
+                [
+                    "id" => "question-13",
+                    "title" => "13.",
+                ],
+                [
+                    "id" => "question-14",
+                    "title" => "14.",
+                ],
+                [
+                    "id" => "question-15",
+                    "title" => "15.",
+                ],
+                [
+                    "id" => "question-16",
+                    "title" => "16.",
+                ],
+                [
+                    "id" => "question-17",
+                    "title" => "17.",
+                ],
+                [
+                    "id" => "question-18",
+                    "title" => "18.",
+                ],
+                [
+                    "id" => "question-19",
+                    "title" => "19.",
+                ],
+                [
+                    "id" => "question-20",
+                    "title" => "20.",
+                ],
+            ]
+        ]
+    ];
+
     /**
      * Get all questions.
      */
@@ -515,6 +604,7 @@ class SurveyQuestionData
         $result["Methodic 2"] = $this->questions2;
         $result["Methodic 3"] = $this->questions3;
         $result["Methodic 4"] = $this->questions4;
+        $result["Methodic 5"] = $this->questions5;
         
         return $result;
     }

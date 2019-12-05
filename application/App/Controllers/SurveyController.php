@@ -61,8 +61,8 @@ class SurveyController extends AbstractTwigController
     {
         $questions = $this->survey->getQuestions();
         $results = $this->repository->allAnswers();
-        $currentSurvey = 'survey_four.twig';
-        $questionsKey = 'Methodic 4';
+        $currentSurvey = 'survey_five.twig';
+        $questionsKey = 'Methodic 5';
 
         if (isset($results['Methodic 1'])) {
             // return $this->result($request, $response, $args);
@@ -79,6 +79,10 @@ class SurveyController extends AbstractTwigController
             $questionsKey = 'Methodic 4';
         }
         if (isset($results['Methodic 4'])) {
+            $currentSurvey = 'survey_five.twig';
+            $questionsKey = 'Methodic 5';
+        }
+        if (isset($results['Methodic 5'])) {
             return $response->withHeader('Location', '/result')
             ->withStatus(302);
         }
@@ -105,8 +109,8 @@ class SurveyController extends AbstractTwigController
 
         $questions = $this->survey->getQuestions();
         $results = $this->repository->allAnswers();
-        $currentSurvey = 'survey_four.twig';
-        $questionsKey = 'Methodic 4';
+        $currentSurvey = 'survey_five.twig';
+        $questionsKey = 'Methodic 5';
 
         if (isset($results['Methodic 1'])) {
             // return $this->result($request, $response, $args);
@@ -123,6 +127,10 @@ class SurveyController extends AbstractTwigController
             $questionsKey = 'Methodic 4';
         }
         if (isset($results['Methodic 4'])) {
+            $currentSurvey = 'survey_five.twig';
+            $questionsKey = 'Methodic 5';
+        }
+        if (isset($results['Methodic 5'])) {
             return $response->withHeader('Location', '/result')
             ->withStatus(302);
         }
