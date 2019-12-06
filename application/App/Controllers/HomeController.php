@@ -8,6 +8,7 @@ use App\Preferences;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
+use App\Repository;
 
 class HomeController extends AbstractTwigController
 {
@@ -15,6 +16,12 @@ class HomeController extends AbstractTwigController
      * @var Preferences
      */
     private $preferences;
+
+    /**
+     * @var Repository
+     */
+    public $repository;
+
 
     /**
      * HomeController constructor.
@@ -27,6 +34,7 @@ class HomeController extends AbstractTwigController
         parent::__construct($twig);
 
         $this->preferences = $preferences;
+        $this->repository = new Repository();
     }
 
     /**
@@ -38,9 +46,11 @@ class HomeController extends AbstractTwigController
      */
     public function __invoke(Request $request, Response $response, array $args = []): Response
     {
+        $results = $this->repository->allAnswers();
         return $this->render($response, 'home.twig', [
             'pageTitle' => 'Home',
             'rootPath' => $this->preferences->getRootPath(),
+            'results' => $results,
         ]);
     }
 }

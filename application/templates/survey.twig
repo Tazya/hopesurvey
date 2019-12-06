@@ -1,12 +1,6 @@
 {% extends 'html.twig' %}
 
 {% block contents %}
-    <h1>{{ name }}!Исследование на тему: <br> «Взаимосвязь индивидуально - психологических особенностей и толерантности личности»</h1>
-    <p>Цель нашего исследования — <strong>выявление взаимосвязи между уровнем толерантности и ориентацией личности.</strong>
-    Исследование является анонимным. Интерпретация данных будет проводиться на основании
-    результатов статистической обработки. Индивидуальные данные не разглашаются и не
-    интерпретируются. Для заполнения бланка внимательно прочитайте инструкцию и дайте ответ соответствующий вашим
-    представлениям.</p>
     <div class="blank">
         <h2>Бланк методики №1</h2>
         <div class="blank-instructions">
@@ -52,11 +46,11 @@
     <div>
         <div class="button-wrap">
             <p>Шаг 1 из 6</p>
-            <div class="button accent">Далее</div>
+            <div class="button submit-button">Далее</div>
         </div>
     </div>
-<div class="button-wrap">
-    <form action="/survey" method="post">
+<div class="button-wrap d-none">
+    <form id="survey-form" action="/survey" method="post">
         <input type="hidden" name="data[name]" value="Methodic 1">
 
 

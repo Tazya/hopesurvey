@@ -593,6 +593,183 @@ class SurveyQuestionData
         ]
     ];
 
+    public $questions6 =  [
+        [
+            "id" => "scale-1",
+            "name" => "Шкала 1",
+            "questions" => [
+                [
+                    "id" => "question-1",
+                    "title" => "1.",
+                    "left" => "Обаятельный",
+                    "right" => "Непривлекательный",
+                    "characteristic" => "Оценка",
+                    "relation" => 0
+                ],
+                [
+                    "id" => "question-2",
+                    "title" => "2.",
+                    "left" => "Слабый",
+                    "right" => "Сильный",
+                    "characteristic" => "Сила",
+                    "relation" => 1
+                ],
+                [
+                    "id" => "question-3",
+                    "title" => "3.",
+                    "left" => "Разговорчивый",
+                    "right" => "Молчаливый",
+                    "characteristic" => "Активность",
+                    "relation" => 0
+                ],
+                [
+                    "id" => "question-4",
+                    "title" => "4.",
+                    "left" => "Безответственный",
+                    "right" => "Добросовестный",
+                    "characteristic" => "Оценка",
+                    "relation" => 1
+                ],
+                [
+                    "id" => "question-5",
+                    "title" => "5.",
+                    "left" => "Упрямый",
+                    "right" => "Уступчивый",
+                    "characteristic" => "Сила",
+                    "relation" => 0
+                ],
+                [
+                    "id" => "question-6",
+                    "title" => "6.",
+                    "left" => "Замкнутый",
+                    "right" => "Открытый",
+                    "characteristic" => "Активность",
+                    "relation" => 1
+                ],
+                [
+                    "id" => "question-7",
+                    "title" => "7.",
+                    "left" => "Добрый",
+                    "right" => "Эгоистичный",
+                    "characteristic" => "Оценка",
+                    "relation" => 0
+                ],
+                [
+                    "id" => "question-8",
+                    "title" => "8.",
+                    "left" => "Зависимый",
+                    "right" => "Независимый",
+                    "characteristic" => "Сила",
+                    "relation" => 1
+                ],
+                [
+                    "id" => "question-9",
+                    "title" => "9.",
+                    "left" => "Деятельный",
+                    "right" => "Пассивный",
+                    "characteristic" => "Активность",
+                    "relation" => 0
+                ],
+                [
+                    "id" => "question-10",
+                    "title" => "10.",
+                    "left" => "Черствый",
+                    "right" => "Отзывчивый",
+                    "characteristic" => "Оценка",
+                    "relation" => 1
+                ],
+                [
+                    "id" => "question-11",
+                    "title" => "11.",
+                    "left" => "Решительный",
+                    "right" => "Нерешительный",
+                    "characteristic" => "Сила",
+                    "relation" => 0
+                ],
+                [
+                    "id" => "question-12",
+                    "title" => "12.",
+                    "left" => "Вялый",
+                    "right" => "Энергичный",
+                    "characteristic" => "Активность",
+                    "relation" => 1
+                ],
+                [
+                    "id" => "question-13",
+                    "title" => "13.",
+                    "left" => "Справедливый",
+                    "right" => "Несправедливый",
+                    "characteristic" => "Оценка",
+                    "relation" => 0
+                ],
+                [
+                    "id" => "question-14",
+                    "title" => "14.",
+                    "left" => "Расслабленный",
+                    "right" => "Напряженный",
+                    "characteristic" => "Сила",
+                    "relation" => 1
+                ],
+                [
+                    "id" => "question-15",
+                    "title" => "15.",
+                    "left" => "Суетливый",
+                    "right" => "Спокойный",
+                    "characteristic" => "Активность",
+                    "relation" => 0
+                ],
+                [
+                    "id" => "question-16",
+                    "title" => "16.",
+                    "left" => "Враждебный",
+                    "right" => "Дружелюбный",
+                    "characteristic" => "Оценка",
+                    "relation" => 1
+                ],
+                [
+                    "id" => "question-17",
+                    "title" => "17.",
+                    "left" => "Уверенный",
+                    "right" => "Неуверенный",
+                    "characteristic" => "Сила",
+                    "relation" => 0
+                ],
+                [
+                    "id" => "question-18",
+                    "title" => "18.",
+                    "left" => "Нелюдимый",
+                    "right" => "Общительный",
+                    "characteristic" => "Активность",
+                    "relation" => 1
+                ],
+                [
+                    "id" => "question-19",
+                    "title" => "19.",
+                    "left" => "Честный",
+                    "right" => "Неискренний",
+                    "characteristic" => "Оценка",
+                    "relation" => 0
+                ],
+                [
+                    "id" => "question-20",
+                    "title" => "20.",
+                    "left" => "Несамостоятельный",
+                    "right" => "Самостоятельный",
+                    "characteristic" => "Сила",
+                    "relation" => 1
+                ],
+                [
+                    "id" => "question-21",
+                    "title" => "21.",
+                    "left" => "Раздражительный",
+                    "right" => "Невозмутимый",
+                    "characteristic" => "Активность",
+                    "relation" => 0
+                ],
+            ]
+        ]
+    ];
+
     /**
      * Get all questions.
      */
@@ -605,6 +782,7 @@ class SurveyQuestionData
         $result["Methodic 3"] = $this->questions3;
         $result["Methodic 4"] = $this->questions4;
         $result["Methodic 5"] = $this->questions5;
+        $result["Methodic 6"] = $this->questions6;
         
         return $result;
     }

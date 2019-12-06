@@ -61,8 +61,8 @@ class SurveyController extends AbstractTwigController
     {
         $questions = $this->survey->getQuestions();
         $results = $this->repository->allAnswers();
-        $currentSurvey = 'survey_five.twig';
-        $questionsKey = 'Methodic 5';
+        $currentSurvey = 'survey.twig';
+        $questionsKey = 'Methodic 1';
 
         if (isset($results['Methodic 1'])) {
             // return $this->result($request, $response, $args);
@@ -83,6 +83,10 @@ class SurveyController extends AbstractTwigController
             $questionsKey = 'Methodic 5';
         }
         if (isset($results['Methodic 5'])) {
+            $currentSurvey = 'survey_six.twig';
+            $questionsKey = 'Methodic 6';
+        }
+        if (isset($results['Methodic 6'])) {
             return $response->withHeader('Location', '/result')
             ->withStatus(302);
         }
@@ -109,8 +113,8 @@ class SurveyController extends AbstractTwigController
 
         $questions = $this->survey->getQuestions();
         $results = $this->repository->allAnswers();
-        $currentSurvey = 'survey_five.twig';
-        $questionsKey = 'Methodic 5';
+        $currentSurvey = 'survey.twig';
+        $questionsKey = 'Methodic 1';
 
         if (isset($results['Methodic 1'])) {
             // return $this->result($request, $response, $args);
@@ -131,11 +135,15 @@ class SurveyController extends AbstractTwigController
             $questionsKey = 'Methodic 5';
         }
         if (isset($results['Methodic 5'])) {
+            $currentSurvey = 'survey_six.twig';
+            $questionsKey = 'Methodic 6';
+        }
+        if (isset($results['Methodic 6'])) {
             return $response->withHeader('Location', '/result')
             ->withStatus(302);
         }
 
-        print_r(json_encode($data));
+        // print_r(json_encode($data));
         $params = [
             'pageTitle' => 'Survey',
             'questions' => $questions[$questionsKey],
@@ -152,7 +160,7 @@ class SurveyController extends AbstractTwigController
         $questions = $this->survey->getQuestions();
         $results = $this->repository->allAnswers();
         // print_r(json_encode($questions));
-        print_r(json_encode($results));
+        // print_r(json_encode($results));
         $scores = $this->survey->calculateAll($results);
         $interpreted = $this->survey->interpret($scores);
 

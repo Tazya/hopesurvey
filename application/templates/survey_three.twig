@@ -85,13 +85,12 @@
     <div>
         <div class="button-wrap">
             <p>Шаг 3 из 6</p>
-            <div class="button accent">Далее</div>
+            <div class="button submit-button">Далее</div>
         </div>
     </div>
-    <div class="button-wrap">
-        <form action="/survey" method="post">
+    <div class="button-wrap d-none">
+        <form id="survey-form" action="/survey" method="post">
             <input type="hidden" name="data[name]" value="Methodic 3">
-
 
             {% if errors is defined %}
                 <div style="color: red">Ошибка</div>

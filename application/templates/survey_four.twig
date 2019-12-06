@@ -17,7 +17,7 @@
             {% if errors is defined %}
                 <div style="color: red">Заполните все поля перед отправкой</div>
             {% endif %}
-            <form action="/survey" method="post">
+            <form id="survey-form" class="questions-type-four" action="/survey" method="post">
                 <input type="hidden" name="data[name]" value="Methodic 4">
                 {% for scale in questions %}
                     {% for question in scale.questions %}
@@ -82,16 +82,13 @@
                         </div>
                     {% endfor %}
                 {% endfor %}
-                <div class="button-wrap">
-                    <input class="button accent" type="submit" value="Отправить">
-                </div>
             </form>
         </div>
     </div>
     <div>
         <div class="button-wrap">
             <p>Шаг 4 из 6</p>
-            <div class="button accent">Далее</div>
+            <div class="button submit-button">Далее</div>
         </div>
     </div>
 {% endblock %}

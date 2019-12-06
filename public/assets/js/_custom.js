@@ -23,6 +23,19 @@ document.addEventListener("DOMContentLoaded", function() {
 		$('.form-check-input').val(text);
 	});
 
+	$(".question-var--type-six").click(function() {
+		$(this).parent().children(".question-var--type-six").removeClass("active");
+		$(this).addClass("active");
+		var parentId = $(this).parent().attr("id");
+		var text = $(this).attr("data-result");
+		$('#form-' + parentId).val(text);
+	});
+
 	$('.selectize').selectize();
+
+	$(".submit-button").click(function() {
+		var formId = "survey-form";
+		document.forms[formId].submit();
+	});
 
 });
