@@ -7,6 +7,7 @@ use App\Controllers\ExceptionDemoController;
 use App\Controllers\HelloController;
 use App\Controllers\HomeController;
 use App\Controllers\SurveyController;
+use App\Controllers\CollectionsController;
 use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
 use Slim\Views\Twig;
@@ -79,7 +80,9 @@ $app->group('/', function (RouteCollectorProxy $group) {
     $group->get('exception-demo', ExceptionDemoController::class)->setName('exception-demo');
     $group->get('survey', SurveyController::class)->setName('survey');
     $group->post('survey', SurveyController::class . ':check');
-    $group->get('result', SurveyController::class . ':result');
+    $group->get('result', SurveyController::class . ':userResult');
+    $group->get('results', SurveyController::class . ':results')->setName('results');
+    $group->get('results/{name}', SurveyController::class . ':result')->setName('results');
 });
 
 // Run the app.

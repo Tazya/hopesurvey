@@ -8,9 +8,10 @@ use App\Preferences;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
-use App\Repository;
+use App\Surveys\SurveyOne;
+use App\Surveys\SurveyCollections;
 
-class HomeController extends AbstractTwigController
+class CollectionsController extends AbstractTwigController
 {
     /**
      * @var Preferences
@@ -18,13 +19,17 @@ class HomeController extends AbstractTwigController
     private $preferences;
 
     /**
-     * @var Repository
+     * @var Survey
      */
-    public $repository;
-
+    public $survey;
 
     /**
-     * HomeController constructor.
+     * @var SurveyCollections
+     */
+    public $surveyCollections;
+
+    /**
+     * SurveyController constructor.
      *
      * @param Twig        $twig
      * @param Preferences $preferences
@@ -34,7 +39,8 @@ class HomeController extends AbstractTwigController
         parent::__construct($twig);
 
         $this->preferences = $preferences;
-        $this->repository = new Repository();
+        $this->survey = new SurveyOne();
+        $this->surveyCollections = new SurveyCollections();
     }
 
     /**
@@ -46,12 +52,14 @@ class HomeController extends AbstractTwigController
      */
     public function __invoke(Request $request, Response $response, array $args = []): Response
     {
-        $results = $this->repository->allAnswers();
-        return $this->render($response, 'home.twig', [
-            'pageTitle' => 'Исследование «Взаимосвязь индивидуально
-                 - психологических особенностей и толерантности личности»',
+        $surveyCollectionsData = [1];
+        $pageTitle = "Все результаты";
+        $template = "results.twig";
+        
+        return $this->render($response, $template, [
+            'pageTitle' => $pageTitle,
+            'collections' => $surveyCollectionsData,
             'rootPath' => $this->preferences->getRootPath(),
-            'results' => $results,
         ]);
     }
 }

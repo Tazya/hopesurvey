@@ -9,26 +9,16 @@ use App\Validator;
 
 class SurveyOne extends SurveyAbstractClass
 {
-
-    /**
-     * @var header
-     */
-    public $header = "Исследование на тему: 
-    «Взаимосвязь индивидуально - психологических особенностей и толерантности личности»";
-    
-    /**
-     * @var instructions
-     */
-    public $instructions = "Цель нашего исследования — 
-    выявление взаимосвязи между уровнем толерантности и ориентацией личности.
-    Исследование является анонимным. Интерпретация данных будет проводиться на основании результатов
-    статистической обработки. Индивидуальные данные не разглашаются и не интерпретируются.
-    Для заполнения бланка внимательно прочитайте инструкцию и дайте ответ соответствующий вашим представлениям.";
     
     /**
      * @var questions
      */
     public $questions = [];
+
+    /**
+     * @var Repository $repository
+     */
+    public $repository;
  
 
     /**
@@ -39,6 +29,7 @@ class SurveyOne extends SurveyAbstractClass
     public function __construct()
     {
         $surveyQuestionData = new SurveyQuestionData();
+        $this->repository = new Repository();
         $this->questions = $surveyQuestionData->getQuestions();
     }
 
@@ -156,43 +147,59 @@ class SurveyOne extends SurveyAbstractClass
                         switch ($scaleKey) {
                             case 'scale-1':
                                 if ($scale['score'] <= 19) {
-                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Этническая толерантность: {$scale['score']} баллов (низкий уровень)";
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] =
+                                        "Этническая толерантность: {$scale['score']} баллов (низкий уровень)";
                                 } elseif ($scale['score'] >= 32) {
-                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Этническая толерантность: {$scale['score']} баллов (высокий уровень)";
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] =
+                                        "Этническая толерантность: {$scale['score']} баллов (высокий уровень)";
                                 } else {
-                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Этническая толерантность: {$scale['score']} баллов (средний уровень)";
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] =
+                                        "Этническая толерантность: {$scale['score']} баллов (средний уровень)";
                                 }
                                 break;
                             case 'scale-2':
                                 if ($scale['score'] <= 22) {
-                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Социальная толерантность: {$scale['score']} баллов (низкий уровень)";
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] =
+                                        "Социальная толерантность: {$scale['score']} баллов (низкий уровень)";
                                 } elseif ($scale['score'] >= 37) {
-                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Социальная толерантность: {$scale['score']} баллов (высокий уровень)";
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] =
+                                        "Социальная толерантность: {$scale['score']} баллов (высокий уровень)";
                                 } else {
-                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Социальная толерантность: {$scale['score']} баллов (средний уровень)";
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] =
+                                        "Социальная толерантность: {$scale['score']} баллов (средний уровень)";
                                 }
                                 break;
                             case 'scale-3':
                                 if ($scale['score'] <= 19) {
-                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Толерантность как черта личности: {$scale['score']} баллов (низкий уровень)";
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] =
+                                        "Толерантность как черта личности: {$scale['score']} баллов (низкий уровень)";
                                 } elseif ($scale['score'] >= 17) {
-                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Толерантность как черта личности: {$scale['score']} баллов (высокий уровень)";
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] =
+                                        "Толерантность как черта личности: {$scale['score']} баллов (высокий уровень)";
                                 } else {
-                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] = "Толерантность как черта личности: {$scale['score']} баллов (средний уровень)";
+                                    $calculatedMethodic['scales'][$scaleKey]['scaleConclusion'] =
+                                        "Толерантность как черта личности: {$scale['score']} баллов (средний уровень)";
                                 }
                                 break;
                         }
                     }
 
                     break;
+                case 'Methodic 4':
+                        $inter = round($calculatedMethodic['all'] / 21, 2);
+                        $calculatedMethodic['conclusion'] = "{$calculatedMethodic['all']} / 21 = {$inter}";
+                    break;
                 case 'Methodic 6':
                     foreach ($calculatedMethodic['characteristics'] as $characteristicKey => $characteristic) {
                         if ($characteristic['score'] <= 7) {
-                            $calculatedMethodic['characteristics'][$characteristicKey]['characteristicConclusion'] = "{$characteristic['score']} баллов (низкий уровень)";
+                            $calculatedMethodic['characteristics'][$characteristicKey]['characteristicConclusion'] =
+                                "{$characteristic['score']} баллов (низкий уровень)";
                         } elseif ($characteristic['score'] >= 17) {
-                            $calculatedMethodic['characteristics'][$characteristicKey]['characteristicConclusion'] = "{$characteristic['score']} баллов (высокий уровень)";
+                            $calculatedMethodic['characteristics'][$characteristicKey]['characteristicConclusion'] =
+                                "{$characteristic['score']} баллов (высокий уровень)";
                         } else {
-                            $calculatedMethodic['characteristics'][$characteristicKey]['characteristicConclusion'] = "{$characteristic['score']} баллов (средний уровень)";
+                            $calculatedMethodic['characteristics'][$characteristicKey]['characteristicConclusion'] =
+                                "{$characteristic['score']} баллов (средний уровень)";
                         }
                     }
                     break;
@@ -200,5 +207,152 @@ class SurveyOne extends SurveyAbstractClass
             $result[$key] = $calculatedMethodic;
         }
         return $result;
+    }
+
+    /**
+     * Get Email Body
+     */
+    public function getEmailBody()
+    {
+        $questions = $this->getQuestions();
+        $results = $this->repository->allAnswers();
+        $preScores = $this->calculateAll($results);
+        $scores = $this->interpret($preScores);
+
+        $thStyle = "border: 1px solid #ccccee;padding: 6px 14px;font-weight: bold;";
+        $tdStyle = "border: 1px solid #ccccee;padding: 4px 10px;";
+        $resultsColl = [];
+
+        foreach ($questions as $key => $methodic) {
+            switch ($key) {
+                case 'Methodic 2':
+                    $resultsColl[$key] = "<h2>Методика 2. Толерантность — {$scores[$key]['all']}</h2>\r\n
+                                        <table>\r\n
+                                        <tr><th style=\"$thStyle\">{$key}</th>\r\n
+                                        <th style=\"$thStyle\">Всего: {$scores[$key]['all']} баллов</th>\r\n</tr>\r\n";
+                    foreach ($methodic as $scale) {
+                        $resultsColl[$key] = "{$resultsColl[$key]}<tr><td style=\"$tdStyle\">{$scale['name']}</td>\r\n
+                        <td style=\"$tdStyle\">{$scores[$key]['scales'][$scale['id']]['score']} баллов</td>\r\n
+                        <td style=\"$tdStyle\">{$scores[$key]['scales'][$scale['id']]['scaleConclusion']}</td>\r\n</tr>\r\n";
+                    }
+                    $resultsColl[$key] = "{$resultsColl[$key]}</table>\r\n";
+                    break;
+                
+                case 'Methodic 3':
+                    $resultsColl[$key] = "<h2>Методика 3. Кинси</h2>\r\n
+                                        <table>\r\n
+                                        <tr><th style=\"$thStyle\">{$key}</th>\r\n
+                                        <th style=\"$thStyle\">Результат:</th>\r\n</tr>\r\n";
+                    foreach ($methodic as $scale) {
+                        $resultsColl[$key] = "{$resultsColl[$key]}<tr><td style=\"$tdStyle\">{$scale['name']}</td>\r\n
+                                            <td style=\"$tdStyle\">{$results[$key]['question-1']}</td>\r\n</tr>\r\n";
+                    }
+                    $resultsColl[$key] = "{$resultsColl[$key]}</table>\r\n";
+                    break;
+                case 'Methodic 4':
+                    $resultsColl[$key] = "<h2>Методика 4. Решетка Клейна — {$scores[$key]['all']}</h2>\r\n
+                                        <table>\r\n
+                                        <tr><th style=\"$thStyle\">{$key}</th>\r\n
+                                        <th style=\"$thStyle\">Всего: {$scores[$key]['all']} баллов</th>\r\n</tr>\r\n
+                                        <th style=\"$thStyle\">{$scores[$key]['conclusion']}</th>\r\n</tr>\r\n";
+                    $resultsColl[$key] = "{$resultsColl[$key]}</table>\r\n";
+                    break;
+                case 'Methodic 5':
+                    $resultsColl[$key] = "<h2>Методтка 5. О себе</h2>\r\n
+                        <table>\r\n
+                        <tr><th style=\"$thStyle\">{$key}</th>\r\n</tr>\r\n";
+                    foreach ($methodic as $scale) {
+                        foreach ($scale['questions'] as $question) {
+                            $resultsColl[$key] = "{$resultsColl[$key]}<tr>
+                                <td style=\"$tdStyle\">{$question['title']}</td>\r\n
+                                <td style=\"$tdStyle\">{$results[$key]['select-' . $question['id']]}</td>\r\n
+                                <td style=\"$tdStyle\">{$results[$key][$question['id']]}</td>\r\n</tr>\r\n";
+                        }
+                        $resultsColl[$key] = "{$resultsColl[$key]}<tr>
+                            <td style=\"$tdStyle\"><strong>Вывод</strong></td>\r\n
+                            <td style=\"$tdStyle\"><strong>{$results[$key]['userConclusion']}</strong></td>\r\n</tr>\r\n";
+                    }
+                    $resultsColl[$key] = "{$resultsColl[$key]}</table>\r\n";
+                    break;
+                case 'Methodic 6':
+                    $resultsColl[$key] = "<h2>Методика 6. Характеристики личности — {$scores[$key]['all']}</h2>\r\n
+                        <table>\r\n
+                        <tr><th style=\"$thStyle\">{$key}</th>\r\n
+                        <th style=\"$thStyle\">Всего: {$scores[$key]['all']} баллов</th>\r\n</tr>\r\n";
+                    foreach ($scores[$key]['characteristics'] as $subkey => $characteristic) {
+                        $resultsColl[$key] = "{$resultsColl[$key]}<tr><td style=\"$tdStyle\">{$subkey}</td>\r\n
+                            <td style=\"$tdStyle\"><strong>{$characteristic['characteristicConclusion']}</strong></td>\r\n";
+                    }
+                    $resultsColl[$key] = "{$resultsColl[$key]}</table>\r\n";
+                    break;
+                default:
+                    $resultsColl[$key] = "<h2>{$key} — {$scores[$key]['all']}</h2>\r\n
+                        <table>\r\n
+                        <tr><th style=\"$thStyle\">{$key}</th>\r\n
+                        <th style=\"$thStyle\">Всего: {$scores[$key]['all']} баллов</th>\r\n</tr>\r\n";
+                    foreach ($methodic as $scale) {
+                        $resultsColl[$key] = "{$resultsColl[$key]}<tr><td style=\"$tdStyle\">{$scale['name']}</td>\r\n
+                            <td style=\"$tdStyle\">{$scores[$key]['scales'][$scale['id']]['score']} баллов</td>\r\n</tr>\r\n";
+                    }
+                    $resultsColl[$key] = "{$resultsColl[$key]}</table>\r\n";
+                    break;
+            }
+        }
+
+        $emailBody = implode(" ", $resultsColl);
+        return $emailBody;
+    }
+
+    /**
+     * Save Answers to file
+     */
+    public function saveAnswersToFile(bool $emailStatus)
+    {
+        $id = $this->repository->getId() ? $this->repository->getId() : uniqid();
+        $answers = [
+            'id' => $id,
+            'emailStatus' => $emailStatus,
+            'answers' => $this->repository->allAnswers(),
+        ];
+
+        date_default_timezone_set('Asia/Almaty');
+
+        $date = date("Y-m-d");
+        $json = json_encode($answers, JSON_PRETTY_PRINT);
+
+        $fd = fopen("../results/" . $date . "_" . $id . ".json", 'a');
+        
+        $result = fwrite($fd, $json);
+
+        fclose($fd);
+        return $result;
+    }
+
+    /**
+     * Adoptation text for Email
+     */
+    public function adopt($text)
+    {
+        return '=?UTF-8?B?' . base64_encode($text) . '?=';
+    }
+
+    /**
+     * Send Email
+     */
+    public function sendEmail()
+    {
+        $project_name = "Hope Survey";
+        $admin_email  = "nmarchenko97@gmail.com, pavel@profcom-asia.kz";
+        $sender_email = "sender@hope-survey.kz";
+        $form_subject = "Результаты опроса с сайта";
+
+        $message = $this->getEmailBody();
+
+        $headers = "MIME-Version: 1.0" . PHP_EOL .
+        "Content-Type: text/html; charset=utf-8" . PHP_EOL .
+        'From: ' . $this->adopt($project_name) . ' <' . $sender_email . '>' . PHP_EOL .
+        'Reply-To: ' . $admin_email . '' . PHP_EOL;
+
+        return mail($admin_email, $this->adopt($form_subject), $message, $headers);
     }
 }

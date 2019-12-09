@@ -1,0 +1,102 @@
+{% extends 'html.twig' %}
+
+{% block contents %}
+<h1>Хоуп привет!☺ Это опрос от респондента: {{ name }}</h1>
+<p>Нет ну анонимы же, правда</p> 
+
+<h4>Общие результаты:</h4>
+<div class="results">
+    {% for key, methodic in questions %}
+        {% if key == "Methodic 1" %}
+            <br>
+            <h4>Методика 1 — {{ scores[key]['all'] }} баллов</h4>
+            <table>
+            <tr><th>{{ key }}</th><th>Всего: {{ scores[key]['all'] }} баллов</th></tr>
+            {% for scale in methodic %}
+                <tr><td>{{ scale.name }}</td><td>{{ scores[key]['scales'][scale.id]['score'] }} баллов</td></tr>
+            {% endfor %}
+            </table>
+        {% elseif key == "Methodic 2" %}
+            <br>
+            <h4>Методика 2 — {{ scores[key]['all'] }} баллов</h4>
+            <table>
+            <tr><th>{{ key }}</th><th>Всего: {{ scores[key]['all'] }} баллов</th><th>{{ scores[key]['conclusion'] }}</th></tr>
+            {% for scale in methodic %}
+                <tr><td>{{ scale.name }}</td><td>{{ scores[key]['scales'][scale.id]['score'] }} баллов</td><td>{{ scores[key]['scales'][scale.id]['scaleConclusion'] }}</td></tr>
+            {% endfor %}
+            </table>
+        {% elseif key == "Methodic 3" %}
+            <br>
+            <h4>Методика 3 - Шкала Кинси</h4>
+            <table>
+            <tr><th>{{ key }}</th><th>Результат:</th></tr>
+            {% for scale in methodic %}
+                <tr><td>{{ scale.name }}</td><td>{{ results[key]["question-1"] }}</td></tr>
+            {% endfor %}
+            </table>
+        {% elseif key == "Methodic 4" %}
+            <br>
+            <h4>Методика 4 — решетка Клейна {{ scores[key]['all'] }} баллов</h4>
+            <table>
+            <tr><th>{{ key }}</th><th>Всего: {{ scores[key]['all'] }} баллов</th><th>{{ scores[key]['conclusion'] }}</th></tr>
+            </table>
+        {% elseif key == "Methodic 5" %}
+            <br>
+            <h4>Методика 5</h4>
+            <table>
+            <tr><th>{{ key }}</th></tr>
+            {% for scale in methodic %}
+                {% for question in scale.questions %}
+                    <tr><td>{{ question.title }}</td><td>{{results[key]['select-' ~ question.id]}}</td><td>{{results[key][question.id]}}</td></tr>
+                {% endfor %}
+                <tr><td><strong>Вывод</strong></td><td><strong>{{results[key]['userConclusion']}}</strong></td></tr>
+            {% endfor %}
+            </table>
+        {% elseif key == "Methodic 6" %}
+            <br>
+            <h4>Методика 6 — {{ scores[key]['all'] }} баллов</h4>
+            <table>
+            <tr><th>{{ key }}</th><th>Всего: {{ scores[key]['all'] }} баллов</th></tr>
+            {% for subkey, characteristic in scores[key]['characteristics'] %}
+                {% if characteristic.characteristicConclusion %}
+                    <tr><td>{{ subkey }}</td><td><strong>{{ characteristic.characteristicConclusion }}</strong></td></tr>
+                {% endif %}
+            {% endfor %}
+            </table>
+        {% endif %}
+
+    {% endfor %}
+</div>
+<p></p>
+<br>
+<br>
+<h4>Подробнейшие результаты:</h4>
+<div class="results">
+    {% for key, methodic in questions %}
+        <br />
+        <h2>{{ key }}</h2>
+        {% for scale in methodic %}
+            <h5>{{ scale.name }}</h5>
+            {% for question in scale.questions %}
+                <div class="form-group">
+                    <strong>{{ question.title }}</strong>: {{results[key][question.id]}}
+                </div>
+            {% endfor %}
+        {% endfor %}
+    {% endfor %}
+</div>
+</ul>
+  <style type="text/css">
+   td { 
+    border: 1px solid #ccccee;
+    padding: 4px 10px;
+   }
+   th { 
+    border: 1px solid #ccccee;
+    padding: 6px 14px;
+    font-weight: bold;
+   }
+  </style>
+
+
+{% endblock %}

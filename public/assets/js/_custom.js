@@ -31,7 +31,12 @@ document.addEventListener("DOMContentLoaded", function() {
 		$('#form-' + parentId).val(text);
 	});
 
-	$('.selectize').selectize();
+	var $select = $('.selectize').selectize({
+		persist: false,
+		create: false
+	});
+
+	$(".selectize-input input").attr('readonly','readonly');
 
 	$(".submit-button").click(function() {
 		var formId = "survey-form";

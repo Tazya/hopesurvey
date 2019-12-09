@@ -11,7 +11,10 @@ class Repository
 {
     public function initialize()
     {
+        $lifetime = 86400; // 24 hours
+        session_set_cookie_params($lifetime);
         session_start();
+        $_SESSION['id'] = uniqid();
     }
 
     public function all()
@@ -45,5 +48,20 @@ class Repository
         }
         $_SESSION['answers'][$answers['name']] = $answers;
         return $answers['answers']['name'];
+    }
+
+    public function setComplete(int $i = 1)
+    {
+        $_SESSION['complete'] = $i;
+    }
+
+    public function isComplete()
+    {
+        return isset($_SESSION['complete']);
+    }
+
+    public function getId()
+    {
+        return $_SESSION['id'];
     }
 }

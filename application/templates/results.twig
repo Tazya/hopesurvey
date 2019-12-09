@@ -1,0 +1,9 @@
+{% extends 'html.twig' %}
+
+{% block contents %}
+    <ol reversed>
+    {% for result in collections %}
+        <li><a href="results/{{ result.id }}">Результат {{ result.id }} от {{ result.date }}</a><br></li>
+    {% endfor %}
+    </ol>
+{% endblock %}

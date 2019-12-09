@@ -2,6 +2,29 @@
 
 {% block contents %}
 
+{% if errors %}
+
+    <div class="disclaimer disclaimer--red">
+    <h1>Ошибка! Отправка Результатов не удалась</h1>
+    <p>
+    <ul>
+    {% for error in errors %}
+        <li>{{ error }}</li> 
+    {% endfor %}
+    </ul>
+    <strong>
+       Пожалуйста <a href="{{ url_for('survey') }}">Перезагрузите эту страницу</a>
+    </strong>
+    <br>
+        Если ошибка по прежнему сохраняется, пожалуйста, <a href="#" class="open-results">откройте результаты,</a> и отправьте скриншот на <strong>nmarchenko97@gmail.com</strong>
+        или на WhatsApp по номеру <a traget="_blank" href="https://wa.me/7923567890?text=Я%20Прошел%20тест%20"></a>
+        <div class="button-wrap">
+            <a href="#" class="button open-results">Показать результаты</a>
+        </div>
+    </p>
+</div>
+
+{% else %}
 <h1>Благодарим за пройденный опрос!</h1>
     <div class="disclaimer disclaimer--green">
     <p>
@@ -16,45 +39,51 @@
         Интерпретацию по уровню толерантности и оценке ваших характеристик, можете прочитать ниже. Так-же там указаны общие баллы.
     </p>
 </div>
+{% endif %}
     
-    
-<h2>Пройденные опросы: </h2>
-<div class="results d-none">
-    {% for key, methodic in questions %}
-        <br />
-        <h2>{{ key }}</h2>
-        {% for scale in methodic %}
-            <h5>{{ scale.name }}</h5>
-            {% for question in scale.questions %}
-                <div class="form-group">
-                    <strong>{{ question.title }}</strong>: {{results[key][question.id]}}
-                </div>
-            {% endfor %}
-        {% endfor %}
-    {% endfor %}
-</div>
-
-<ul>
-{% for key, score in scores %}
-    <li><strong>{{ key }}</strong>: {{ score.all }} баллов ({{ score.conclusion }})
-        {% for subkey, scale in score.scales %}
-            {% if scale.scaleConclusion %}
-                <br><small>{{ scale.scaleConclusion }}</small>
-            {% endif %}
-        {% endfor %}
-        {% for subkey, characteristic in score.characteristics %}
-            {% if characteristic.characteristicConclusion %}
-                <br><small><strong>{{ subkey }}</strong>: {{ characteristic.characteristicConclusion }}</small>
-            {% endif %}
-        {% endfor %}
-    </li>
-{% endfor %}
 </ul>
   <style type="text/css">
    td { 
     border: 1px solid #ccccee;
     padding: 4px 10px;
    }
+   th { 
+    border: 1px solid #ccccee;
+    padding: 6px 14px;
+    font-weight: bold;
+   }
   </style>
+
+<h4>Автоматически интерпретируемые результаты:</h4>
+<div class="results">
+    {% for key, methodic in questions %}
+        {% if key == "Methodic 2" %}
+            <h2>{{ key }} — {{ scores[key]['all'] }} баллов</h2>
+            <table>
+            <tr><th>{{ key }}</th><th>Всего: {{ scores[key]['all'] }} баллов</th><th>{{ scores[key]['conclusion'] }}</th></tr>
+            {% for scale in methodic %}
+                <tr><td>{{ scale.name }}</td><td>{{ scores[key]['scales'][scale.id]['score'] }} баллов</td><td>{{ scores[key]['scales'][scale.id]['scaleConclusion'] }}</td></tr>
+            {% endfor %}
+            </table>
+        {% elseif key == "Methodic 6" %}
+            <h2>{{ key }} — {{ scores[key]['all'] }} баллов</h2>
+            <table>
+            <tr><th>{{ key }}</th><th>Всего: {{ scores[key]['all'] }} баллов</th></tr>
+            {% for subkey, characteristic in scores[key]['characteristics'] %}
+                {% if characteristic.characteristicConclusion %}
+                    <tr><td>{{ subkey }}</td><td><strong>{{ characteristic.characteristicConclusion }}</strong></td></tr>
+                {% endif %}
+            {% endfor %}
+            </table>
+        {% endif %}
+
+    {% endfor %}
+</div>
+
+  
+    <tr>
+        <th></th>
+    </tr>
+
 
 {% endblock %}

@@ -46,7 +46,7 @@
                     {% for question in scale.questions %}
                         <div class="question question-type-five">
                             <div class="row no-gutters">
-                                <div class="col-md-1 col-6">
+                                <div class="col-md-1 col-3">
                                     <label class="select-sign--label" for="select-{{ question.id }}">{{ question.title }}</label>
                                     <select class="selectize select-sign" name="data[select-{{ question.id }}]" id="select-{{ question.id }}" placeholder="+/-/±/?">
                                         {% if data["select-" ~ question.id] %}
@@ -60,7 +60,7 @@
                                         <option value="?">?</option>
                                     </select>
                                 </div>
-                                <div class="col-md-11 col-12"><textarea rows="1" name="data[{{ question.id }}]" class="wide-input" placeholder="Кто я?">{% if data[question.id] %}{{ data[question.id] }}{% endif %}</textarea></div>
+                                <div class="col-md-11 col-9"><textarea rows="1" name="data[{{ question.id }}]" class="wide-input" placeholder="Кто я?">{% if data[question.id] %}{{ data[question.id] }}{% endif %}</textarea></div>
                             </div>
                         </div>
                         {% if errors[question.id] is defined %}
@@ -74,6 +74,8 @@
                     {% endfor %}
                 {% endfor %}
                 <p></p>
+                <label for="user-conclusion">Общий вывод:</label>
+                <textarea id="user-conclusion" name="data[userConclusion]" class="wide-input" rows="3"></textarea>
                 <div class="button-wrap d-none">
                     <input class="button accent" type="submit" value="Отправить">
                 </div>

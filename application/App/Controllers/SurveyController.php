@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Views\Twig;
 use App\Surveys\SurveyOne;
+use App\Surveys\SurveyCollections;
 use App\Repository;
 use App\Validator;
 
@@ -35,6 +36,11 @@ class SurveyController extends AbstractTwigController
     public $repository;
 
     /**
+     * @var SurveyCollections
+     */
+    public $surveyCollections;
+
+    /**
      * SurveyController constructor.
      *
      * @param Twig        $twig
@@ -47,6 +53,7 @@ class SurveyController extends AbstractTwigController
         $this->preferences = $preferences;
         $this->survey = new SurveyOne();
         $this->validator = new Validator();
+        $this->surveyCollections = new SurveyCollections();
         $this->repository = new Repository();
     }
 
@@ -61,28 +68,34 @@ class SurveyController extends AbstractTwigController
     {
         $questions = $this->survey->getQuestions();
         $results = $this->repository->allAnswers();
+        $pageTitle = "Методика №1 - Оцените суждения";
         $currentSurvey = 'survey.twig';
         $questionsKey = 'Methodic 1';
 
         if (isset($results['Methodic 1'])) {
             // return $this->result($request, $response, $args);
+            $pageTitle = "Методика №2 - Оцените утверждения";
             $currentSurvey = 'survey_two.twig';
             $questionsKey = 'Methodic 2';
         }
         if (isset($results['Methodic 2'])) {
             // return $this->result($request, $response, $args);
+            $pageTitle = "Методика №3 - Шкала Кинси";
             $currentSurvey = 'survey_three.twig';
             $questionsKey = 'Methodic 3';
         }
         if (isset($results['Methodic 3'])) {
+            $pageTitle = "Методика №4 - Решетка Клейна";
             $currentSurvey = 'survey_four.twig';
             $questionsKey = 'Methodic 4';
         }
         if (isset($results['Methodic 4'])) {
+            $pageTitle = "Методика №5 - Кто Я?";
             $currentSurvey = 'survey_five.twig';
             $questionsKey = 'Methodic 5';
         }
         if (isset($results['Methodic 5'])) {
+            $pageTitle = "Методика №6 - Оценка характеристик личности";
             $currentSurvey = 'survey_six.twig';
             $questionsKey = 'Methodic 6';
         }
@@ -93,7 +106,7 @@ class SurveyController extends AbstractTwigController
 
         // print_r(json_encode($questions[$questionsKey]));
         return $this->render($response, $currentSurvey, [
-            'pageTitle' => 'Survey',
+            'pageTitle' => $pageTitle,
             'questions' => $questions[$questionsKey],
             'rootPath' => $this->preferences->getRootPath(),
         ]);
@@ -113,28 +126,34 @@ class SurveyController extends AbstractTwigController
 
         $questions = $this->survey->getQuestions();
         $results = $this->repository->allAnswers();
+        $pageTitle = "Методика №1 - Оцените суждения";
         $currentSurvey = 'survey.twig';
         $questionsKey = 'Methodic 1';
 
         if (isset($results['Methodic 1'])) {
             // return $this->result($request, $response, $args);
+            $pageTitle = "Методика №2 - Оцените утверждения";
             $currentSurvey = 'survey_two.twig';
             $questionsKey = 'Methodic 2';
         }
         if (isset($results['Methodic 2'])) {
             // return $this->result($request, $response, $args);
+            $pageTitle = "Методика №3 - Шкала Кинси";
             $currentSurvey = 'survey_three.twig';
             $questionsKey = 'Methodic 3';
         }
         if (isset($results['Methodic 3'])) {
+            $pageTitle = "Методика №4 - Решетка Клейна";
             $currentSurvey = 'survey_four.twig';
             $questionsKey = 'Methodic 4';
         }
         if (isset($results['Methodic 4'])) {
+            $pageTitle = "Методика №5 - Кто Я?";
             $currentSurvey = 'survey_five.twig';
             $questionsKey = 'Methodic 5';
         }
         if (isset($results['Methodic 5'])) {
+            $pageTitle = "Методика №6 - Оценка характеристик личности";
             $currentSurvey = 'survey_six.twig';
             $questionsKey = 'Methodic 6';
         }
@@ -145,7 +164,7 @@ class SurveyController extends AbstractTwigController
 
         // print_r(json_encode($data));
         $params = [
-            'pageTitle' => 'Survey',
+            'pageTitle' => $pageTitle,
             'questions' => $questions[$questionsKey],
             'rootPath' => $this->preferences->getRootPath(),
             'data' => $data,
@@ -155,7 +174,7 @@ class SurveyController extends AbstractTwigController
         return $this->render($response, $currentSurvey, $params);
     }
 
-    public function result($request, $response, $args)
+    public function userResult($request, $response, $args)
     {
         $questions = $this->survey->getQuestions();
         $results = $this->repository->allAnswers();
@@ -164,14 +183,69 @@ class SurveyController extends AbstractTwigController
         $scores = $this->survey->calculateAll($results);
         $interpreted = $this->survey->interpret($scores);
 
+        // print_r($messageBody);
         // print_r(json_encode($interpreted));
+        // print_r(json_encode($scores));
+
+        $errors = [];
+        if (!$this->repository->isComplete() && isset($results['Methodic 6'])) {
+            $emailStatus = $this->survey->sendEmail() ? true : false;
+            $this->repository->setComplete();
+            if ($this->survey->saveAnswersToFile(false)) {
+                $this->repository->setComplete();
+            } else {
+                $errors['file'] = "Не удалось сохранить результаты теста. Попробуйте ещё раз";
+            }
+        }
+
         $params = [
-            'pageTitle' => 'Survey Result',
+            'pageTitle' => 'Результаты опроса',
             'questions' => $questions,
             'rootPath' => $this->preferences->getRootPath(),
             'results' => $results,
             'scores' => $interpreted,
+            'errors' => $errors,
         ];
         return $this->render($response, "result.twig", $params);
+    }
+
+    /**
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function results(Request $request, Response $response, array $args = []): Response
+    {
+        $surveyCollectionsData = $this->surveyCollections->getAllResults();
+        $pageTitle = "Все результаты";
+        $template = "results.twig";
+        return $this->render($response, $template, [
+            'pageTitle' => $pageTitle,
+            'collections' => $surveyCollectionsData,
+            'rootPath' => $this->preferences->getRootPath(),
+        ]);
+    }
+
+    public function result($request, $response, array $args = [])
+    {
+        $questions = $this->survey->getQuestions();
+        $collection = $this->surveyCollections->getResult($args['name']);
+        $results = $collection['answers'];
+        $scores = $this->survey->calculateAll($results);
+        $interpreted = $this->survey->interpret($scores);
+        
+        // print_r(json_encode($collection));
+        $params = [
+            'pageTitle' => 'Результаты опроса: ' . $id,
+            'questions' => $questions,
+            'rootPath' => $this->preferences->getRootPath(),
+            'results' => $results,
+            'scores' => $interpreted,
+            'errors' => $errors,
+            'name' => $args['name'],
+        ];
+        return $this->render($response, "admin_result.twig", $params);
     }
 }
