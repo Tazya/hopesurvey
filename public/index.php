@@ -43,9 +43,6 @@ $app = AppFactory::create();
 //     $rootPath . '/cache/routes.cache'
 // );
 
-$repo = new App\Repository();
-$repo->initialize();
-
 // Add the routing middleware.
 $app->addRoutingMiddleware();
 
@@ -72,6 +69,11 @@ $logErrors = true;
 $logErrorDetails = false;
 $app->addErrorMiddleware($displayErrorDetails, $logErrors, $logErrorDetails);
 
+$repo = new Repository();
+
+if (empty(session_id())) {
+    $repo->sessionInit();
+}
 
 // Define the app routes.
 $app->group('/', function (RouteCollectorProxy $group) {
@@ -82,7 +84,9 @@ $app->group('/', function (RouteCollectorProxy $group) {
     $group->post('survey', SurveyController::class . ':check');
     $group->get('result', SurveyController::class . ':userResult');
     $group->get('results', SurveyController::class . ':results')->setName('results');
-    $group->get('results/{name}', SurveyController::class . ':result')->setName('results');
+    $group->get('results/{name}', SurveyController::class . ':result');
+    $group->get('final', SurveyController::class . ':final');
+    $group->post('final', SurveyController::class . ':finalSend');
 });
 
 // Run the app.

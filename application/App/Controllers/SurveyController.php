@@ -100,6 +100,10 @@ class SurveyController extends AbstractTwigController
             $questionsKey = 'Methodic 6';
         }
         if (isset($results['Methodic 6'])) {
+            return $response->withHeader('Location', '/final')
+            ->withStatus(302);
+        }
+        if (isset($results['final'])) {
             return $response->withHeader('Location', '/result')
             ->withStatus(302);
         }
@@ -158,6 +162,10 @@ class SurveyController extends AbstractTwigController
             $questionsKey = 'Methodic 6';
         }
         if (isset($results['Methodic 6'])) {
+            return $response->withHeader('Location', '/final')
+            ->withStatus(302);
+        }
+        if (isset($results['final'])) {
             return $response->withHeader('Location', '/result')
             ->withStatus(302);
         }
@@ -236,7 +244,7 @@ class SurveyController extends AbstractTwigController
         $scores = $this->survey->calculateAll($results);
         $interpreted = $this->survey->interpret($scores);
         
-        // print_r(json_encode($collection));
+        // print_r(json_encode($results));
         $params = [
             'pageTitle' => 'Результаты опроса: ' . $id,
             'questions' => $questions,
@@ -247,5 +255,37 @@ class SurveyController extends AbstractTwigController
             'name' => $args['name'],
         ];
         return $this->render($response, "admin_result.twig", $params);
+    }
+
+    public function final($request, $response, array $args = [])
+    {
+        $params = [
+            'pageTitle' => 'Укажите, пожалуйста, ваши данные',
+            'rootPath' => $this->preferences->getRootPath(),
+        ];
+        return $this->render($response, "final.twig", $params);
+    }
+
+    public function finalSend($request, $response, array $args = [])
+    {
+        $bodyData = $request->getParsedBody();
+        $data = $bodyData["data"];
+        $results = $this->repository->allAnswers();
+
+        $errors = $this->validator->validate($data);
+
+        if (count($errors) === 0) {
+            $this->repository->saveAnswers($data);
+            return $response->withHeader('Location', '/result')
+            ->withStatus(302);
+        }
+
+        $params = [
+            'pageTitle' => 'Укажите, пожалуйста, ваши данные',
+            'rootPath' => $this->preferences->getRootPath(),
+            'data' => $data,
+            'errors' => $errors,
+        ];
+        return $this->render($response, "final.twig", $params);
     }
 }

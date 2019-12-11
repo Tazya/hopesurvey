@@ -2,8 +2,8 @@
 
 {% block contents %}
 <h1>Хоуп привет!☺ Это опрос от респондента: {{ name }}</h1>
-<p>Нет ну анонимы же, правда</p> 
-
+<p> Пол: {{ results.final.gender }}, Возраст: {{ results.final.age }}, Ориентация: {{ results.final.orientation }}  <br>
+</p>
 <h4>Общие результаты:</h4>
 <div class="results">
     {% for key, methodic in questions %}
@@ -11,7 +11,7 @@
             <br>
             <h4>Методика 1 — {{ scores[key]['all'] }} баллов</h4>
             <table>
-            <tr><th>{{ key }}</th><th>Всего: {{ scores[key]['all'] }} баллов</th></tr>
+            <tr><th>{{ key }}</th><th>Всего: {{ scores[key]['all'] }} баллов</th><th>{{ scores[key]['conclusion'] }}</th></tr>
             {% for scale in methodic %}
                 <tr><td>{{ scale.name }}</td><td>{{ scores[key]['scales'][scale.id]['score'] }} баллов</td></tr>
             {% endfor %}

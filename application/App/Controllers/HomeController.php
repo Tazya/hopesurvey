@@ -51,6 +51,7 @@ class HomeController extends AbstractTwigController
             'pageTitle' => 'Исследование «Взаимосвязь индивидуально
                  - психологических особенностей и толерантности личности»',
             'rootPath' => $this->preferences->getRootPath(),
+            'userId' => $this->repository->getId(),
             'results' => $results,
         ]);
     }

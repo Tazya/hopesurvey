@@ -2,19 +2,18 @@
 
 {% block contents %}
     <div class="blank">
-        <h2>Бланк методики №1</h2>
+        <h2>Бланк методики №6</h2>
         <div class="blank-instructions">
             <p><strong>Инструкция:</strong> <br>
-                В предложенном бланке представлены наиболее распространенные качества человека. <br>
-                Положительные значения этих качеств обозначены знаком «+», а отрицательные - «-». Их степень
-                оценивается по семибалльной шкале. Порядок работы с методикой очень прост и заключается в
-                следующем:<br>
-                ▪ выбор знака того или иного качества;<br>
-                ▪ определение степени его проявления по баллам:<br>
-                ▪ 3 — проявляется очень сильно и очень часто;<br>
-                ▪ 2 — выражено достаточно заметно и часто встречается;<br>
-                ▪ 1 — проявляется иногда и слабо;<br>
-                ▪ 0 — трудно сказать, есть и то, и другое.<br>
+                Вам предлагается описать себя с помощью таблицы, состоящей из 21 пары
+                    противоположенных суждений. Вы должны в каждой паре выбрать ту характеристику, которая
+                    наиболее точно описывает Вас, и обвести кружочком цифру, которая соответствует степени
+                    (силе) выраженности данной характеристики.
+                Определение степени его проявления по баллам:<br>
+                <strong>3</strong> — проявляется очень сильно и очень часто;<br>
+                <strong>2</strong> — выражено достаточно заметно и часто встречается;<br>
+                <strong>1</strong> — проявляется иногда и слабо;<br>
+                <strong>0</strong> — трудно сказать, есть и то, и другое.<br>
                 На основе выбранных знаков и степени выраженности качества выберите соответствующую
                 цифру в таблице. Помните, что положительные и отрицательные качества людей, приведенные в
                 таблице, постоянно меняются местами. Поэтому будьте внимательны в своих оценках.
@@ -28,8 +27,8 @@
             {% for question in scale.questions %}
             <div class="blank-section blank-section--type-six">
 				<div id="{{ question.id }}" class="question-type-six">
-					<div class="question-left"><strong>{{ question.left }}</strong></div>
-					<div class="question-right"><strong>{{ question.right }}</strong></div>
+					<div class="question-left"><strong>{{ question.left }} {% if question.relation == '1' %}-{% else %}+{% endif %}</strong></div>
+					<div class="question-right"><strong>{{ question.right }} {% if question.relation == '0' %}-{% else %}+{% endif %}</strong></div>
 					<div data-result="-3" class="question-var question-var--type-six {% if data[question.id] is same as('-3') %}active{% endif %}">3</div>
 					<div data-result="-2" class="question-var question-var--type-six {% if data[question.id] is same as('-2') %}active{% endif %}">2</div>
 					<div data-result="-1" class="question-var question-var--type-six {% if data[question.id] is same as('-1') %}active{% endif %}">1</div>
@@ -52,7 +51,7 @@
     <div>
         <div class="button-wrap">
             <p>Шаг 6 из 6</p>
-            <div class="button submit-button">Завершить опрос</div>
+            <div class="button submit-button">Далее</div>
         </div>
     </div>
 <div class="button-wrap d-none">

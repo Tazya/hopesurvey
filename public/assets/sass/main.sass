@@ -103,7 +103,7 @@ h2
 		font-size: 14px
 		padding: 14px 24px
 .blank-instructions
-	font-size: 13px
+	font-size: 14px
 .question
 	margin: 42px auto
 	+media-breakpoint-down(sm)
@@ -165,8 +165,10 @@ h2
 		line-height: 1.3
 		margin-bottom: 8px
 		font-weight: bold
+		vertical-align: bottom
 		+media-breakpoint-down(xs)
 			font-size: 10px
+			height: 48px
 			line-height: 1.4
 .question-var--type-two
 	position: relative
@@ -180,7 +182,7 @@ h2
 		left: 5px
 	i
 		line-height: 40px
-		font-size: 22px
+		font-size: 19px
 
 .question-type-three
 	width: 100%
@@ -236,17 +238,25 @@ h2
 	margin: 0 0
 	padding: 20px 0
 	border-bottom: 2px dashed #cccccc
+	strong
+		font-size: 16px
 	p
 		line-height: 1.3
 	small
 		color: lighten($text, 20%)
+		font-size: 14px
 	.control-group
 		font-size: 14px
 		label
 			margin-bottom: 2px
+			font-size: 16px
 .questions-type-four
 	& :last-child
 		border-bottom: none
+.selectize-input, .selectize-dropdown-content
+	font-size: 14px
+.selectize-input::placeholder
+	font-size: 14px!important
 .wide-input
 	width: 100%
 	text-indent: 20px
@@ -324,3 +334,25 @@ h2
 	margin: 22px 0
 .disclaimer--green
 	border-color: #5ad556
+
+.final-form
+	margin-top: 30px
+.final-input
+	margin-bottom: 20px
+.final-input::placeholder
+	color: #999
+	font-size: 15px
+.final-disclamer
+	text-align: center
+	font-size: 14px
+	color: #777
+	max-width: 80%
+	margin: 4px auto 0
+	+media-breakpoint-down(xs)
+		max-width: 100%
+.selectize-dropdown-content
+	max-height: 240px
+.selectize-dropdown
+	box-shadow: 1px 1px 10px 1px rgba(68, 81, 106, .2)
+	padding-bottom: 10px
+	padding-top: 10px

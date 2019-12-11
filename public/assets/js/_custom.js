@@ -16,10 +16,10 @@ document.addEventListener("DOMContentLoaded", function() {
 		$('#form-' + parentId).val(text);
 	});
 
-	$(".question-type-three--right").click(function() {
+	$(".question-type-three").click(function() {
 		$(".question-type-three--button").removeClass("active");
-		$(this).children(".question-type-three--button").addClass("active");
-		var text = $(this).children(".question-type-three--button").attr("data-result");
+		$(this).children().children(".question-type-three--button").addClass("active");
+		var text = $(this).children().children(".question-type-three--button").attr("data-result");
 		$('.form-check-input').val(text);
 	});
 

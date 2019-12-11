@@ -1,0 +1,50 @@
+{% extends 'html.twig' %}
+
+{% block contents %}
+
+    <div class="blank">
+        <h2>Укажите, пожалуйста, ваши данные</h2>
+        <p class="final-disclamer">Можете быть уверены в полной конфиденциальности указываемых вами данных, они будут нужны для общей статистики и не станут рассматриваться в индивидуальном порядке.</p>
+            {% if errors is defined %}
+                <div style="color: red">Ошибка</div>
+            {% endif %}
+            <form id="final-form" class="final-form" action="/final" method="post">
+                <input type="hidden" name="data[name]" value="final">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="control-group">
+                            <label for="gender">Пол:</label>
+                            <input class="final-input form-control" id="gender" name="data[gender]" type="text" {% if data['gender'] is defined %}value="{{ data['gender'] }}"{% endif %} placeholder="Введите данные..." required>
+                        </div>
+                        {% if errors['gender'] %}
+                            <div style="color: red">{{ errors['age'] }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <div class="control-group">
+                            <label for="age">Возраст:</label>
+                            <input class="final-input form-control" id="age" name="data[age]" type="text" {% if data['age'] is defined %}value="{{ data['age'] }}"{% endif %} placeholder="Введите данные..." required>
+                        </div>
+                        {% if errors.incorrect_age is defined %}
+                            <div style="color: red; font-size: 14px">{{ errors.incorrect_age }}</div>
+                        {% endif %}
+                    </div>
+                    <div class="col-md-4">
+                        <div class="control-group">
+                            <label for="orientation">Сексуальная ориентация:</label>
+                            <input class="final-input form-control" id="orientation" name="data[orientation]" type="text" {% if data['orientation'] is defined %}value="{{ data['orientation'] }}"{% endif %} placeholder="Введите данные..." required>
+                        </div>
+                        {% if errors['orientation'] %}
+                            <div style="color: red">{{ errors['orientation'] }}</div>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="button-wrap">
+                    <p>Вы на финишной прямой! Нажатие на кнопку отправит ваш результат и он будет учтен в дипломной работе автора</p>
+                    <button type="submit" class="btn btn-primary button">Отправить</button>
+                </div>
+            </form>
+            </div>
+        </div>
+
+{% endblock %}

@@ -134,6 +134,15 @@ class SurveyOne extends SurveyAbstractClass
         $result = $calculatedMethodics;
         foreach ($calculatedMethodics as $key => $calculatedMethodic) {
             switch ($key) {
+                case 'Methodic 1':
+                    if ($calculatedMethodic['all'] <= 45) {
+                        $calculatedMethodic['conclusion'] = "Высокая степень толерантности";
+                    } elseif ($calculatedMethodic['all'] > 45 && $calculatedMethodic['all'] <= 85) {
+                        $calculatedMethodic['conclusion'] = "Средняя степень толерантности";
+                    } else {
+                        $calculatedMethodic['conclusion'] = "Низкая степень толерантности";
+                    }
+                    break;
                 case 'Methodic 2':
                     if ($calculatedMethodic['all'] <= 60) {
                         $calculatedMethodic['conclusion'] = "Низкий уровень толерантности";
@@ -223,6 +232,8 @@ class SurveyOne extends SurveyAbstractClass
         $tdStyle = "border: 1px solid #ccccee;padding: 4px 10px;";
         $resultsColl = [];
 
+        $resultsColl[] = "<p> Пол: {$results['final']['gender']}, Возраст: {$results['final']['age']}, Ориентация: {$results['final']['orientation']}</p>";
+
         foreach ($questions as $key => $methodic) {
             switch ($key) {
                 case 'Methodic 2':
@@ -286,7 +297,7 @@ class SurveyOne extends SurveyAbstractClass
                     $resultsColl[$key] = "{$resultsColl[$key]}</table>\r\n";
                     break;
                 default:
-                    $resultsColl[$key] = "<h2>{$key} — {$scores[$key]['all']}</h2>\r\n
+                    $resultsColl[$key] = "<h2>{$key} — {$scores[$key]['all']}</h2>\r\n<th>{$scores[$key]['conclusion']}</th>\r\n
                         <table>\r\n
                         <tr><th style=\"$thStyle\">{$key}</th>\r\n
                         <th style=\"$thStyle\">Всего: {$scores[$key]['all']} баллов</th>\r\n</tr>\r\n";
@@ -317,7 +328,7 @@ class SurveyOne extends SurveyAbstractClass
 
         date_default_timezone_set('Asia/Almaty');
 
-        $date = date("Y-m-d");
+        $date = date("Y-m-d-H-i");
         $json = json_encode($answers, JSON_PRETTY_PRINT);
 
         $fd = fopen("../results/" . $date . "_" . $id . ".json", 'a');
@@ -344,7 +355,8 @@ class SurveyOne extends SurveyAbstractClass
         $project_name = "Hope Survey";
         $admin_email  = "nmarchenko97@gmail.com, pavel@profcom-asia.kz";
         $sender_email = "sender@hope-survey.kz";
-        $form_subject = "Результаты опроса с сайта";
+        $userId = $this->repository->getId();
+        $form_subject = "Результаты опроса {$userId} c сайта";
 
         $message = $this->getEmailBody();
 

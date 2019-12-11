@@ -9,12 +9,13 @@ namespace App;
  */
 class Repository
 {
-    public function initialize()
+    public function sessionInit()
     {
         $lifetime = 86400; // 24 hours
         session_set_cookie_params($lifetime);
         session_start();
-        $_SESSION['id'] = uniqid();
+        $id = rand(100000, 999999);
+        $_SESSION['id'] = substr(session_id(), 0, 8);
     }
 
     public function all()

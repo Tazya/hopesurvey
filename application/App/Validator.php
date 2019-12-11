@@ -27,19 +27,29 @@ class Validator
             $counter = 0;
             foreach ($data as $key => $value) {
                 if (substr($key, 0, 6) === "select" && $value !== "" && $data[substr($key, 7, strlen($key) - 6)] === "") {
-                    $errors[$key] = 'Вы должны описать характеристику';
+                    $errors[$key] = 'Пожалуйста укажите ответ на вопрос';
                 }
                 if ($value !== "" && $data["select-" . $key] === "") {
-                    $errors[$key] = "Вы должны дать оценку этой характеристике";
+                    $errors[$key] = "Пожалуйста дайте оценку этому ответу на вопрос";
                 }
                 if ($value !== "" && substr($key, 0, 8) === "question") {
                     $counter += 1;
                 }
             }
             if ($counter < 12) {
-                $errors["min"] = "Вы должны заполнить как минимум 12 полей из 20";
+                $errors["min"] = "Пожалуйста заполните как минимум 12 полей из 20";
+            }
+            if ($data["userConclusion"] == "") {
+                $errors["userConclusion"] = "Пожалуйста, напишите нам пару слов";
             }
         }
+
+        if ($data["name"] === "final") {
+            if ((int) trim($data["age"]) < 18 || (int) trim($data["age"]) > 35) {
+                $errors["incorrect_age"] = "Допустимый интервал возраста: От 18 до 35 лет";
+            }
+        }
+
         return $errors;
     }
 }

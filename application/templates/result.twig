@@ -26,13 +26,9 @@
 
 {% else %}
 <h1>Благодарим за пройденный опрос!</h1>
-    <div class="disclaimer disclaimer--green">
+    <div class="disclaimer disclaimer--green text-center">
     <p>
-    <strong>
-        Что дальше?
-    </strong>
-    <br>
-        Благодарим за затраченное время и интерес к прохождению опроса! Ваши результаты действительно важны для нас!
+        Благодарим за потраченное время и интерес к прохождению опроса! Ваши результаты очень важны для нас!
     <br>
         Интерпретация результатов всех опросов будет включена в дипломную работу автора
     <br>
@@ -57,7 +53,15 @@
 <h4>Автоматически интерпретируемые результаты:</h4>
 <div class="results">
     {% for key, methodic in questions %}
-        {% if key == "Methodic 2" %}
+        {% if key == "Methodic 1" %}
+            <h2>Методика №1 — {{ scores[key]['all'] }} баллов</h2>
+            <table>
+            <tr><th>{{ key }}</th><th>Всего: {{ scores[key]['all'] }} баллов</th><th>{{ scores[key]['conclusion'] }}</th></tr>
+            {% for scale in methodic %}
+                <tr><td>{{ scale.name }}</td><td>{{ scores[key]['scales'][scale.id]['score'] }} баллов</td><td></td></tr>
+            {% endfor %}
+            </table>
+        {% elseif key == "Methodic 2" %}
             <h2>{{ key }} — {{ scores[key]['all'] }} баллов</h2>
             <table>
             <tr><th>{{ key }}</th><th>Всего: {{ scores[key]['all'] }} баллов</th><th>{{ scores[key]['conclusion'] }}</th></tr>
@@ -79,11 +83,4 @@
 
     {% endfor %}
 </div>
-
-  
-    <tr>
-        <th></th>
-    </tr>
-
-
 {% endblock %}
