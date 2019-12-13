@@ -45,8 +45,8 @@ class Validator
         }
 
         if ($data["name"] === "final") {
-            if ((int) trim($data["age"]) < 18 || (int) trim($data["age"]) > 35) {
-                $errors["incorrect_age"] = "Допустимый интервал возраста: От 18 до 35 лет";
+            if ((int) trim($data["age"]) < 16 || (int) trim($data["age"]) > 55) {
+                $errors["incorrect_age"] = "Допустимый интервал возраста: От 16 до 55 лет";
             }
         }
 

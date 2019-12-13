@@ -78,37 +78,42 @@ class SurveyController extends AbstractTwigController
             $currentSurvey = 'survey_two.twig';
             $questionsKey = 'Methodic 2';
         }
+
         if (isset($results['Methodic 2'])) {
             // return $this->result($request, $response, $args);
             $pageTitle = "Методика №3 - Шкала Кинси";
             $currentSurvey = 'survey_three.twig';
             $questionsKey = 'Methodic 3';
         }
+
         if (isset($results['Methodic 3'])) {
             $pageTitle = "Методика №4 - Решетка Клейна";
             $currentSurvey = 'survey_four.twig';
             $questionsKey = 'Methodic 4';
         }
+
         if (isset($results['Methodic 4'])) {
             $pageTitle = "Методика №5 - Кто Я?";
             $currentSurvey = 'survey_five.twig';
             $questionsKey = 'Methodic 5';
         }
+
         if (isset($results['Methodic 5'])) {
             $pageTitle = "Методика №6 - Оценка характеристик личности";
             $currentSurvey = 'survey_six.twig';
             $questionsKey = 'Methodic 6';
         }
+
         if (isset($results['Methodic 6'])) {
             return $response->withHeader('Location', '/final')
             ->withStatus(302);
         }
+
         if (isset($results['final'])) {
             return $response->withHeader('Location', '/result')
             ->withStatus(302);
         }
 
-        // print_r(json_encode($questions[$questionsKey]));
         return $this->render($response, $currentSurvey, [
             'pageTitle' => $pageTitle,
             'questions' => $questions[$questionsKey],
@@ -134,41 +139,53 @@ class SurveyController extends AbstractTwigController
         $currentSurvey = 'survey.twig';
         $questionsKey = 'Methodic 1';
 
+        if (isset($results['final'])) {
+            return $response->withHeader('Location', '/result')
+            ->withStatus(302);
+        }
+
         if (isset($results['Methodic 1'])) {
             // return $this->result($request, $response, $args);
             $pageTitle = "Методика №2 - Оцените утверждения";
             $currentSurvey = 'survey_two.twig';
             $questionsKey = 'Methodic 2';
         }
+
         if (isset($results['Methodic 2'])) {
             // return $this->result($request, $response, $args);
             $pageTitle = "Методика №3 - Шкала Кинси";
             $currentSurvey = 'survey_three.twig';
             $questionsKey = 'Methodic 3';
         }
+
         if (isset($results['Methodic 3'])) {
             $pageTitle = "Методика №4 - Решетка Клейна";
             $currentSurvey = 'survey_four.twig';
             $questionsKey = 'Methodic 4';
         }
+
         if (isset($results['Methodic 4'])) {
             $pageTitle = "Методика №5 - Кто Я?";
             $currentSurvey = 'survey_five.twig';
             $questionsKey = 'Methodic 5';
         }
+
         if (isset($results['Methodic 5'])) {
             $pageTitle = "Методика №6 - Оценка характеристик личности";
             $currentSurvey = 'survey_six.twig';
             $questionsKey = 'Methodic 6';
         }
+
         if (isset($results['Methodic 6'])) {
             return $response->withHeader('Location', '/final')
             ->withStatus(302);
         }
+
         if (isset($results['final'])) {
             return $response->withHeader('Location', '/result')
             ->withStatus(302);
         }
+
 
         // print_r(json_encode($data));
         $params = [
@@ -259,6 +276,11 @@ class SurveyController extends AbstractTwigController
 
     public function final($request, $response, array $args = [])
     {
+        $results = $this->repository->allAnswers();
+        if (isset($results['final'])) {
+            return $response->withHeader('Location', '/result')
+            ->withStatus(302);
+        }
         $params = [
             'pageTitle' => 'Укажите, пожалуйста, ваши данные',
             'rootPath' => $this->preferences->getRootPath(),
@@ -271,7 +293,10 @@ class SurveyController extends AbstractTwigController
         $bodyData = $request->getParsedBody();
         $data = $bodyData["data"];
         $results = $this->repository->allAnswers();
-
+        if (isset($results['final'])) {
+            return $response->withHeader('Location', '/result')
+            ->withStatus(302);
+        }
         $errors = $this->validator->validate($data);
 
         if (count($errors) === 0) {

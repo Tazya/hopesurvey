@@ -58,7 +58,7 @@
                                         <option value="?">?</option>
                                     </select>
                                 </div>
-                                <div class="col-md-11 col-9"><textarea rows="1" name="data[{{ question.id }}]" class="wide-input" placeholder="Кто я?">{% if data[question.id] %}{{ data[question.id] }}{% endif %}</textarea></div>
+                                <div class="col-md-11 col-9"><textarea rows="1" name="data[{{ question.id }}]" class="wide-input" placeholder="Ответьте на свой вопрос: Кто я?">{% if data[question.id] %}{{ data[question.id] }}{% endif %}</textarea></div>
                             </div>
                         </div>
                         {% if errors[question.id] is defined %}
