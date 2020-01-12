@@ -54,7 +54,11 @@ class SurveyController extends AbstractTwigController
         $this->survey = new SurveyOne();
         $this->validator = new Validator();
         $this->surveyCollections = new SurveyCollections();
-        $this->repository = new Repository();
+        $this->repository = $repo = new Repository();
+
+        if (empty(session_id())) {
+            $repo->sessionInit();
+        }
     }
 
     /**

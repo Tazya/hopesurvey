@@ -5,3 +5,6 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [QSA,L]
 </IfModule>
+
+php_value session.gc_maxlifetime 172800
+php_value session.cookie_lifetime 172800

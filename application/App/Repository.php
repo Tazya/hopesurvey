@@ -11,9 +11,9 @@ class Repository
 {
     public function sessionInit()
     {
-        $lifetime = 86400; // 24 hours
-        session_set_cookie_params($lifetime);
+        $lifetime = 172800; // 48 hours
         session_start();
+        setcookie(session_name(),session_id(),time()+$lifetime);
         $id = rand(100000, 999999);
         $_SESSION['id'] = substr(session_id(), 0, 8);
     }

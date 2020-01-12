@@ -69,12 +69,6 @@ $logErrors = true;
 $logErrorDetails = false;
 $app->addErrorMiddleware($displayErrorDetails, $logErrors, $logErrorDetails);
 
-$repo = new Repository();
-
-if (empty(session_id())) {
-    $repo->sessionInit();
-}
-
 // Define the app routes.
 $app->group('/', function (RouteCollectorProxy $group) {
     $group->get('', HomeController::class)->setName('home');
