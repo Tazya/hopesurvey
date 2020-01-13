@@ -15,6 +15,7 @@ class Preferences
      * @var string
      */
     private $rootPath;
+    private $surveysPath;
 
     /**
      * Preferences constructor.
@@ -24,6 +25,7 @@ class Preferences
     public function __construct(string $rootPath)
     {
         $this->rootPath = $rootPath;
+        $this->surveysPath = $rootPath . '/results';
     }
 
     /**
@@ -32,5 +34,13 @@ class Preferences
     public function getRootPath(): string
     {
         return $this->rootPath;
+    }
+
+    /**
+     * @return string
+     */
+    public function getSurveysPath(): string
+    {
+        return $this->surveysPath;
     }
 }

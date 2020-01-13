@@ -1,0 +1,25 @@
+{% extends 'html.twig' %}
+
+{% block contents %}
+<h1>Войти в админку</h1>
+<form class="form-inline" action="/admin/sign-in" method="post">
+
+    <div class="form-group">
+        <label for="username">Имя</label>
+        <input type="text" name="data[username]" class="form-control mx-sm-3" id="username" placeholder="Имя" value="{{ data.username }}">
+        {% if errors.username is defined %}
+            <span style="color: red">{{ errors.username }} </span>
+        {% endif %}
+    </div>
+    <div class="form-group">
+        <label for="inputPassword">Пароль</label>
+        <input type="password" name="data[password]" id="password" class="form-control mx-sm-3" value="{{ data.password }}" aria-describedby="passwordHelpInline">
+        {% if errors.password is defined %}
+            <span style="color: red">{{ errors.password }} </span>
+        {% endif %}
+    </div>
+    <div class="button-wrap">
+        <input class="button accent" type="submit" value="Отправить">
+    </div>
+</form>
+{% endblock %}

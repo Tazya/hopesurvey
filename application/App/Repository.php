@@ -11,9 +11,9 @@ class Repository
 {
     public function sessionInit()
     {
-        $lifetime = 172800; // 48 hours
+        $lifetime = 345600; // 96 hours
         session_start();
-        setcookie(session_name(),session_id(),time()+$lifetime);
+        setcookie(session_name(), session_id(), time() + $lifetime);
         $id = rand(100000, 999999);
         $_SESSION['id'] = substr(session_id(), 0, 8);
     }
@@ -64,5 +64,25 @@ class Repository
     public function getId()
     {
         return $_SESSION['id'];
+    }
+
+    public function setAuth()
+    {
+        $_SESSION['user']['auth'] = true;
+    }
+
+    public function unsetAuth()
+    {
+        unset($_SESSION['user']);
+        return true;
+    }
+
+    public function isAuth()
+    {
+        if (isset($_SESSION['user']['auth']) && $_SESSION['user']['auth'] === true) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

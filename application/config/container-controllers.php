@@ -6,6 +6,7 @@ use App\Controllers\ExceptionDemoController;
 use App\Controllers\HelloController;
 use App\Controllers\SurveyController;
 use App\Controllers\HomeController;
+use App\Controllers\AdminController;
 use App\Preferences;
 use Psr\Container\ContainerInterface;
 use Psr\Log\LoggerInterface;
@@ -22,5 +23,8 @@ return [
     },
     HomeController::class => function (ContainerInterface $container): HomeController {
         return new HomeController($container->get('view'), $container->get(Preferences::class));
+    },
+    AdminController::class => function (ContainerInterface $container): AdminController {
+        return new AdminController($container->get('view'), $container->get(Preferences::class));
     }
 ];

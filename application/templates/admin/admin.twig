@@ -1,0 +1,15 @@
+{% extends 'html.twig' %}
+
+{% block contents %}
+<h1>Админка</h1>
+<p>Поздравляем! Вы вошли в Админку!</p>
+<div class="button-wrap">
+    <a href="/admin/results"class="button accent" style="color: #fff">Смотреть результаты</a>
+</div>
+
+<form class="form-inline" action="/admin/sign-out" method="post">
+    <div class="button-wrap">
+        <input class="button accent" type="submit" value="Выйти из админки">
+    </div>
+</form>
+{% endblock %}

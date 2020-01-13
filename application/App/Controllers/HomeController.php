@@ -47,7 +47,6 @@ class HomeController extends AbstractTwigController
     public function __invoke(Request $request, Response $response, array $args = []): Response
     {
         $results = $this->repository->allAnswers();
-        print_r($results);
         return $this->render($response, 'home.twig', [
             'pageTitle' => 'Исследование «Взаимосвязь индивидуально
                  - психологических особенностей и толерантности личности»',

@@ -8,6 +8,7 @@ use App\Controllers\HelloController;
 use App\Controllers\HomeController;
 use App\Controllers\SurveyController;
 use App\Controllers\CollectionsController;
+use App\Controllers\AdminController;
 use Slim\Factory\AppFactory;
 use Slim\Routing\RouteCollectorProxy;
 use Slim\Views\Twig;
@@ -63,6 +64,12 @@ $app->add(
     )
 );
 
+$repo = new Repository();
+
+if (empty(session_id())) {
+    $repo->sessionInit();
+}
+
 // Add error handling middleware.
 $displayErrorDetails = true;
 $logErrors = true;
@@ -77,10 +84,16 @@ $app->group('/', function (RouteCollectorProxy $group) {
     $group->get('survey', SurveyController::class)->setName('survey');
     $group->post('survey', SurveyController::class . ':check');
     $group->get('result', SurveyController::class . ':userResult');
-    $group->get('results', SurveyController::class . ':results')->setName('results');
-    $group->get('results/{name}', SurveyController::class . ':result');
     $group->get('final', SurveyController::class . ':final');
     $group->post('final', SurveyController::class . ':finalSend');
+});
+
+$app->group('/admin', function (RouteCollectorProxy $group) {
+    $group->get('', AdminController::class)->setName('admin');
+    $group->get('/results', AdminController::class . ':results')->setName('results');
+    $group->get('/results/{name}', AdminController::class . ':result');
+    $group->post('/sign-in', AdminController::class . ':signIn');
+    $group->post('/sign-out', AdminController::class . ':signOut');
 });
 
 // Run the app.
