@@ -35,7 +35,11 @@ class SurveyCollections
                 $exploded = explode('_', $filename);
                 $date = $exploded[0];
                 $id = $exploded[1];
-                $results[] = ["date" => $date, "id" => $id];
+                $fileData = $this->getResult($id);
+                $userName = $fileData['userName'];
+                $sex = $fileData['answers']['final']['gender'];
+                $new = $this->isNew($id);
+                $results[] = ["date" => $date, "id" => $id, "new" => $new, 'userName' => $userName, 'sex' => $sex];
             }
         }
         return $results;
@@ -60,5 +64,32 @@ class SurveyCollections
             }
         }
         return ["ee"];
+    }
+
+    public function setViewed(string $name)
+    {
+        if (!$this->isNew($name)) {
+            return false;
+        }
+
+        $file = "../data/viewed.txt";
+        if (is_file($file)) {
+            $fd = fopen($file, 'a');
+            fwrite($fd, $name . ",");
+            fclose($fd);
+            return true;
+        }
+        return false;
+    }
+
+    public function isNew(string $name)
+    {
+        $file = "../data/viewed.txt";
+        if (is_file($file)) {
+            $content = file_get_contents($file);
+            $data = explode(',', $content);
+            return !in_array($name, $data);
+        }
+        return false;
     }
 }

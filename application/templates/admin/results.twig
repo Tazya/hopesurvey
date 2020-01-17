@@ -1,9 +1,21 @@
 {% extends 'html.twig' %}
 
 {% block contents %}
-    <ol reversed>
+    <p>
+        <a href="/admin">Назад в админку</a>
+    </p>
+    <div class="row">
     {% for result in collections %}
-        <li><a href="results/{{ result.id }}">Результат {{ result.id }} от {{ result.date }}</a><br></li>
+        <div class="col-md-3 col-sm-4 col-6">
+            <a href="/admin/results/{{ result.id }}" class="result-item{% if result.new %} new{% endif %}">
+            <h4>{% if result.userName %} {{ result.userName }} {% else %} {{ result.id }}{% endif %}</h4>
+            <span>от {{ result.date }}</span>
+            <span>{{ result.sex }}</span>
+            {% if result.new %}
+                <div class="new-label">Новый!</div>
+            {% endif %}
+            </a>
+        </div>
     {% endfor %}
-    </ol>
+    </div>
 {% endblock %}

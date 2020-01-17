@@ -2,7 +2,25 @@
 
 {% block contents %}
 <h1>Админка</h1>
-<p>Поздравляем! Вы вошли в Админку!</p>
+<p>{{ message }}</p>
+
+{% if results %}
+    <h4>О, у нас есть новые результаты:</h4>
+    <div class="row">
+        {% for result in results %}
+            <div class="col-md-3 col-sm-4 col-6">
+                <a href="/admin/results/{{ result.id }}" class="result-item{% if result.new %} new{% endif %}">
+                <h4>{% if result.userName %} {{ result.userName }} {% else %} {{ result.id }}{% endif %}</h4>
+                <span>от {{ result.date }}</span>
+                <span>{{ result.sex }}</span>
+                {% if result.new %}
+                    <div class="new-label">Новый!</div>
+                {% endif %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
 <div class="button-wrap">
     <a href="/admin/results"class="button accent" style="color: #fff">Смотреть результаты</a>
 </div>

@@ -55,10 +55,6 @@ class SurveyController extends AbstractTwigController
         $this->validator = new Validator();
         $this->surveyCollections = new SurveyCollections();
         $this->repository = $repo = new Repository();
-
-        if (empty(session_id())) {
-            $repo->sessionInit();
-        }
     }
 
     /**
@@ -214,8 +210,7 @@ class SurveyController extends AbstractTwigController
 
         // print_r($messageBody);
         // print_r(json_encode($interpreted));
-        // print_r(json_encode($scores));
-
+        // print_r($scores);
         $errors = [];
         if (!$this->repository->isComplete() && isset($results['Methodic 6'])) {
             $emailStatus = $this->survey->sendEmail() ? true : false;

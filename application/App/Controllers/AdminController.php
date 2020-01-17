@@ -64,12 +64,31 @@ class AdminController extends AbstractTwigController
             return $this->toAuthForm($request, $response, $args);
         }
 
-        // $this->query->createTable("users", ["id" => "integer", "name" => "string", "password" => "string", "email" => "string"]);
+        $helloMessages = [
+            "Привет, Хоуп!",
+            "Как дела, Админ?",
+            "Хоуп, добрая Хоуп",
+            "Хоуп, милая Хоуп",
+            "Сайт рад тебя видеть, Надя!",
+            "Что нового?",
+            "Как поживает Укулеле?",
+            "Добро пожаловать, Психологиня!",
+            "Как дела во внешней вселенной?",
+            "Хэээээй!"
+        ];
+
+        $message = $helloMessages[rand(0, count($helloMessages) - 1)];
+        $surveyCollectionsData = $this->SurveyCollections->getAllResults();
+
+        $results = array_filter($surveyCollectionsData, function ($value) {
+            return $value['new'];
+        });
 
         return $this->render($response, 'admin/admin.twig', [
             'pageTitle' => 'Админка',
             'rootPath' => $this->preferences->getRootPath(),
             'results' => $results,
+            'message' => $message
         ]);
     }
 
@@ -103,6 +122,7 @@ class AdminController extends AbstractTwigController
 
         $dir = $this->preferences->getSurveysPath();
         $surveyCollectionsData = $this->SurveyCollections->getAllResults();
+        // print_r($surveyCollectionsData);
         $pageTitle = "Все результаты";
         $template = "admin/results.twig";
         return $this->render($response, $template, [
@@ -123,10 +143,14 @@ class AdminController extends AbstractTwigController
         $questions = $survey->getQuestions();
         $collection = $this->SurveyCollections->getResult($args['name'], $this->preferences->getSurveysPath());
         $results = $collection['answers'];
+        $userName = $collection['userName'];
         $scores = $survey->calculateAll($results);
         $interpreted = $survey->interpret($scores);
-        
-        // print_r(json_encode($results));
+
+        $this->SurveyCollections->setViewed($args['name']);
+
+        // $randomUserName = $survey->makeUniqueName($results);
+        // print_r($randomUserName);
         $params = [
             'pageTitle' => 'Результаты опроса: ' . $id,
             'questions' => $questions,
@@ -135,6 +159,7 @@ class AdminController extends AbstractTwigController
             'scores' => $interpreted,
             'errors' => $errors,
             'name' => $args['name'],
+            'userName' => $userName,
         ];
         return $this->render($response, "admin/result.twig", $params);
     }
@@ -148,7 +173,7 @@ class AdminController extends AbstractTwigController
 
         if ($data['username'] !== "Хоуп") {
             $errors['username'] = "Неверное имя";
-        } elseif (md5($data['password']) !== md5("Марченко")) {
+        } elseif (md5($data['password']) !== md5("укулеле")) {
             $errors['password'] = "Неверный пароль";
         }
 

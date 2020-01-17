@@ -43,4 +43,9 @@ document.addEventListener("DOMContentLoaded", function() {
 		document.forms[formId].submit();
 	});
 
+	$(".expand-block").click(function() {
+		$(this).children(".expand-info").toggleClass("expanded");
+		$(this).children(".expand-label").toggleClass("label-transparent");
+	});
+
 });

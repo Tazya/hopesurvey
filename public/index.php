@@ -69,7 +69,6 @@ $repo = new Repository();
 if (empty(session_id())) {
     $repo->sessionInit();
 }
-
 // Add error handling middleware.
 $displayErrorDetails = true;
 $logErrors = true;
@@ -86,6 +85,11 @@ $app->group('/', function (RouteCollectorProxy $group) {
     $group->get('result', SurveyController::class . ':userResult');
     $group->get('final', SurveyController::class . ':final');
     $group->post('final', SurveyController::class . ':finalSend');
+    $group->get('survey/', SurveyController::class)->setName('survey');
+    $group->post('survey/', SurveyController::class . ':check');
+    $group->get('result/', SurveyController::class . ':userResult');
+    $group->get('final/', SurveyController::class . ':final');
+    $group->post('final/', SurveyController::class . ':finalSend');
 });
 
 $app->group('/admin', function (RouteCollectorProxy $group) {
@@ -94,6 +98,10 @@ $app->group('/admin', function (RouteCollectorProxy $group) {
     $group->get('/results/{name}', AdminController::class . ':result');
     $group->post('/sign-in', AdminController::class . ':signIn');
     $group->post('/sign-out', AdminController::class . ':signOut');
+    $group->get('/results/', AdminController::class . ':results')->setName('results');
+    $group->get('/results/{name}/', AdminController::class . ':result');
+    $group->post('/sign-in/', AdminController::class . ':signIn');
+    $group->post('/sign-out/', AdminController::class . ':signOut');
 });
 
 // Run the app.

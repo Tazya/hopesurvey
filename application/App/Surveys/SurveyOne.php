@@ -323,6 +323,7 @@ class SurveyOne extends SurveyAbstractClass
         $answers = [
             'id' => $id,
             'emailStatus' => $emailStatus,
+            'userName' => $this->makeUniqueName($this->repository->allAnswers()),
             'answers' => $this->repository->allAnswers(),
         ];
 
@@ -336,6 +337,96 @@ class SurveyOne extends SurveyAbstractClass
         $result = fwrite($fd, $json);
 
         fclose($fd);
+        return $result;
+    }
+
+    /**
+     * Save Answers to file
+     */
+    public function makeUniqueName(array $answers = ["final" => ["gender" => "Женский"]])
+    {
+        $gender = ucfirst($answers["final"]["gender"]);
+        print_r();
+        $maleAnimals = [
+            "Кенгуру",
+            "Медведь",
+            "Медвежонок",
+            "Лис",
+            "Бурундук",
+            "Муравьед",
+            "Кабан",
+            "Утконос",
+            "Капибара",
+            "Рассондиус",
+            "Утёнок",
+            "Коала",
+            "Магнитофон",
+            "Кот",
+            "Рассомаха",
+            "Волк",
+            "Барсук",
+            "Тушканчик"
+        ];
+
+        $femaleAnimals = [
+            "Кенгуру",
+            "Медведица",
+            "Акула",
+            "Лисица",
+            "Бурундучиха",
+            "Муравьедиха",
+            "Мышка",
+            "Утконосиха",
+            "Капибара",
+            "Рассондиусиха",
+            "Утка",
+            "Коала",
+            "Драконица",
+            "Кошка",
+            "Рассомаха",
+            "Волчица",
+            "Бобриха",
+            "Орлица"
+        ];
+
+        $maleColors = [
+            "Красный",
+            "Зелёный",
+            "Лиловый",
+            "Синий",
+            "Розовый",
+            "Оранжевый",
+            "Желтый",
+            "Лаймовый",
+            "Голубой",
+            "Коричневый",
+            "Серый",
+        ];
+        $femaleColors = [
+            "Красная",
+            "Зелёная",
+            "Лиловая",
+            "Синяя",
+            "Розовая",
+            "Оранжевая",
+            "Желтая",
+            "Лаймовая",
+            "Голубая",
+            "Коричневая",
+            "Серая",
+        ];
+        
+        if (mb_substr($gender, 0, 1) === "М") {
+            $first = $maleColors[rand(0, count($maleColors) - 1)];
+            $second = $maleAnimals[rand(0, count($maleAnimals) - 1)];
+
+            $result = $first . " " . $second;
+        } else {
+            $first = $femaleColors[rand(0, count($femaleColors) - 1)];
+
+            $second = $femaleAnimals[rand(0, count($femaleAnimals) - 1)];
+            $result = $first . " " . $second;
+        }
         return $result;
     }
 
