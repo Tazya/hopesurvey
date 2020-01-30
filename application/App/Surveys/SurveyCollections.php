@@ -22,6 +22,34 @@ class SurveyCollections
         $this->survey = new SurveyOne();
     }
 
+    public function getAllData()
+    {
+        $dir    = '../results';
+        $files = scandir($dir, 1);
+
+        $results = [];
+
+        foreach ($files as $file) {
+            if (is_file($dir . '/' . $file)) {
+                $filename = pathinfo($file, PATHINFO_FILENAME);
+                $exploded = explode('_', $filename);
+                $date = $exploded[0];
+                $id = $exploded[1];
+                $fileData = $this->getResult($id);
+                $userName = $fileData['userName'];
+                $sex = $fileData['answers']['final']['gender'];
+                $results[] = [
+                    "date" => $date,
+                    "id" => $id,
+                    "userName" => $userName,
+                    "sex" => $sex,
+                    "data" => $fileData
+                ];
+            }
+        }
+        return $results;
+    }
+
     public function getAllResults()
     {
         $dir    = '../results';

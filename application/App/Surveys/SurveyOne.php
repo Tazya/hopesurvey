@@ -345,8 +345,7 @@ class SurveyOne extends SurveyAbstractClass
      */
     public function makeUniqueName(array $answers = ["final" => ["gender" => "Женский"]])
     {
-        $gender = ucfirst($answers["final"]["gender"]);
-        print_r();
+        $gender = mb_strtoupper($answers["final"]["gender"]);
         $maleAnimals = [
             "Кенгуру",
             "Медведь",
@@ -362,7 +361,7 @@ class SurveyOne extends SurveyAbstractClass
             "Коала",
             "Магнитофон",
             "Кот",
-            "Рассомаха",
+            "Росомаха",
             "Волк",
             "Барсук",
             "Тушканчик"
@@ -383,7 +382,7 @@ class SurveyOne extends SurveyAbstractClass
             "Коала",
             "Драконица",
             "Кошка",
-            "Рассомаха",
+            "Росомаха",
             "Волчица",
             "Бобриха",
             "Орлица"

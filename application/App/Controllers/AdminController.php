@@ -11,6 +11,7 @@ use Slim\Views\Twig;
 use App\Surveys\SurveyOne;
 use App\Surveys\SurveyCollections;
 use App\Repository;
+use App\Statistic;
 
 class AdminController extends AbstractTwigController
 {
@@ -198,5 +199,31 @@ class AdminController extends AbstractTwigController
             $this->repository->unsetAuth();
             return $response->withHeader('Location', '/admin')
             ->withStatus(302);
+    }
+
+   /**
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function statistic(Request $request, Response $response, array $args = []): Response
+    {
+        if (!$this->authorized) {
+            return $this->toAuthForm($request, $response, $args);
+        }
+
+        $statistic = new Statistic();
+
+        $allResults = $statistic->countAllResults();
+        
+        $pageTitle = "Все результаты";
+        $template = "admin/statistic.twig";
+        return $this->render($response, $template, [
+            'pageTitle' => $pageTitle,
+            'allResults' => $allResults,
+            'rootPath' => $this->preferences->getRootPath(),
+        ]);
     }
 }

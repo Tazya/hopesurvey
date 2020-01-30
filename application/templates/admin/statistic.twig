@@ -1,0 +1,11 @@
+{% extends 'html.twig' %}
+
+{% block contents %}
+    <p>
+        <a href="/admin">Назад в админку</a>
+    </p>
+    <h2>Всего результатов: {{ allResults.all }}</h2>
+    <h2>Всего мужчин: {{ allResults.men }}</h2>
+    <h2>Всего женщин: {{ allResults.women }}</h2>
+    <h2>Всего квир: {{ allResults.all - allResults.men - allResults.women}}</h2>
+{% endblock %}
