@@ -84,7 +84,12 @@ class SurveyOne extends SurveyAbstractClass
                             -(int) $answers[$question['id']];
 
                         // Посчитаем по Характеристике
-                        $characteristics[$question['characteristic']]['score'] += $currentScore;
+                        if (isset($characteristics[$question['characteristic']]['score'])) {
+                            $characteristics[$question['characteristic']]['score'] += $currentScore;
+                        } else {
+                            $characteristics[$question['characteristic']]['score'] = $currentScore;
+                        }
+
                         // Посчитаем Всё
                         $allScore += $currentScore;
                     }

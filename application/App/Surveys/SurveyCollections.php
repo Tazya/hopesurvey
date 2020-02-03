@@ -36,14 +36,16 @@ class SurveyCollections
                 $date = $exploded[0];
                 $id = $exploded[1];
                 $fileData = $this->getResult($id);
-                $userName = $fileData['userName'];
+                $userName = isset($fileData['userName']) ?? null;
                 $sex = $fileData['answers']['final']['gender'];
+                $orientation = $fileData['answers']['final']['orientation'];
                 $results[] = [
                     "date" => $date,
                     "id" => $id,
                     "userName" => $userName,
                     "sex" => $sex,
-                    "data" => $fileData
+                    "data" => $fileData,
+                    "orientation" => $orientation,
                 ];
             }
         }

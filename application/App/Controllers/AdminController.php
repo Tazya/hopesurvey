@@ -79,16 +79,16 @@ class AdminController extends AbstractTwigController
         ];
 
         $message = $helloMessages[rand(0, count($helloMessages) - 1)];
-        $surveyCollectionsData = $this->SurveyCollections->getAllResults();
+        // $surveyCollectionsData = $this->SurveyCollections->getAllResults();
 
-        $results = array_filter($surveyCollectionsData, function ($value) {
-            return $value['new'];
-        });
+        // $results = array_filter($surveyCollectionsData, function ($value) {
+        //     return $value['new'];
+        // });
 
         return $this->render($response, 'admin/admin.twig', [
             'pageTitle' => 'Админка',
             'rootPath' => $this->preferences->getRootPath(),
-            'results' => $results,
+            // 'results' => $results,
             'message' => $message
         ]);
     }
@@ -217,12 +217,38 @@ class AdminController extends AbstractTwigController
         $statistic = new Statistic();
 
         $allResults = $statistic->countAllResults();
-        
+        $allData = $statistic->getAllResults();
+        $undefResults = $allData['undef'];
+
+        $middleResults = $statistic->getAllMiddleResults($allData);
+        $comparisonMethodic3 = $statistic->getComparisonMethodic3($allData);
+        $comparisonMethodic4 = $statistic->getComparisonMethodic4($allData);
+
+        $individualsMenHetero = $statistic->getindividualsMethodic5($allData['heteroMen']);
+        $individualsMenLgbt = $statistic->getindividualsMethodic5($allData['lgbtMen']);
+        $individualsWomenHetero = $statistic->getindividualsMethodic5($allData['heteroWomen']);
+        $individualsWomenLgbt = $statistic->getindividualsMethodic5($allData['lgbtWomen']);
+
+        $individualsMethodic5 = [
+            'menHetero' => ['results' => $individualsMenHetero, 'count' => count($individualsMenHetero)],
+            'menLgbt' => ['results' => $individualsMenLgbt, 'count' => count($individualsMenLgbt)],
+            'womenHetero' => ['results' => $individualsWomenHetero, 'count' => count($individualsWomenHetero)],
+            'womenLgbt' => ['results' => $individualsWomenLgbt, 'count' => count($individualsWomenLgbt)],
+        ];
+
+        // print_r($individualsMethodic5);
+        // print_r(count($individualsMethodic5));
+
         $pageTitle = "Все результаты";
         $template = "admin/statistic.twig";
         return $this->render($response, $template, [
             'pageTitle' => $pageTitle,
             'allResults' => $allResults,
+            'undefResults' => $undefResults,
+            'middleResults' => $middleResults,
+            'comparisonMethodic3' => $comparisonMethodic3,
+            'comparisonMethodic4' => $comparisonMethodic4,
+            'individualsMethodic5' => $individualsMethodic5,
             'rootPath' => $this->preferences->getRootPath(),
         ]);
     }

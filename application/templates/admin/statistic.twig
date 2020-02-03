@@ -4,8 +4,597 @@
     <p>
         <a href="/admin">Назад в админку</a>
     </p>
-    <h2>Всего результатов: {{ allResults.all }}</h2>
-    <h2>Всего мужчин: {{ allResults.men }}</h2>
-    <h2>Всего женщин: {{ allResults.women }}</h2>
-    <h2>Всего квир: {{ allResults.all - allResults.men - allResults.women}}</h2>
+    <p> <strong>Результатов: {{ allResults.all }}</strong> <br>
+        <strong>ЛГБТ всего: {{ allResults.lgbt }}</strong> <small>{{ (allResults.lgbt * 100 / allResults.all)|round(2) }} %</small><br>
+        <strong>Гетеро всего: {{ allResults.hetero }}</strong> <small>{{ (allResults.hetero * 100 / allResults.all)|round(2) }} %</small><br>
+        <strong>Мужчин всего: {{ allResults.men }}</strong> <small>{{ (allResults.men * 100 / allResults.all)|round(2) }} %</small><br>
+        <strong>Женщин всего: {{ allResults.women }}</strong> <small>{{ (allResults.women * 100 / allResults.all)|round(2) }} %</small><br>
+    </p>
+    <p> <h4>ЛГБТ</h4>
+        <strong>Женщины: {{ allResults.lgbtWomen }}</strong> <small>{{ (allResults.lgbtWomen * 100 / allResults.lgbt)|round(2) }} % от общего числа ЛГБТ</small><br>
+        <strong>Мужчины: {{ allResults.lgbtMen }}</strong> <small>{{ (allResults.lgbtMen * 100 / allResults.lgbt)|round(2) }} % от общего числа ЛГБТ</small><br>
+        <strong>Квир: {{ allResults.lgbt - allResults.lgbtMen - allResults.lgbtWomen}}</strong> <small>{{ ((allResults.lgbt - allResults.lgbtMen - allResults.lgbtWomen) * 100 / allResults.lgbt)|round(2) }} %</small><br>
+        <strong>Гомо: {{ allResults.homo}}</strong> <small>{{ (allResults.homo * 100 / allResults.lgbt)|round(2) }} %</small><br>
+        <strong>Би: {{ allResults.bi}}</strong> <small>{{ (allResults.bi * 100 / allResults.lgbt)|round(2) }} %</small><br>
+        <strong>Пан: {{ allResults.pan}}</strong> <small>{{ (allResults.pan * 100 / allResults.lgbt)|round(2) }} %</small><br>
+        <strong>Асек: {{ allResults.as}}</strong> <small>{{ (allResults.as * 100 / allResults.lgbt)|round(2) }} %</small><br>
+    </p>
+    <p> <h4>Гетеро</h4>
+        <strong>Женщины: {{ allResults.women - allResults.lgbtWomen }}</strong> <small>{{ ((allResults.women - allResults.lgbtWomen) * 100 / (allResults.all - allResults.lgbt))|round(2) }} % от общего числа Гетеро</small><br>
+        <strong>Мужчины: {{ allResults.men - allResults.lgbtMen }}</strong> <small>{{ ((allResults.men - allResults.lgbtMen) * 100 / (allResults.all - allResults.lgbt))|round(2) }} % от общего числа Гетеро</small><br>
+    </p>
+    <p>
+    <strong>Всего неизвестных: {{ allResults.undef}}</strong> <small>{{ (allResults.undef * 100 / allResults.all)|round(2) }} %</small><br></p>
+    </p>
+    <h3>Методика 1</h3>
+    <p>Средний балл Гетеро: <strong>{{ middleResults.hetero["Methodic 1"] }}</strong><br>
+    Средний балл ЛГБТ: <strong>{{ middleResults.lgbt["Methodic 1"] }}</strong><br>
+    Средний балл Мужчины: <strong>{{ middleResults.men["Methodic 1"] }}</strong><br>
+    Средний балл Женщины: <strong>{{ middleResults.women["Methodic 1"] }}</strong><br>
+    Средний балл Гетеро Женщины: <strong>{{ middleResults.heteroWomen["Methodic 1"] }}</strong><br>
+    Средний балл Гетеро Мужчины: <strong>{{ middleResults.heteroMen["Methodic 1"] }}</strong><br>
+    Средний балл ЛГБТ Женщины: <strong>{{ middleResults.lgbtWomen["Methodic 1"] }}</strong><br>
+    Средний балл ЛГБТ Мужчины: <strong>{{ middleResults.lgbtMen["Methodic 1"] }}</strong></p>
+    <h3>Методика 2</h3>
+    Средний балл Гетеро: <strong>{{ middleResults.hetero["Methodic 2"] }}</strong><br>
+    Средний балл ЛГБТ: <strong>{{ middleResults.lgbt["Methodic 2"] }}</strong><br>
+    Средний балл Мужчины: <strong>{{ middleResults.men["Methodic 2"] }}</strong><br>
+    Средний балл Женщины: <strong>{{ middleResults.women["Methodic 2"] }}</strong><br>
+    Средний балл Гетеро Женщины: <strong>{{ middleResults.heteroWomen["Methodic 2"] }}</strong><br>
+    Средний балл Гетеро Мужчины: <strong>{{ middleResults.heteroMen["Methodic 2"] }}</strong><br>
+    Средний балл ЛГБТ Женщины: <strong>{{ middleResults.lgbtWomen["Methodic 2"] }}</strong><br>
+    Средний балл ЛГБТ Мужчины: <strong>{{ middleResults.lgbtMen["Methodic 2"] }}</strong></p>
+    <h3>Методика 6</h3>
+    <p>   Средний балл Гетеро: <strong>{{ middleResults.hetero["Methodic 6"]["all"] }}</strong><br>
+    <span>(Оценка: {{ middleResults.hetero["Methodic 6"]["o"] }},
+            Сила: {{ middleResults.hetero["Methodic 6"]["s"] }},
+            Активность: {{ middleResults.hetero["Methodic 6"]["a"] }})</span>
+    <br>
+    </p>
+    Средний балл ЛГБТ: <strong>{{ middleResults.lgbt["Methodic 6"]["all"] }}</strong><br>
+    <span>(Оценка: {{ middleResults.lgbt["Methodic 6"]["o"] }},
+            Сила: {{ middleResults.lgbt["Methodic 6"]["s"] }},
+            Активность: {{ middleResults.lgbt["Methodic 6"]["a"] }})</span>
+    <br>
+    </p>
+    Средний балл Мужчины: <strong>{{ middleResults.men["Methodic 6"]["all"] }}</strong><br>
+    <span>(Оценка: {{ middleResults.men["Methodic 6"]["o"] }},
+            Сила: {{ middleResults.men["Methodic 6"]["s"] }},
+            Активность: {{ middleResults.men["Methodic 6"]["a"] }})</span>
+    <br>
+    </p>
+    Средний балл Женщины: <strong>{{ middleResults.women["Methodic 6"]["all"] }}</strong><br>
+    <span>(Оценка: {{ middleResults.women["Methodic 6"]["o"] }},
+            Сила: {{ middleResults.women["Methodic 6"]["s"] }},
+            Активность: {{ middleResults.women["Methodic 6"]["a"] }})</span>
+    <br>
+    </p>
+    Средний балл Гетеро Женщины: <strong>{{ middleResults.heteroWomen["Methodic 6"]["all"] }}</strong><br>
+    <span>(Оценка: {{ middleResults.heteroWomen["Methodic 6"]["o"] }},
+            Сила: {{ middleResults.heteroWomen["Methodic 6"]["s"] }},
+            Активность: {{ middleResults.heteroWomen["Methodic 6"]["a"] }})</span>
+    <br>
+    </p>
+    Средний балл Гетеро Мужчины: <strong>{{ middleResults.heteroMen["Methodic 6"]["all"] }}</strong><br>
+    <span>(Оценка: {{ middleResults.heteroMen["Methodic 6"]["o"] }},
+            Сила: {{ middleResults.heteroMen["Methodic 6"]["s"] }},
+            Активность: {{ middleResults.heteroMen["Methodic 6"]["a"] }})</span>
+    <br>
+    </p>
+    Средний балл ЛГБТ Женщины: <strong>{{ middleResults.lgbtWomen["Methodic 6"]["all"] }}</strong><br>
+    <span>(Оценка: {{ middleResults.lgbtWomen["Methodic 6"]["o"] }},
+            Сила: {{ middleResults.lgbtWomen["Methodic 6"]["s"] }},
+            Активность: {{ middleResults.lgbtWomen["Methodic 6"]["a"] }})</span>
+    <br>
+    </p>
+    Средний балл ЛГБТ Мужчины: <strong>{{ middleResults.lgbtMen["Methodic 6"]["all"] }}</strong>
+    <span>(Оценка: {{ middleResults.lgbtMen["Methodic 6"]["o"] }},
+            Сила: {{ middleResults.lgbtMen["Methodic 6"]["s"] }},
+            Активность: {{ middleResults.lgbtMen["Methodic 6"]["a"] }})</span>
+    <br>
+    </p>
+
+    
+    
+    {% for key, result in comparisonMethodic3 %}
+        {{ key }} - <strong>{{ result['Methodic 1']['all'] }}, {{ result['Methodic 2']['all'] }}</strong><br>
+    {% endfor %}
+    
+    <div class="row">
+        <div class="col-md-6">
+            <div class="graphic">
+                <h4>Отображение результатов Методики 1 по шкале Кинси (Методика 3)</h4>
+                <span>Средний балл (чем ниже, тем толерантнее)</span>
+                <div class="graphic-data">
+                    <div class="graphic-scales-vertical">
+                        <div class="scales">
+                            <div class="scale">118-</div>
+                            <div class="scale">96-</div>
+                            <div class="scale">84-</div>
+                            <div class="scale">72-</div>
+                            <div class="scale">60-</div>
+                            <div class="scale">48-</div>
+                            <div class="scale">36-</div>
+                            <div class="scale">24-</div>
+                            <div class="scale">12-</div>
+                        </div>
+                    </div>
+                    <div class="graphic-inner">
+                        <div class="columns">
+                            {% for result in comparisonMethodic3 %}
+                                <div class="column" style="height: {{ result['Methodic 1']['all'] * 100 / 112}}%">
+                                    {{ result['Methodic 1']['all'] }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="graphic-bt">
+                    <div class="graphic-scales-bt"></div>
+                    <div class="graphic-inner-bt">
+                        <div class="columns bt-columns">
+                            <div class="column bt-column-markers">
+                                X
+                            </div>
+                            <div class="column bt-column-markers">
+                                0
+                            </div>
+                            <div class="column bt-column-markers">
+                                1
+                            </div>
+                            <div class="column bt-column-markers">
+                                2
+                            </div>
+                            <div class="column bt-column-markers">
+                                3
+                            </div>
+                            <div class="column bt-column-markers">
+                                4
+                            </div>
+                            <div class="column bt-column-markers">
+                                5
+                            </div>
+                            <div class="column bt-column-markers">
+                                6
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="graphic-descr" style="margin-top: -8px;">
+                    <div class="descr-item" style="padding-left: 30px;">Гетеро</div>
+                    <div class="descr-item" style="text-align: right;">Гомо</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="graphic">
+                <h4>Отображение результатов Методики 2 по шкале Кинси (Методика 3)</h4>
+                <span>Средний балл (чем выше, тем толерантнее)</span>
+                <div class="graphic-data">
+                    <div class="graphic-scales-vertical">
+                        <div class="scales">
+                            <div class="scale">-</div>
+                            <div class="scale">132-</div>
+                            <div class="scale">120-</div>
+                            <div class="scale">105-</div>
+                            <div class="scale">90-</div>
+                            <div class="scale">75-</div>
+                            <div class="scale">60-</div>
+                            <div class="scale">45-</div>
+                            <div class="scale">30-</div>
+                            <div class="scale">15-</div>
+                        </div>
+                    </div>
+                    <div class="graphic-inner">
+                        <div class="columns">
+                            {% for result in comparisonMethodic3 %}
+                                <div class="column" style="height: {{ result['Methodic 2']['all'] * 100 / 148}}%">
+                                    {{ result['Methodic 2']['all'] }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="graphic-bt">
+                    <div class="graphic-scales-bt"></div>
+                    <div class="graphic-inner-bt">
+                        <div class="columns bt-columns">
+                            <div class="column bt-column-markers">
+                                X
+                            </div>
+                            <div class="column bt-column-markers">
+                                0
+                            </div>
+                            <div class="column bt-column-markers">
+                                1
+                            </div>
+                            <div class="column bt-column-markers">
+                                2
+                            </div>
+                            <div class="column bt-column-markers">
+                                3
+                            </div>
+                            <div class="column bt-column-markers">
+                                4
+                            </div>
+                            <div class="column bt-column-markers">
+                                5
+                            </div>
+                            <div class="column bt-column-markers">
+                                6
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="graphic-descr" style="margin-top: -8px;">
+                    <div class="descr-item" style="padding-left: 30px;">Гетеро</div>
+                    <div class="descr-item" style="text-align: right;">Гомо</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="graphic">
+                <h4>Отображение результатов Методики 1 по шкале Кинси (Методика 3. <strong style="color:#039BE5">Мужчины</strong> и <strong style="color:#EC407A">Женщины</strong>)</h4>
+                <span>Средний балл (чем ниже, тем толерантнее)</span>
+                <div class="graphic-data">
+                    <div class="graphic-scales-vertical">
+                        <div class="scales">
+                            {# <div class="scale">-</div>
+                            <div class="scale">132-</div>
+                            <div class="scale">120-</div> #}
+                            <div class="scale">90-</div>
+                            <div class="scale">80-</div>
+                            <div class="scale">70-</div>
+                            <div class="scale">60-</div>
+                            <div class="scale">50-</div>
+                            <div class="scale">40-</div>
+                            <div class="scale">30-</div>
+                            {# <div class="scale">30-</div>
+                            <div class="scale">15-</div> #}
+                        </div>
+                    </div>
+                    <div class="graphic-inner">
+                        <div class="columns">
+                            {% for result in comparisonMethodic3 %}
+                                <div class="column column-divorced">
+                                    <div class="column-inner column-inner-2" style="transform: translateY(98px); height: {{ result['Methodic 1']['men'] * 180 / 112}}%" >{{ result['Methodic 1']['men'] }}</div>
+                                    <div class="column-inner column-inner-2" style="transform: translateY(98px); height: {{ result['Methodic 1']['women'] * 180 / 112}}%" >{{ result['Methodic 1']['women'] }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="graphic-bt">
+                    <div class="graphic-scales-bt"></div>
+                    <div class="graphic-inner-bt">
+                        <div class="columns bt-columns">
+                            <div class="column bt-column-markers">
+                                X
+                            </div>
+                            <div class="column bt-column-markers">
+                                0
+                            </div>
+                            <div class="column bt-column-markers">
+                                1
+                            </div>
+                            <div class="column bt-column-markers">
+                                2
+                            </div>
+                            <div class="column bt-column-markers">
+                                3
+                            </div>
+                            <div class="column bt-column-markers">
+                                4
+                            </div>
+                            <div class="column bt-column-markers">
+                                5
+                            </div>
+                            <div class="column bt-column-markers">
+                                6
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="graphic-descr" style="margin-top: -8px;">
+                    <div class="descr-item" style="padding-left: 30px;">Гетеро</div>
+                    <div class="descr-item" style="text-align: right;">Гомо</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="graphic">
+                <h4>Отображение результатов Методики 2 по шкале Кинси (Методика 3. <strong style="color:#039BE5">Мужчины</strong> и <strong style="color:#EC407A">Женщины</strong>) </h4>
+                <span>Средний балл (чем выше, тем толерантнее)</span>
+                <div class="graphic-data">
+                    <div class="graphic-scales-vertical">
+                        <div class="scales">
+                            {# <div class="scale">-</div>
+                            <div class="scale">132-</div>
+                            <div class="scale">120-</div> #}
+                            <div class="scale">105-</div>
+                            <div class="scale">100-</div>
+                            <div class="scale">95-</div>
+                            <div class="scale">90-</div>
+                            <div class="scale">85-</div>
+                            <div class="scale">80-</div>
+                            <div class="scale">75-</div>
+                            {# <div class="scale">30-</div>
+                            <div class="scale">15-</div> #}
+                        </div>
+                    </div>
+                    <div class="graphic-inner">
+                        <div class="columns">
+                            {% for result in comparisonMethodic3 %}
+                                <div class="column column-divorced">
+                                    <div class="column-inner column-inner-2" style="transform: translateY(540px); height: {{ result['Methodic 2']['men'] * 450 / 148}}%" >{{ result['Methodic 2']['men'] }}</div>
+                                    <div class="column-inner column-inner-2" style="transform: translateY(540px); height: {{ result['Methodic 2']['women'] * 450 / 148}}%" >{{ result['Methodic 2']['women'] }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="graphic-bt">
+                    <div class="graphic-scales-bt"></div>
+                    <div class="graphic-inner-bt">
+                        <div class="columns bt-columns">
+                            <div class="column bt-column-markers">
+                                X
+                            </div>
+                            <div class="column bt-column-markers">
+                                0
+                            </div>
+                            <div class="column bt-column-markers">
+                                1
+                            </div>
+                            <div class="column bt-column-markers">
+                                2
+                            </div>
+                            <div class="column bt-column-markers">
+                                3
+                            </div>
+                            <div class="column bt-column-markers">
+                                4
+                            </div>
+                            <div class="column bt-column-markers">
+                                5
+                            </div>
+                            <div class="column bt-column-markers">
+                                6
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="graphic-descr" style="margin-top: -8px;">
+                    <div class="descr-item" style="padding-left: 30px;">Гетеро</div>
+                    <div class="descr-item" style="text-align: right;">Гомо</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="graphic">
+                <h4>Отображение результатов Методики 1 по решетке Клейна (Методика 4. <strong style="color:#039BE5">Мужчины</strong> и <strong style="color:#EC407A">Женщины</strong>)</h4>
+                <span>Средний балл (чем ниже, тем толерантнее)</span>
+                <div class="graphic-data">
+                    <div class="graphic-scales-vertical">
+                        <div class="scales">
+                            {# <div class="scale">-</div>
+                            <div class="scale">132-</div>
+                            <div class="scale">120-</div> #}
+                            <div class="scale">90-</div>
+                            <div class="scale">80-</div>
+                            <div class="scale">70-</div>
+                            <div class="scale">60-</div>
+                            <div class="scale">50-</div>
+                            <div class="scale">40-</div>
+                            <div class="scale">30-</div>
+                            {# <div class="scale">30-</div>
+                            <div class="scale">15-</div> #}
+                        </div>
+                    </div>
+                    <div class="graphic-inner">
+                        <div class="columns">
+                            {% for result in comparisonMethodic4 %}
+                                <div class="column column-divorced">
+                                    <div class="column-inner column-inner-2" style="transform: translateY(82px); height: {{ result['Methodic 1']['men'] * 165 / 112}}%" >{{ result['Methodic 1']['men'] }}</div>
+                                    <div class="column-inner column-inner-2" style="transform: translateY(82px); height: {{ result['Methodic 1']['women'] * 165 / 112}}%" >{{ result['Methodic 1']['women'] }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="graphic-bt">
+                    <div class="graphic-scales-bt"></div>
+                    <div class="graphic-inner-bt">
+                        <div class="columns bt-columns">
+                            <div class="column bt-column-markers">
+                                &lt 1,5
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 2,0
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 2,5
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 3,0
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 3,5
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 4,0
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 4,5
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 5,0
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 5,5
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 6,0
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 6,5
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 7,0
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="graphic-descr" style="margin-top: -8px;">
+                    <div class="descr-item" style="padding-left: 30px;">Гетеро</div>
+                    <div class="descr-item" style="text-align: right;">Гомо</div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="graphic">
+                <h4>Отображение результатов Методики 2 по решетке Клейна (Методика 4. <strong style="color:#039BE5">Мужчины</strong> и <strong style="color:#EC407A">Женщины</strong>)</h4>
+                <span>Средний балл (чем выше, тем толерантнее)</span>
+                <div class="graphic-data">
+                    <div class="graphic-scales-vertical">
+                        <div class="scales">
+                            {# <div class="scale">-</div>
+                            <div class="scale">132-</div>
+                            <div class="scale">120-</div> #}
+                            <div class="scale">105-</div>
+                            <div class="scale">100-</div>
+                            <div class="scale">95-</div>
+                            <div class="scale">90-</div>
+                            <div class="scale">85-</div>
+                            <div class="scale">80-</div>
+                            <div class="scale">75-</div>
+                            {# <div class="scale">30-</div>
+                            <div class="scale">15-</div> #}
+                        </div>
+                    </div>
+                    <div class="graphic-inner">
+                        <div class="columns">
+                            {% for result in comparisonMethodic4 %}
+                                <div class="column column-divorced">
+                                    <div class="column-inner column-inner-2" style="transform: translateY(547px); height: {{ (result['Methodic 2']['men'] * 420 / 148) + 20 }}%" >{{ result['Methodic 2']['men'] }}</div>
+                                    <div class="column-inner column-inner-2" style="transform: translateY(547px); height: {{ (result['Methodic 2']['women'] * 420 / 148) + 20 }}%" >{{ result['Methodic 2']['women'] }}</div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <div class="graphic-bt">
+                    <div class="graphic-scales-bt"></div>
+                    <div class="graphic-inner-bt">
+                        <div class="columns bt-columns">
+                            <div class="column bt-column-markers">
+                                &lt 1,5
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 2,0
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 2,5
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 3,0
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 3,5
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 4,0
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 4,5
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 5,0
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 5,5
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 6,0
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 6,5
+                            </div>
+                            <div class="column bt-column-markers">
+                                &lt 7,0
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="graphic-descr" style="margin-top: -8px;">
+                    <div class="descr-item" style="padding-left: 30px;">Гетеро</div>
+                    <div class="descr-item" style="text-align: right;">Гомо</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p><br></p>
+    <div class="row">
+        <div class="col-12"><h3>Методика 5. Индивидуальности по группам респондентов.</h3><p></p></div>
+        <div class="col-md-3">
+            <h5><strong>Мужчины Гетеро.</strong> <br><small>Идентичностей: {{ individualsMethodic5.menHetero.count }} <br> Всего респондентов: {{ allResults.men - allResults.lgbtMen }}</small></h5>
+            <ol>
+                {% for key, value in individualsMethodic5.menHetero.results %}
+                    <li>
+                        <strong>{{ key }}</strong>: {{ value }} <br>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="col-md-3">
+            <h5><strong>Мужчины ЛГБТ.</strong> <br><small>Идентичностей: {{ individualsMethodic5.menLgbt.count }} <br> Всего респондентов: {{ allResults.lgbtMen }}</small></h5>
+            <ol>
+                {% for key, value in individualsMethodic5.menLgbt.results %}
+                    <li>
+                        <strong>{{ key }}</strong>: {{ value }} <br>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+        <div class="col-md-3">
+            <h5><strong>Женщины Гетеро.</strong> <br><small>Идентичностей: {{ individualsMethodic5.womenHetero.count }} <br> Всего респонденток: {{ allResults.women - allResults.lgbtWomen }}</small></h5>
+            <ol>
+                {% for key, value in individualsMethodic5.womenHetero.results %}
+                    <li>
+                        <strong>{{ key }}</strong>: {{ value }} <br>
+                    </li>
+                {% endfor %}
+                
+            </ol>
+        </div>
+        <div class="col-md-3">
+            <h5><strong>Женщины ЛГБТ.</strong> <br><small>Идентичностей: {{ individualsMethodic5.womenLgbt.count }} <br> Всего респонденток: {{ allResults.lgbtWomen}}</small></h5>
+            <ol>
+                {% for key, value in individualsMethodic5.womenLgbt.results %}
+                    <li>
+                        <strong>{{ key }}</strong>: {{ value }} <br>
+                    </li>
+                {% endfor %}
+            </ol>
+        </div>
+    </div>
+    
+    
+    Неизвестные:
+    <div class="row">
+        {% for result in undefResults %}
+            <div class="col-md-3 col-sm-4 col-6">
+                <a href="/admin/results/{{ result.id }}" class="result-item{% if result.new %} new{% endif %}">
+                <h4>{% if result.userName %} {{ result.userName }} {% else %} {{ result.id }}{% endif %}</h4>
+                <span>от {{ result.date }}</span>
+                <span>{{ result.sex }}</span>
+                {% if result.new %}
+                    <div class="new-label">Новый!</div>
+                {% endif %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
