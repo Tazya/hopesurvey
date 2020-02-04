@@ -104,6 +104,8 @@ $app->group('/admin', function (RouteCollectorProxy $group) {
     $group->post('/sign-out/', AdminController::class . ':signOut');
     $group->get('/statistic', AdminController::class . ':statistic')->setName('statistic');
     $group->get('/statistic/', AdminController::class . ':statistic');
+    $group->get('/export', AdminController::class . ':export')->setName('export');
+    $group->get('/export/', AdminController::class . ':export');
 });
 
 // Run the app.

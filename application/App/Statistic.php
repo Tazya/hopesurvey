@@ -142,9 +142,12 @@ class Statistic
     /**
      * Count All results
      */
-    public function countAllResults()
+    public function countAllResults(array $all = null)
     {
-        $all = $this->getAllResults();
+        if (!$all) {
+            $all = $this->getAllResults();
+        }
+
         $result = array_map(function ($el) {
             return count($el);
         }, $all);
@@ -168,6 +171,33 @@ class Statistic
         }
 
         return round($allScore / count($data), 1);
+    }
+
+    public function getMiddleResultsMethodic2(string $methodic, array $data)
+    {
+        $allScore = array_reduce($data, function ($carry, $elem) use ($methodic) {
+            if (!$elem['data']['answers'][$methodic]) {
+                return $carry;
+            }
+            $calculated = $this->survey->calculate($elem['data']['answers'][$methodic], $methodic);
+            $carry['all'] += $calculated['all'];
+            $carry['scale-1'] += $calculated['scales']['scale-1']['score'];
+            $carry['scale-2'] += $calculated['scales']['scale-2']['score'];
+            $carry['scale-3'] += $calculated['scales']['scale-3']['score'];
+            return $carry;
+        }, ['all' => 0, 'scale-1' => 0, 'scale-2' => 0, 'scale-3' => 0]);
+        $qty = count($data);
+        if ($qty === 0) {
+            return ['all' => 0, 'scale-1' => 0, 'scale-2' => 0, 'scale-3' => 0];
+        }
+        $qty = count($data);
+        if ($qty === 0) {
+            return ['all' => 0, 's' => 0, 'o' => 0, 'a' => 0];
+        }
+        $result = array_map(function ($el) use ($qty) {
+            return round($el / $qty, 1);
+        }, $allScore);
+        return $result;
     }
 
     public function getMiddleResultsMethodic6(array $data)
@@ -198,7 +228,9 @@ class Statistic
         $result = array_map(function ($el) use ($data) {
             return [
                 "Methodic 1" => $this->getMiddleResults("Methodic 1", $data[$el]),
-                "Methodic 2" => $this->getMiddleResults("Methodic 2", $data[$el]),
+                "Methodic 2" => $this->getMiddleResultsMethodic2("Methodic 2", $data[$el]),
+                "Methodic 3" => $this->getMiddleResults("Methodic 3", $data[$el]),
+                "Methodic 4" => $this->getMiddleResults("Methodic 4", $data[$el]),
                 "Methodic 6" => $this->getMiddleResultsMethodic6($data[$el])
             ];
         }, $selection);

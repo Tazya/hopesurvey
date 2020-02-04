@@ -12,6 +12,7 @@ use App\Surveys\SurveyOne;
 use App\Surveys\SurveyCollections;
 use App\Repository;
 use App\Statistic;
+use App\ExportData;
 
 class AdminController extends AbstractTwigController
 {
@@ -216,8 +217,8 @@ class AdminController extends AbstractTwigController
 
         $statistic = new Statistic();
 
-        $allResults = $statistic->countAllResults();
         $allData = $statistic->getAllResults();
+        $allResults = $statistic->countAllResults($allData);
         $undefResults = $allData['undef'];
 
         $middleResults = $statistic->getAllMiddleResults($allData);
@@ -250,6 +251,31 @@ class AdminController extends AbstractTwigController
             'comparisonMethodic4' => $comparisonMethodic4,
             'individualsMethodic5' => $individualsMethodic5,
             'rootPath' => $this->preferences->getRootPath(),
+        ]);
+    }
+
+    /**
+     * @param Request  $request
+     * @param Response $response
+     * @param array    $args
+     *
+     * @return Response
+     */
+    public function export(Request $request, Response $response, array $args = []): Response
+    {
+        if (!$this->authorized) {
+            return $this->toAuthForm($request, $response, $args);
+        }
+
+        $statistic = new Statistic();
+        $allData = $statistic->getAllResults();
+        $oneResult = $allData['all'][0];
+        // print_r($oneResult);
+        $exportData = new ExportData();
+        $exportData->create($allData['all']);
+
+        return $this->render($response, 'admin/export.twig', [
+            'pageTitle' => 'Экспортирование файла',
         ]);
     }
 }

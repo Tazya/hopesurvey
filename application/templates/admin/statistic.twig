@@ -26,7 +26,7 @@
     <p>
     <strong>Всего неизвестных: {{ allResults.undef}}</strong> <small>{{ (allResults.undef * 100 / allResults.all)|round(2) }} %</small><br></p>
     </p>
-    <h3>Методика 1</h3>
+    <h3>Методика 1. Бойко</h3>
     <p>Средний балл Гетеро: <strong>{{ middleResults.hetero["Methodic 1"] }}</strong><br>
     Средний балл ЛГБТ: <strong>{{ middleResults.lgbt["Methodic 1"] }}</strong><br>
     Средний балл Мужчины: <strong>{{ middleResults.men["Methodic 1"] }}</strong><br>
@@ -35,15 +35,77 @@
     Средний балл Гетеро Мужчины: <strong>{{ middleResults.heteroMen["Methodic 1"] }}</strong><br>
     Средний балл ЛГБТ Женщины: <strong>{{ middleResults.lgbtWomen["Methodic 1"] }}</strong><br>
     Средний балл ЛГБТ Мужчины: <strong>{{ middleResults.lgbtMen["Methodic 1"] }}</strong></p>
-    <h3>Методика 2</h3>
-    Средний балл Гетеро: <strong>{{ middleResults.hetero["Methodic 2"] }}</strong><br>
-    Средний балл ЛГБТ: <strong>{{ middleResults.lgbt["Methodic 2"] }}</strong><br>
-    Средний балл Мужчины: <strong>{{ middleResults.men["Methodic 2"] }}</strong><br>
-    Средний балл Женщины: <strong>{{ middleResults.women["Methodic 2"] }}</strong><br>
-    Средний балл Гетеро Женщины: <strong>{{ middleResults.heteroWomen["Methodic 2"] }}</strong><br>
-    Средний балл Гетеро Мужчины: <strong>{{ middleResults.heteroMen["Methodic 2"] }}</strong><br>
-    Средний балл ЛГБТ Женщины: <strong>{{ middleResults.lgbtWomen["Methodic 2"] }}</strong><br>
-    Средний балл ЛГБТ Мужчины: <strong>{{ middleResults.lgbtMen["Methodic 2"] }}</strong></p>
+
+    <h3>Методика 2. Опросник толерантность</h3>
+    <p>   Средний балл Гетеро: <strong>{{ middleResults.hetero["Methodic 2"]["all"] }}</strong><br>
+    <span>(Этническая: {{ middleResults.hetero["Methodic 2"]["scale-1"] }},
+            Социальная: {{ middleResults.hetero["Methodic 2"]["scale-2"] }},
+            Как черта личности: {{ middleResults.hetero["Methodic 2"]["scale-3"] }})</span>
+    </p>
+    <p>
+    Средний балл ЛГБТ: <strong>{{ middleResults.lgbt["Methodic 2"]["all"] }}</strong><br>
+    <span>(Этническая: {{ middleResults.lgbt["Methodic 2"]["scale-1"] }},
+            Социальная: {{ middleResults.lgbt["Methodic 2"]["scale-2"] }},
+            Как черта личности: {{ middleResults.lgbt["Methodic 2"]["scale-3"] }})</span>
+    </p>
+    <p>
+    Средний балл Мужчины: <strong>{{ middleResults.men["Methodic 2"]["all"] }}</strong><br>
+    <span>(Этническая: {{ middleResults.men["Methodic 2"]["scale-1"] }},
+            Социальная: {{ middleResults.men["Methodic 2"]["scale-2"] }},
+            Как черта личности: {{ middleResults.men["Methodic 2"]["scale-3"] }})</span>
+    </p>
+    <p>
+    Средний балл Женщины: <strong>{{ middleResults.women["Methodic 2"]["all"] }}</strong><br>
+    <span>(Этническая: {{ middleResults.women["Methodic 2"]["scale-1"] }},
+            Социальная: {{ middleResults.women["Methodic 2"]["scale-2"] }},
+            Как черта личности: {{ middleResults.women["Methodic 2"]["scale-3"] }})</span>
+    </p>
+    <p>
+    Средний балл Гетеро Женщины: <strong>{{ middleResults.heteroWomen["Methodic 2"]["all"] }}</strong><br>
+    <span>(Этническая: {{ middleResults.heteroWomen["Methodic 2"]["scale-1"] }},
+            Социальная: {{ middleResults.heteroWomen["Methodic 2"]["scale-2"] }},
+            Как черта личности: {{ middleResults.heteroWomen["Methodic 2"]["scale-3"] }})</span>
+    </p>
+    <p>
+    Средний балл Гетеро Мужчины: <strong>{{ middleResults.heteroMen["Methodic 2"]["all"] }}</strong><br>
+    <span>(Этническая: {{ middleResults.heteroMen["Methodic 2"]["scale-1"] }},
+            Социальная: {{ middleResults.heteroMen["Methodic 2"]["scale-2"] }},
+            Как черта личности: {{ middleResults.heteroMen["Methodic 2"]["scale-3"] }})</span>
+    </p>
+    <p>
+    Средний балл ЛГБТ Женщины: <strong>{{ middleResults.lgbtWomen["Methodic 2"]["all"] }}</strong><br>
+    <span>(Этническая: {{ middleResults.lgbtWomen["Methodic 2"]["scale-1"] }},
+            Социальная: {{ middleResults.lgbtWomen["Methodic 2"]["scale-2"] }},
+            Как черта личности: {{ middleResults.lgbtWomen["Methodic 2"]["scale-3"] }})</span>
+    </p>
+    <p>
+    Средний балл ЛГБТ Мужчины: <strong>{{ middleResults.lgbtMen["Methodic 2"]["all"] }}</strong><br>
+    <span>(Этническая: {{ middleResults.lgbtMen["Methodic 2"]["scale-1"] }},
+            Социальная: {{ middleResults.lgbtMen["Methodic 2"]["scale-2"] }},
+            Как черта личности: {{ middleResults.lgbtMen["Methodic 2"]["scale-3"] }})</span>
+    </p>
+
+    <h3>Методика 3. Кинси</h3>
+    <p>Средний балл Гетеро: <strong>{{ middleResults.hetero["Methodic 3"] }}</strong><br>
+    Средний балл ЛГБТ: <strong>{{ middleResults.lgbt["Methodic 3"] }}</strong><br>
+    Средний балл Мужчины: <strong>{{ middleResults.men["Methodic 3"] }}</strong><br>
+    Средний балл Женщины: <strong>{{ middleResults.women["Methodic 3"] }}</strong><br>
+    Средний балл Гетеро Женщины: <strong>{{ middleResults.heteroWomen["Methodic 3"] }}</strong><br>
+    Средний балл Гетеро Мужчины: <strong>{{ middleResults.heteroMen["Methodic 3"] }}</strong><br>
+    Средний балл ЛГБТ Женщины: <strong>{{ middleResults.lgbtWomen["Methodic 3"] }}</strong><br>
+    Средний балл ЛГБТ Мужчины: <strong>{{ middleResults.lgbtMen["Methodic 3"] }}</strong></p>
+
+    <h3>Методика 4. Клейн</h3>
+    <p>Средний балл Гетеро: <strong>{{ (middleResults.hetero["Methodic 4"] / 21)|round(2) }}</strong><br>
+    Средний балл ЛГБТ: <strong>{{ (middleResults.lgbt["Methodic 4"] / 21)|round(2) }}</strong><br>
+    Средний балл Мужчины: <strong>{{ (middleResults.men["Methodic 4"] / 21)|round(2) }}</strong><br>
+    Средний балл Женщины: <strong>{{ (middleResults.women["Methodic 4"] / 21)|round(2) }}</strong><br>
+    Средний балл Гетеро Женщины: <strong>{{ (middleResults.heteroWomen["Methodic 4"] / 21)|round(2) }}</strong><br>
+    Средний балл Гетеро Мужчины: <strong>{{ (middleResults.heteroMen["Methodic 4"] / 21)|round(2) }}</strong><br>
+    Средний балл ЛГБТ Женщины: <strong>{{ (middleResults.lgbtWomen["Methodic 4"] / 21)|round(2) }}</strong><br>
+    Средний балл ЛГБТ Мужчины: <strong>{{ (middleResults.lgbtMen["Methodic 4"] / 21)|round(2) }}</strong></p>
+
+
     <h3>Методика 6</h3>
     <p>   Средний балл Гетеро: <strong>{{ middleResults.hetero["Methodic 6"]["all"] }}</strong><br>
     <span>(Оценка: {{ middleResults.hetero["Methodic 6"]["o"] }},
@@ -51,43 +113,50 @@
             Активность: {{ middleResults.hetero["Methodic 6"]["a"] }})</span>
     <br>
     </p>
+    <p>
     Средний балл ЛГБТ: <strong>{{ middleResults.lgbt["Methodic 6"]["all"] }}</strong><br>
     <span>(Оценка: {{ middleResults.lgbt["Methodic 6"]["o"] }},
             Сила: {{ middleResults.lgbt["Methodic 6"]["s"] }},
             Активность: {{ middleResults.lgbt["Methodic 6"]["a"] }})</span>
     <br>
     </p>
+    <p>
     Средний балл Мужчины: <strong>{{ middleResults.men["Methodic 6"]["all"] }}</strong><br>
     <span>(Оценка: {{ middleResults.men["Methodic 6"]["o"] }},
             Сила: {{ middleResults.men["Methodic 6"]["s"] }},
             Активность: {{ middleResults.men["Methodic 6"]["a"] }})</span>
     <br>
     </p>
+    <p>
     Средний балл Женщины: <strong>{{ middleResults.women["Methodic 6"]["all"] }}</strong><br>
     <span>(Оценка: {{ middleResults.women["Methodic 6"]["o"] }},
             Сила: {{ middleResults.women["Methodic 6"]["s"] }},
             Активность: {{ middleResults.women["Methodic 6"]["a"] }})</span>
     <br>
     </p>
+    <p>
     Средний балл Гетеро Женщины: <strong>{{ middleResults.heteroWomen["Methodic 6"]["all"] }}</strong><br>
     <span>(Оценка: {{ middleResults.heteroWomen["Methodic 6"]["o"] }},
             Сила: {{ middleResults.heteroWomen["Methodic 6"]["s"] }},
             Активность: {{ middleResults.heteroWomen["Methodic 6"]["a"] }})</span>
     <br>
     </p>
+    <p>
     Средний балл Гетеро Мужчины: <strong>{{ middleResults.heteroMen["Methodic 6"]["all"] }}</strong><br>
     <span>(Оценка: {{ middleResults.heteroMen["Methodic 6"]["o"] }},
             Сила: {{ middleResults.heteroMen["Methodic 6"]["s"] }},
             Активность: {{ middleResults.heteroMen["Methodic 6"]["a"] }})</span>
     <br>
     </p>
+    <p>
     Средний балл ЛГБТ Женщины: <strong>{{ middleResults.lgbtWomen["Methodic 6"]["all"] }}</strong><br>
     <span>(Оценка: {{ middleResults.lgbtWomen["Methodic 6"]["o"] }},
             Сила: {{ middleResults.lgbtWomen["Methodic 6"]["s"] }},
             Активность: {{ middleResults.lgbtWomen["Methodic 6"]["a"] }})</span>
     <br>
     </p>
-    Средний балл ЛГБТ Мужчины: <strong>{{ middleResults.lgbtMen["Methodic 6"]["all"] }}</strong>
+    <p>
+    Средний балл ЛГБТ Мужчины: <strong>{{ middleResults.lgbtMen["Methodic 6"]["all"] }}</strong><br>
     <span>(Оценка: {{ middleResults.lgbtMen["Methodic 6"]["o"] }},
             Сила: {{ middleResults.lgbtMen["Methodic 6"]["s"] }},
             Активность: {{ middleResults.lgbtMen["Methodic 6"]["a"] }})</span>

@@ -100,18 +100,24 @@ class SurveyOne extends SurveyAbstractClass
             
             default:
                 if ($methodicKey === "Methodic 3") {
+                    if ($answers['question-1'] === "X") {
+                        $answers['question-1'] = -1;
+                    }
+
                     $result['all'] = $answers['question-1'];
                     return $result;
                 }
                 foreach ($answers as $answer) {
                     $result['all'] += (int) $answer;
                 }
-                foreach ($questions as $scale) {
-                    $scaleScore = 0;
-                    foreach ($scale['questions'] as $question) {
-                        $scaleScore += (int) $answers[$question['id']];
+                if ($methodicKey !== "Methodic 4") {
+                    foreach ($questions as $scale) {
+                        $scaleScore = 0;
+                        foreach ($scale['questions'] as $question) {
+                            $scaleScore += (int) $answers[$question['id']];
+                        }
+                        $result['scales'][$scale['id']]['score'] = $scaleScore;
                     }
-                    $result['scales'][$scale['id']]['score'] = $scaleScore;
                 }
                 break;
         }

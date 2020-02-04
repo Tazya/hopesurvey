@@ -20,7 +20,8 @@
     "nyholm/psr7": "^1.1",
     "nyholm/psr7-server": "^0.3",
     "php-di/php-di": "^6",
-    "monolog/monolog": "^1.24"
+    "monolog/monolog": "^1.24",
+    "phpoffice/phpspreadsheet": "^1.10"
   },
   "autoload-dev": {
     "psr-4": {
