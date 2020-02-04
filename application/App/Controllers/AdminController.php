@@ -269,10 +269,9 @@ class AdminController extends AbstractTwigController
 
         $statistic = new Statistic();
         $allData = $statistic->getAllResults();
-        $oneResult = $allData['all'][0];
         // print_r($oneResult);
-        $exportData = new ExportData();
-        $exportData->create($allData['all']);
+        $exportData = new ExportData($allData['all']);
+        $exportData->writeDocument();
 
         return $this->render($response, 'admin/export.twig', [
             'pageTitle' => 'Экспортирование файла',
