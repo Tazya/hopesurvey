@@ -45,6 +45,8 @@ class Statistic
             $result = "male";
         } elseif (mb_substr($gender, 0, 1) === "Ж" || mb_substr($gender, 0, 1) === "Д") {
             $result = "female";
+        } elseif (mb_substr($gender, 0, 1) === "Т") {
+            $result = "trans";
         } else {
             $result = "kvir";
         }
@@ -65,10 +67,14 @@ class Statistic
             $result = "homo";
         } elseif (stripos($orient, "БИ") !== false) {
             $result = "bi";
-        } elseif (stripos($orient, "ПАН") !== false) {
+        } elseif (stripos($orient, "ПАН") !== false || stripos($orient, "ДЕМИ") !== false) {
             $result = "pan";
         } elseif (stripos($orient, "АС") !== false || stripos($orient, "НЕ") !== false) {
             $result = "as";
+        } elseif (stripos($orient, "КВИ") !== false) {
+            $result = "kvir";
+        } elseif (stripos($orient, "ТРАНС") !== false) {
+            $result = "trans";
         } else {
             $result = "undef";
         }
@@ -88,6 +94,12 @@ class Statistic
         $women = array_filter($data, function ($el) {
             return $this->findGender($el['sex']) === 'female';
         });
+        $transGender = array_filter($data, function ($el) {
+            return $this->findGender($el['sex']) === 'trans';
+        });
+        $kvirGender = array_filter($data, function ($el) {
+            return $this->findGender($el['sex']) === 'kvir';
+        });
         $homo = array_filter($data, function ($el) {
             return $this->findOrientation($el['orientation']) === 'homo';
         });
@@ -106,8 +118,14 @@ class Statistic
         $as = array_filter($data, function ($el) {
             return $this->findOrientation($el['orientation']) === 'as';
         });
+        $kvir = array_filter($data, function ($el) {
+            return $this->findOrientation($el['orientation']) === 'kvir';
+        });
+        $trans = array_filter($data, function ($el) {
+            return $this->findOrientation($el['orientation']) === 'trans';
+        });
 
-        $lgbt = array_merge($as, $bi, $homo, $pan);
+        $lgbt = array_merge($as, $bi, $homo, $pan, $kvir);
         $lgbtMen = array_filter($lgbt, function ($el) {
             return $this->findGender($el['sex']) === 'male';
         });
@@ -125,12 +143,16 @@ class Statistic
             "all" => $this->data,
             "men" => $men,
             "women" => $women,
+            "transGender" => $transGender,
+            "kvirGender" => $kvirGender,
             "homo" => $homo,
             "hetero" => $hetero,
             "bi" => $bi,
             "pan" => $pan,
             "undef" => $undef,
             "as" => $as,
+            "trans" => $trans,
+            "kvir" => $kvir,
             "lgbt" => $lgbt,
             "lgbtMen" => $lgbtMen,
             "lgbtWomen" => $lgbtWomen,

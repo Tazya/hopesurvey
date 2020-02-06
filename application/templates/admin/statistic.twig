@@ -13,11 +13,14 @@
     <p> <h4>ЛГБТ</h4>
         <strong>Женщины: {{ allResults.lgbtWomen }}</strong> <small>{{ (allResults.lgbtWomen * 100 / allResults.lgbt)|round(2) }} % от общего числа ЛГБТ</small><br>
         <strong>Мужчины: {{ allResults.lgbtMen }}</strong> <small>{{ (allResults.lgbtMen * 100 / allResults.lgbt)|round(2) }} % от общего числа ЛГБТ</small><br>
-        <strong>Квир: {{ allResults.lgbt - allResults.lgbtMen - allResults.lgbtWomen}}</strong> <small>{{ ((allResults.lgbt - allResults.lgbtMen - allResults.lgbtWomen) * 100 / allResults.lgbt)|round(2) }} %</small><br>
+        <strong>Транс пол: {{ allResults.transGender}}</strong> <small>{{ (allResults.transGender * 100 / allResults.lgbt)|round(2) }} %</small><br>
+        <strong>Квир пол: {{ allResults.kvirGender}}</strong> <small>{{ (allResults.kvirGender * 100 / allResults.lgbt)|round(2) }} %</small><br>
         <strong>Гомо: {{ allResults.homo}}</strong> <small>{{ (allResults.homo * 100 / allResults.lgbt)|round(2) }} %</small><br>
         <strong>Би: {{ allResults.bi}}</strong> <small>{{ (allResults.bi * 100 / allResults.lgbt)|round(2) }} %</small><br>
         <strong>Пан: {{ allResults.pan}}</strong> <small>{{ (allResults.pan * 100 / allResults.lgbt)|round(2) }} %</small><br>
         <strong>Асек: {{ allResults.as}}</strong> <small>{{ (allResults.as * 100 / allResults.lgbt)|round(2) }} %</small><br>
+        <strong>Транс ориент: {{ allResults.trans}}</strong> <small>{{ (allResults.trans * 100 / allResults.lgbt)|round(2) }} %</small><br>
+        <strong>Квир ориент: {{ allResults.kvir}}</strong> <small>{{ (allResults.kvir * 100 / allResults.lgbt)|round(2) }} %</small><br>
     </p>
     <p> <h4>Гетеро</h4>
         <strong>Женщины: {{ allResults.women - allResults.lgbtWomen }}</strong> <small>{{ ((allResults.women - allResults.lgbtWomen) * 100 / (allResults.all - allResults.lgbt))|round(2) }} % от общего числа Гетеро</small><br>

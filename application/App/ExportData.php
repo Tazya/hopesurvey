@@ -9,6 +9,7 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Shared\Date;
 use PhpOffice\PhpSpreadsheet\Style\Color;
 use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
+use App\Statistic;
 
 class ExportData
 {
@@ -169,6 +170,9 @@ class ExportData
             $columns[5]
         );
 
+        $this->createStatSheet();
+        $this->createKunSheet();
+
         $writer = new Xlsx($this->spreadsheet);
         $writer->save($path);
     }
@@ -219,7 +223,7 @@ class ExportData
         $this->spreadsheet->getActiveSheet()
         ->setTitle($title);
 
-        foreach (array_values(array_reverse($this->data)) as $key => $result) {
+        foreach (array_values(array_reverse($this->data['all'])) as $key => $result) {
             $this->formResult($key + 1, $result, $methodic);
         }
         $this->spreadsheet->getActiveSheet()->setAutoFilter(
@@ -267,6 +271,408 @@ class ExportData
             ->getStyle("C{$position}")
             ->getNumberFormat()
             ->setFormatCode(NumberFormat::FORMAT_DATE_XLSX14);
+    }
+
+    /**
+     * Create a new sheet with methodic
+     *
+     * @param string $methodic
+     * @param string $titles
+     * @param string $descr
+     * @param array  $aTitles
+     */
+    private function createStatSheet(string $title = "Средние результаты по группам")
+    {
+        //$spreadsheet->getWorksheetIterator()
+        if ($this->worksheetIndex > 0) {
+            $this->spreadsheet->createSheet();
+        }
+
+        $statistic = new Statistic();
+        $data = $this->data;
+        $countResults = $statistic->countAllResults($data);
+        $middleResults = $statistic->getAllMiddleResults($data);
+
+        $this->spreadsheet->setActiveSheetIndex($this->worksheetIndex)
+        ->mergeCells("A4:A5");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A6:A7");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A8:A9");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A10:A11");
+
+        $styleArray = [
+            'alignment' => [
+                'horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
+                'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,
+            ],
+            'borders' => [
+                'allBorders' => [
+                    'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    // 'color' => ['argb' => 'FFFF0000'],
+                ],
+            ],
+        ];
+
+        $this->spreadsheet->getActiveSheet()->getStyle('A3:C11')->applyFromArray($styleArray);
+        $this->spreadsheet->getActiveSheet()->getStyle('A14:F22')->applyFromArray($styleArray);
+        $this->spreadsheet->getActiveSheet()->getStyle('A25:C33')->applyFromArray($styleArray);
+        $this->spreadsheet->getActiveSheet()->getStyle('A36:C44')->applyFromArray($styleArray);
+        $this->spreadsheet->getActiveSheet()->getStyle('A47:F55')->applyFromArray($styleArray);
+
+        $this->spreadsheet->getActiveSheet()
+        ->getStyle('A3:A100')->getAlignment()->setWrapText(true);
+
+        $columns1 = [
+            ['Средние баллы респондентов', $title, ''],
+            ['Ср.Общий балл по методике', 'Гетеро респонденты: ', $middleResults['hetero']['Methodic 1']],
+            ['', 'ЛГБТ респонденты', $middleResults['lgbt']['Methodic 1']],
+            ['Ср. балл по полу респондентов', 'Мужчины:', $middleResults['men']['Methodic 1']],
+            ['', 'Женщины:', $middleResults['women']['Methodic 1']],
+            ['Ср. балл гетеро группы', 'Мужчины:', $middleResults['heteroMen']['Methodic 1']],
+            ['', 'Женщины:', $middleResults['heteroWomen']['Methodic 1']],
+            ['Ср. балл ЛГБТ группы', 'Мужчины:', $middleResults['lgbtMen']['Methodic 1']],
+            ['', 'Женщины:', $middleResults['lgbtWomen']['Methodic 1']],
+        ];
+
+        $columns2 = [
+            ['Средние баллы респондентов', 'Методика 2 Индекс толерантности', 'Общий', 'Этническая', 'Социальная', 'Как черта личности'],
+            [
+                'Ср.Общий балл по методике',
+                'Гетеро респонденты: ',
+                $middleResults['hetero']['Methodic 2']['all'],
+                $middleResults['hetero']['Methodic 2']['scale-1'],
+                $middleResults['hetero']['Methodic 2']['scale-2'],
+                $middleResults['hetero']['Methodic 2']['scale-3']],
+            [
+                '',
+                'ЛГБТ респонденты',
+                $middleResults['lgbt']['Methodic 2']['all'],
+                $middleResults['lgbt']['Methodic 2']['scale-1'],
+                $middleResults['lgbt']['Methodic 2']['scale-2'],
+                $middleResults['lgbt']['Methodic 2']['scale-3']],
+            [
+                'Ср. балл по полу респондентов',
+                'Мужчины:',
+                $middleResults['men']['Methodic 2']['all'],
+                $middleResults['men']['Methodic 2']['scale-1'],
+                $middleResults['men']['Methodic 2']['scale-2'],
+                $middleResults['men']['Methodic 2']['scale-3']],
+            [
+                '',
+                'Женщины:',
+                $middleResults['women']['Methodic 2']['all'],
+                $middleResults['women']['Methodic 2']['scale-1'],
+                $middleResults['women']['Methodic 2']['scale-2'],
+                $middleResults['women']['Methodic 2']['scale-3']],
+            [
+                'Ср. балл гетеро группы',
+                'Мужчины:',
+                $middleResults['heteroMen']['Methodic 2']['all'],
+                $middleResults['heteroMen']['Methodic 2']['scale-1'],
+                $middleResults['heteroMen']['Methodic 2']['scale-2'],
+                $middleResults['heteroMen']['Methodic 2']['scale-3']],
+            [
+                '',
+                'Женщины:',
+                $middleResults['heteroWomen']['Methodic 2']['all'],
+                $middleResults['heteroWomen']['Methodic 2']['scale-1'],
+                $middleResults['heteroWomen']['Methodic 2']['scale-2'],
+                $middleResults['heteroWomen']['Methodic 2']['scale-3']],
+            [
+                'Ср. балл ЛГБТ группы',
+                'Мужчины:',
+                $middleResults['lgbtMen']['Methodic 2']['all'],
+                $middleResults['lgbtMen']['Methodic 2']['scale-1'],
+                $middleResults['lgbtMen']['Methodic 2']['scale-2'],
+                $middleResults['lgbtMen']['Methodic 2']['scale-3']],
+            [
+                '',
+                'Женщины:',
+                $middleResults['lgbtWomen']['Methodic 2']['all'],
+                $middleResults['lgbtWomen']['Methodic 2']['scale-1'],
+                $middleResults['lgbtWomen']['Methodic 2']['scale-2'],
+                $middleResults['lgbtWomen']['Methodic 2']['scale-3']],
+        ];
+
+        $columns3 = [
+            ['Средние баллы респондентов', 'Методика 3 Кинси', ''],
+            ['Ср.Общий балл по методике', 'Гетеро респонденты: ', $middleResults['hetero']['Methodic 3']],
+            ['', 'ЛГБТ респонденты', $middleResults['lgbt']['Methodic 3']],
+            ['Ср. балл по полу респондентов', 'Мужчины:', $middleResults['men']['Methodic 3']],
+            ['', 'Женщины:', $middleResults['women']['Methodic 3']],
+            ['Ср. балл гетеро группы', 'Мужчины:', $middleResults['heteroMen']['Methodic 3']],
+            ['', 'Женщины:', $middleResults['heteroWomen']['Methodic 3']],
+            ['Ср. балл ЛГБТ группы', 'Мужчины:', $middleResults['lgbtMen']['Methodic 3']],
+            ['', 'Женщины:', $middleResults['lgbtWomen']['Methodic 3']],
+        ];
+
+        $columns4 = [
+            ['Средние баллы респондентов', 'Методика 4 Клейн', ''],
+            ['Ср.Общий балл по методике', 'Гетеро респонденты: ', $middleResults['hetero']['Methodic 4'] / 21],
+            ['', 'ЛГБТ респонденты', $middleResults['lgbt']['Methodic 4'] / 21],
+            ['Ср. балл по полу респондентов', 'Мужчины:', $middleResults['men']['Methodic 4'] / 21],
+            ['', 'Женщины:', $middleResults['women']['Methodic 4'] / 21],
+            ['Ср. балл гетеро группы', 'Мужчины:', $middleResults['heteroMen']['Methodic 4'] / 21],
+            ['', 'Женщины:', $middleResults['heteroWomen']['Methodic 4']],
+            ['Ср. балл ЛГБТ группы', 'Мужчины:', $middleResults['lgbtMen']['Methodic 4'] / 21],
+            ['', 'Женщины:', $middleResults['lgbtWomen']['Methodic 4'] / 21],
+        ];
+
+        $columns6 = [
+            ['Средние баллы респондентов', 'Методика 6 Кинси', 'Общий', 'Сила', 'Оценка','Активность'],
+            [
+                'Ср.Общий балл по методике',
+                'Гетеро респонденты: ',
+                $middleResults['hetero']['Methodic 6']['all'],
+                $middleResults['hetero']['Methodic 6']['o'],
+                $middleResults['hetero']['Methodic 6']['s'],
+                $middleResults['hetero']['Methodic 6']['a']],
+            [
+                '',
+                'ЛГБТ респонденты',
+                $middleResults['lgbt']['Methodic 6']['all'],
+                $middleResults['lgbt']['Methodic 6']['o'],
+                $middleResults['lgbt']['Methodic 6']['s'],
+                $middleResults['lgbt']['Methodic 6']['a']],
+            [
+                'Ср. балл по полу респондентов',
+                'Мужчины:',
+                $middleResults['men']['Methodic 6']['all'],
+                $middleResults['men']['Methodic 6']['o'],
+                $middleResults['men']['Methodic 6']['s'],
+                $middleResults['men']['Methodic 6']['a']],
+            [
+                '',
+                'Женщины:',
+                $middleResults['women']['Methodic 6']['all'],
+                $middleResults['women']['Methodic 6']['o'],
+                $middleResults['women']['Methodic 6']['s'],
+                $middleResults['women']['Methodic 6']['a']],
+            [
+                'Ср. балл гетеро группы',
+                'Мужчины:',
+                $middleResults['heteroMen']['Methodic 6']['all'],
+                $middleResults['heteroMen']['Methodic 6']['o'],
+                $middleResults['heteroMen']['Methodic 6']['s'],
+                $middleResults['heteroMen']['Methodic 6']['a']],
+            [
+                '',
+                'Женщины:',
+                $middleResults['heteroWomen']['Methodic 6']['all'],
+                $middleResults['heteroWomen']['Methodic 6']['o'],
+                $middleResults['heteroWomen']['Methodic 6']['s'],
+                $middleResults['heteroWomen']['Methodic 6']['a']],
+            [
+                'Ср. балл ЛГБТ группы',
+                'Мужчины:',
+                $middleResults['lgbtMen']['Methodic 6']['all'],
+                $middleResults['lgbtMen']['Methodic 6']['o'],
+                $middleResults['lgbtMen']['Methodic 6']['s'],
+                $middleResults['lgbtMen']['Methodic 6']['a']],
+            [
+                '',
+                'Женщины:',
+                $middleResults['lgbtWomen']['Methodic 6']['all'],
+                $middleResults['lgbtWomen']['Methodic 6']['o'],
+                $middleResults['lgbtWomen']['Methodic 6']['s'],
+                $middleResults['lgbtWomen']['Methodic 6']['a']],
+        ];
+
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $columns1,       // The data to set
+            null,           // Array values with this value will not be set
+            "A3"            // Top left coordinate of the worksheet range where
+        );
+
+        $this->spreadsheet->setActiveSheetIndex($this->worksheetIndex)
+        ->mergeCells("A15:A16");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A17:A18");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A19:A20");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A21:A22");
+
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $columns2,       // The data to set
+            null,           // Array values with this value will not be set
+            "A14"            // Top left coordinate of the worksheet range where
+        );
+
+        $this->spreadsheet->setActiveSheetIndex($this->worksheetIndex)
+        ->mergeCells("A26:A27");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A28:A29");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A30:A31");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A32:A33");
+
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $columns3,       // The data to set
+            null,           // Array values with this value will not be set
+            "A25"            // Top left coordinate of the worksheet range where
+        );
+
+        $this->spreadsheet->setActiveSheetIndex($this->worksheetIndex)
+        ->mergeCells("A37:A38");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A39:A40");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A41:A42");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A43:A44");
+
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $columns4,       // The data to set
+            null,           // Array values with this value will not be set
+            "A36"            // Top left coordinate of the worksheet range where
+        );
+
+        $this->spreadsheet->setActiveSheetIndex($this->worksheetIndex)
+        ->mergeCells("A48:A49");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A50:A51");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A52:A53");
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A54:A55");
+
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $columns6,       // The data to set
+            null,           // Array values with this value will not be set
+            "A47"            // Top left coordinate of the worksheet range where
+        );
+
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(30);
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(30);
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(12);
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(12);
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('F')->setWidth(14);
+
+        $this->spreadsheet->getActiveSheet()
+        ->setTitle($title);
+
+        $this->worksheetIndex = $this->worksheetIndex + 1;
+    }
+
+    private function createKunSheet(string $title = "Группы по Куну")
+    {
+        //$spreadsheet->getWorksheetIterator()
+        if ($this->worksheetIndex > 0) {
+            $this->spreadsheet->createSheet();
+        }
+        $this->spreadsheet->setActiveSheetIndex($this->worksheetIndex);
+
+        $statistic = new Statistic();
+        $data = $this->data;
+
+        $headers = ['Мужчины Гетеро', '', '', 'Мужчины ЛГБТ.', '', '', 'Женщины Гетеро', '', '', 'Женщины ЛГБТ'];
+
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $headers,       // The data to set
+            null,           // Array values with this value will not be set
+            "A1"            // Top left coordinate of the worksheet range where
+        );
+
+        $this->spreadsheet->getActiveSheet()
+        ->mergeCells("A1:B1")->mergeCells("D1:E1")->mergeCells("G1:H1")->mergeCells("J1:K1");
+
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('A')->setWidth(18);
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('B')->setWidth(4);
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('D')->setWidth(18);
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('E')->setWidth(4);
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('G')->setWidth(18);
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('H')->setWidth(4);
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('J')->setWidth(18);
+        $this->spreadsheet->getActiveSheet()->getColumnDimension('K')->setWidth(4);
+
+        $individualsMenHeteroKeys = array_keys($statistic->getindividualsMethodic5($data['heteroMen']));
+        $individualsMenLgbtKeys = array_keys($statistic->getindividualsMethodic5($data['lgbtMen']));
+        $individualsWomenHeteroKeys = array_keys($statistic->getindividualsMethodic5($data['heteroWomen']));
+        $individualsWomenLgbtKeys = array_keys($statistic->getindividualsMethodic5($data['lgbtWomen']));
+
+        $menHeteroKeys = array_chunk(
+            array_map(function ($el) {
+                return "\"{$el}\"";
+            }, $individualsMenHeteroKeys),
+            1
+        );
+        $menLgbtKeys = array_chunk(
+            array_map(function ($el) {
+                return "\"{$el}\"";
+            }, $individualsMenLgbtKeys),
+            1
+        );
+        $womenHeteroKeys = array_chunk(
+            array_map(function ($el) {
+                return "\"{$el}\"";
+            }, $individualsWomenHeteroKeys),
+            1
+        );
+        $womenLgbtKeys = array_chunk(
+            array_map(function ($el) {
+                return "\"{$el}\"";
+            }, $individualsWomenLgbtKeys),
+            1
+        );
+
+
+        $individualsMenHetero = array_chunk($statistic->getindividualsMethodic5($data['heteroMen']), 1);
+        $individualsMenLgbt = array_chunk($statistic->getindividualsMethodic5($data['lgbtMen']), 1);
+        $individualsWomenHetero = array_chunk($statistic->getindividualsMethodic5($data['heteroWomen']), 1);
+        $individualsWomenLgbt = array_chunk($statistic->getindividualsMethodic5($data['lgbtWomen']), 1);
+
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $menHeteroKeys,       // The data to set
+            null,           // Array values with this value will not be set
+            "A2"            // Top left coordinate of the worksheet range where
+        );
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $individualsMenHetero,       // The data to set
+            null,           // Array values with this value will not be set
+            "B2"            // Top left coordinate of the worksheet range where
+        );
+
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $menLgbtKeys,       // The data to set
+            null,           // Array values with this value will not be set
+            "D2"            // Top left coordinate of the worksheet range where
+        );
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $individualsMenLgbt,       // The data to set
+            null,           // Array values with this value will not be set
+            "E2"            // Top left coordinate of the worksheet range where
+        );
+
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $womenHeteroKeys,       // The data to set
+            null,           // Array values with this value will not be set
+            "G2"            // Top left coordinate of the worksheet range where
+        );
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $individualsWomenHetero,       // The data to set
+            null,           // Array values with this value will not be set
+            "H2"            // Top left coordinate of the worksheet range where
+        );
+
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $womenLgbtKeys,       // The data to set
+            null,           // Array values with this value will not be set
+            "J2"            // Top left coordinate of the worksheet range where
+        );
+        $this->spreadsheet->getActiveSheet()->fromArray(
+            $individualsWomenLgbt,       // The data to set
+            null,           // Array values with this value will not be set
+            "K2"            // Top left coordinate of the worksheet range where
+        );
+
+        $this->spreadsheet->getActiveSheet()
+        ->setTitle($title);
+
+        $this->worksheetIndex = $this->worksheetIndex + 1;
     }
 
     public function testFile()

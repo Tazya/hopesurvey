@@ -270,7 +270,7 @@ class AdminController extends AbstractTwigController
         $statistic = new Statistic();
         $allData = $statistic->getAllResults();
         // print_r($oneResult);
-        $exportData = new ExportData($allData['all']);
+        $exportData = new ExportData($allData);
         $exportData->writeDocument();
 
         return $this->render($response, 'admin/export.twig', [
